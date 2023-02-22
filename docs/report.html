@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.313">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>biblioRhone - report</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-search-results"></div>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">report</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="chargement-des-packages-et-des-données" class="level1">
+<h1>Chargement des packages et des données</h1>
+<div class="cell" data-hash="report_cache/html/unnamed-chunk-1_b7f08e25aad7444f64948cb0df3656a7">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+✔ ggplot2 3.4.0      ✔ purrr   0.3.5 
+✔ tibble  3.1.8      ✔ dplyr   1.0.10
+✔ tidyr   1.2.1      ✔ stringr 1.5.0 
+✔ readr   2.1.3      ✔ forcats 0.5.2 
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bibliometrix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Please note that our software is open source and available for use, distributed under the MIT license.
+When it is used in a publication, we ask that authors properly cite the following reference:
+
+Aria, M. &amp; Cuccurullo, C. (2017) bibliometrix: An R-tool for comprehensive science mapping analysis, 
+                        Journal of Informetrics, 11(4), pp 959-975, Elsevier.
+
+Failure to properly cite the software is considered a violation of the license.
+                        
+For information and bug reports:
+                        - Take a look at https://www.bibliometrix.org
+                        - Send an email to info@bibliometrix.org   
+                        - Write a post on https://github.com/massimoaria/bibliometrix/issues
+                        
+Help us to keep Bibliometrix and Biblioshiny free to download and use by contributing with a small donation to support our research team (https://bibliometrix.org/donate.html)
+
+                        
+To start with the Biblioshiny app, please digit:
+biblioshiny()</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="report_cache/html/unnamed-chunk-2_e17b5b9419a65370d6af0c853bdad5e2">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="st">"data/savedrecs.bib"</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">convert2df</span>(<span class="at">file =</span> file, <span class="at">dbsource =</span> <span class="st">"isi"</span>, <span class="at">format =</span> <span class="st">"bibtex"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Converting your isi collection into a bibliographic dataframe
+
+Done!
+
+
+Generating affiliation field tag AU_UN from C1:  Done!</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">biblioAnalysis</span>(M, <span class="at">sep =</span> <span class="st">";"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="premier-aperçu-de-la-base" class="level1">
+<h1>Premier aperçu de la base</h1>
+<div class="cell" data-hash="report_cache/html/unnamed-chunk-3_0b96b9aa1b0f285c3bc763f3c9b0719b">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>S <span class="ot">&lt;-</span> <span class="fu">summary</span>(<span class="at">object =</span> results, <span class="at">k =</span> <span class="dv">10</span>, <span class="at">pause =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+MAIN INFORMATION ABOUT DATA
+
+ Timespan                              1947 : 2023 
+ Sources (Journals, Books, etc)        519 
+ Documents                             1850 
+ Annual Growth Rate %                  0.53 
+ Document Average Age                  15.5 
+ Average citations per doc             34.78 
+ Average citations per year per doc    2.219 
+ References                            67875 
+ 
+DOCUMENT TYPES                     
+ article                               1520 
+ article; book chapter                 20 
+ article; data paper                   2 
+ article; early access                 6 
+ article; proceedings paper            146 
+ book review                           4 
+ correction                            1 
+ editorial material                    8 
+ editorial material; book chapter      1 
+ main cite                             1 
+ meeting abstract                      3 
+ music performance review              1 
+ note                                  1 
+ proceedings paper                     86 
+ review                                50 
+ 
+DOCUMENT CONTENTS
+ Keywords Plus (ID)                    4761 
+ Author's Keywords (DE)                4797 
+ 
+AUTHORS
+ Authors                               4464 
+ Author Appearances                    7709 
+ Authors of single-authored docs       147 
+ 
+AUTHORS COLLABORATION
+ Single-authored docs                  176 
+ Documents per Author                  0.414 
+ Co-Authors per Doc                    4.17 
+ International co-authorships %        31.08 
+ 
+
+Annual Scientific Production
+
+ Year    Articles
+    1947        2
+    1963        1
+    1969        2
+    1971        1
+    1972        1
+    1978        1
+    1982        1
+    1983        1
+    1984        2
+    1985        4
+    1986        3
+    1987        4
+    1988        6
+    1989        5
+    1990       23
+    1991       27
+    1992       21
+    1993       32
+    1994       39
+    1995       37
+    1996       37
+    1997       65
+    1998       58
+    1999       54
+    2000       49
+    2001       74
+    2002       43
+    2003       40
+    2004       56
+    2005       49
+    2006       75
+    2007       58
+    2008       59
+    2009       62
+    2010       65
+    2011       67
+    2012       56
+    2013       62
+    2014       78
+    2015       78
+    2016       66
+    2017       56
+    2018       77
+    2019       70
+    2020       66
+    2021       51
+    2022       57
+    2023        3
+
+Annual Percentage Growth Rate 0.53 
+
+
+Most Productive Authors
+
+   Authors        Articles    Authors        Articles Fractionalized
+1   PIEGAY H            51 PIEGAY H                            15.78
+2   MARMONIER P         37 MARMONIER P                         10.88
+3   AMOROS C            27 AMOROS C                            10.14
+4   BORNETTE G          27 BORNETTE G                           9.06
+5   RADAKOVITCH O       27 PONT D                               7.85
+6   EYROLLE F           26 DOLEDEC S                            7.31
+7   PONT D              25 ARNAUD-FASSETTA G                    6.95
+8   DOLEDEC S           24 COPP GH                              6.70
+9   RABOUILLE C         23 BRAVARD JP                           6.42
+10  LAMOUROUX N         22 CELLOT B                             6.17
+
+
+Top manuscripts per citations
+
+                                                                                                                                                                                           Paper         
+1  POFF NL, 1997, J N AM BENTHOL SOC                                                                                                                                                                     
+2  DAUFRESNE M, 2009, PROC NATL ACAD SCI U S A                                                                                                                                                           
+3  BRUNKE M, 1997, FRESHW BIOL                                                                                                                                                                           
+4  WARD JV, 1999, REGUL RIVERS-RES MANAGE                                                                                                                                                                
+5  CHEVENET F, 1994, FRESHW BIOL                                                                                                                                                                         
+6  WILLIAMS P, 2004, BIOL CONSERV                                                                                                                                                                        
+7  AMOROS C, 2002, FRESHW BIOL                                                                                                                                                                           
+8  ROSENZWEIG C, 2007, AR4 CLIMATE CHANGE 2007: IMPACTS, ADAPTATION, AND VULNERABILITY: CONTRIBUTION OF WORKING GROUP II TO THE FOURTH ASSESSMENT REPORT OF THE INTERGOVERNMENTAL PANEL ON CLIMATE CHANGE
+9  DOLEDEC S, 1996, ENVIRON ECOL STAT                                                                                                                                                                    
+10 USSEGLIO-POLATERA P, 2000, FRESHW BIOL                                                                                                                                                                
+                                                                   DOI   TC TCperYear   NTC
+1  10.2307/1468026                                                     1293      47.9 15.47
+2  10.1073/pnas.0902080106                                             1002      66.8 22.28
+3  10.1046/j.1365-2427.1997.00143.x                                     901      33.4 10.78
+4  10.1002/(SICI)1099-1646(199901/06)15:1/3&lt;125::AID-RRR523&gt;3.0.CO;2-E  817      32.7 13.48
+5  10.1111/j.1365-2427.1994.tb01742.x                                   661      22.0 13.04
+6  10.1016/S0006-3207(03)00153-8                                        606      30.3 10.26
+7  10.1046/j.1365-2427.2002.00905.x                                     590      26.8  9.70
+8  NA                                                                   503      29.6  8.84
+9  10.1007/BF02427859                                                   438      15.6  7.31
+10 10.1046/j.1365-2427.2000.00535.x                                     360      15.0  6.59
+
+
+Corresponding Author's Countries
+
+          Country Articles    Freq SCP MCP MCP_Ratio
+1  FRANCE             1089 0.60567 849 240     0.220
+2  SWITZERLAND         208 0.11568 139  69     0.332
+3  SPAIN                77 0.04283  44  33     0.429
+4  USA                  63 0.03504  29  34     0.540
+5  UNITED KINGDOM       53 0.02948  29  24     0.453
+6  ITALY                51 0.02836  24  27     0.529
+7  GERMANY              41 0.02280  16  25     0.610
+8  NETHERLANDS          24 0.01335  13  11     0.458
+9  CANADA               19 0.01057   7  12     0.632
+10 CHINA                17 0.00945  10   7     0.412
+
+
+SCP: Single Country Publications
+
+MCP: Multiple Country Publications
+
+
+Total Citations per Country
+
+     Country      Total Citations Average Article Citations
+1  FRANCE                   34172                     31.38
+2  SWITZERLAND               6486                     31.18
+3  USA                       4831                     76.68
+4  UNITED KINGDOM            3754                     70.83
+5  SPAIN                     3317                     43.08
+6  GERMANY                   2170                     52.93
+7  ITALY                     1492                     29.25
+8  NETHERLANDS               1489                     62.04
+9  AUSTRALIA                  620                     47.69
+10 CHINA                      590                     34.71
+
+
+Most Relevant Sources
+
+                                  Sources        Articles
+1  FRESHWATER BIOLOGY                                  83
+2  HYDROBIOLOGIA                                       78
+3  SCIENCE OF THE TOTAL ENVIRONMENT                    77
+4  HOUILLE BLANCHE-REVUE INTERNATIONALE DE L EAU       54
+5  CONTINENTAL SHELF RESEARCH                          48
+6  ARCHIV FUR HYDROBIOLOGIE                            40
+7  ESTUARINE COASTAL AND SHELF SCIENCE                 40
+8  GEOMORPHOLOGY                                       29
+9  MARINE CHEMISTRY                                    22
+10 ARCHIVES DES SCIENCES                               21
+
+
+Most Relevant Keywords
+
+   Author Keywords (DE)      Articles Keywords-Plus (ID)     Articles
+1          RHONE RIVER            148      RHONE RIVER            243
+2          MEDITERRANEAN SEA       69      RIVER                  137
+3          RHONE                   51      UPPER RHONE RIVER      116
+4          MEDITERRANEAN           48      DYNAMICS               112
+5          SEDIMENT                46      GULF                    94
+6          GULF OF LIONS           45      WATER                   94
+7          RIVER                   42      TRANSPORT               91
+8          FRANCE                  36      VARIABILITY             89
+9          FISH                    35      PATTERNS                76
+10         CLIMATE CHANGE          32      FRANCE                  75</code></pre>
+</div>
+</div>
+</section>
+<section id="analyse-des-citations" class="level1">
+<h1>Analyse des citations</h1>
+<p>pb: il s’agit d’un champ souvent mal enregistré lors de l’export depuis les bases de données biblio…</p>
+<section id="citations-darticles-internes-ou-externes" class="level2">
+<h2 class="anchored" data-anchor-id="citations-darticles-internes-ou-externes">Citations d’articles internes ou externes</h2>
+<p>The function citations generates the frequency table of the most c</p>
+<div class="cell" data-hash="report_cache/html/unnamed-chunk-4_ab0e900674fb8f7a8d23d105ff130ed2">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>CR <span class="ot">&lt;-</span> <span class="fu">citations</span>(M, <span class="at">field =</span> <span class="st">"article"</span>, <span class="at">sep =</span> <span class="st">";"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To obtain the most frequent cited first authors:</p>
+<div class="cell" data-hash="report_cache/html/unnamed-chunk-5_15abf8b72530dae38ae3fe08f2d3679b">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>CR <span class="ot">&lt;-</span> <span class="fu">citations</span>(M, <span class="at">field =</span> <span class="st">"author"</span>, <span class="at">sep =</span> <span class="st">";"</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(CR<span class="sc">$</span>Cited[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                  [,1]
+ANONYMOUS         1051
+NO TITLE CAPTURED  354
+STATZNER B         335
+3 0 CO             291
+DOLEDEC S          273
+PONT D             256
+TOWNSEND CR        249
+BRAVARD JP         243
+MILLOT C           229
+POFF NL            217</code></pre>
+</div>
+</div>
+</section>
+<section id="citations-darticles-de-la-base-de-données" class="level2">
+<h2 class="anchored" data-anchor-id="citations-darticles-de-la-base-de-données">Citations d’articles de la base de données</h2>
+<p>The function localCitations generates the frequency table of the most local cited authors. Local citations measure how many times an author (or a document) included in this collection have been cited by other authors also in the collection.</p>
+<p>To obtain the most frequent local cited authors:</p>
+<div class="cell" data-hash="report_cache/html/unnamed-chunk-6_d55f21813e7369b9ed0c7d82ab7c5255">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>CR <span class="ot">&lt;-</span> <span class="fu">localCitations</span>(M, <span class="at">sep =</span> <span class="st">";"</span>) </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>CR<span class="sc">$</span>Authors[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Author LocalCitations
+1090  DE MADRON XD            274
+74        AMOROS C            256
+3357 RADAKOVITCH O            252
+1389   ESTOURNEL C            190
+1997    HEUSSNER S            174
+502     BORNETTE G            163
+4199       VELLA C            161
+3345   RABOUILLE C            150
+668      BUSCAIL R            148
+2810      MONACO A            146</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>CR<span class="sc">$</span>Papers[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                 Paper                            DOI Year LCS
+445   DE MADRON XD, 2000, OCEANOL ACTA                                2000  70
+19             BRAVARD JP, 1986, OIKOS                10.2307/3565924 1986  63
+873   ANTONELLI C, 2008, GEOMORPHOLOGY 10.1016/j.geomorph.2007.06.007 2008  55
+268  ESTOURNEL C, 1997, CONT SHELF RES  10.1016/S0278-4343(96)00064-7 1997  54
+36      CAUWET G, 1990, CONT SHELF RES   10.1016/0278-4343(90)90073-U 1990  50
+722         MIRALLES J, 2005, MAR GEOL   10.1016/j.margeo.2005.02.020 2005  49
+319      CHARMASSON S, 1998, ESTUARIES                10.2307/1352836 1998  43
+329       BROCHE P, 1998, OCEANOL ACTA  10.1016/S0399-1784(99)80002-4 1998  41
+1002  CATHALOT C, 2010, BIOGEOSCIENCES         10.5194/bg-7-1187-2010 2010  38
+889      ULSES C, 2008, CONT SHELF RES      10.1016/j.csr.2008.01.015 2008  37
+     GCS
+445  142
+19   184
+873   68
+268  100
+36   111
+722   88
+319   64
+329   69
+1002  54
+889  104</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="analyse-par-auteurs" class="level1">
+<h1>Analyse par auteur(s)</h1>
+<section id="authors-dominance-ranking" class="level2">
+<h2 class="anchored" data-anchor-id="authors-dominance-ranking">Authors’ Dominance ranking</h2>
+<p>The function dominance calculates the authors’ dominance ranking as proposed by Kumar &amp; Kumar, 2008.</p>
+<p>Kumar, S., &amp; Kumar, S. (2008). Collaboration in research productivity in oil seed research institutes of India. In Proceedings of Fourth International Conference on Webometrics, Informetrics and Scientometrics.</p>
+<p>Function arguments are: results (object of class bibliometrix) obtained by biblioAnalysis; and k (the number of authors to consider in the analysis).</p>
+<div class="cell" data-hash="report_cache/html/unnamed-chunk-7_1ccd36a311fd57e0fe6070a95c0a845e">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>DF <span class="ot">&lt;-</span> <span class="fu">dominance</span>(results, <span class="at">k =</span> <span class="dv">10</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>DF</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          Author Dominance Factor Tot Articles Single-Authored Multi-Authored
+1     BORNETTE G       0.44444444           27               0             27
+2      EYROLLE F       0.42307692           26               0             26
+3    LAMOUROUX N       0.36363636           22               0             22
+4      DOLEDEC S       0.33333333           24               0             24
+5         PONT D       0.24000000           25               0             25
+6    MARMONIER P       0.16216216           37               0             37
+7       PIEGAY H       0.14285714           51               2             49
+8  RADAKOVITCH O       0.11111111           27               0             27
+9       AMOROS C       0.07692308           27               1             26
+10   RABOUILLE C       0.04347826           23               0             23
+   First-Authored Rank by Articles Rank by DF
+1              12                3          1
+2              11                6          2
+3               8               10          3
+4               8                8          4
+5               6                7          5
+6               6                2          6
+7               7                1          7
+8               3                3          8
+9               2                3          9
+10              1                9         10</code></pre>
+</div>
+</div>
+<p>The Dominance Factor is a ratio indicating the fraction of multi-authored articles in which a scholar appears as the first author.</p>
+</section>
+<section id="authors-h-index" class="level2">
+<h2 class="anchored" data-anchor-id="authors-h-index">Authors’ h-index</h2>
+<p>The h-index is an author-level metric that attempts to measure both the productivity and citation impact of the publications of a scientist or scholar.</p>
+<p>The index is based on the set of the scientist’s most cited papers and the number of citations that they have received in other publications.</p>
+<p>The function Hindex calculates the authors’ H-index or the sources’ H-index and its variants (g-index and m-index) in a bibliographic collection.</p>
+<p>Function arguments are: M a bibliographic data frame; field is character element that defines the unit of analysis in terms of authors (field = “auhtor”) or sources (field = “source”); elements a character vector containing the authors’ names (or the sources’ names) for which you want to calculate the H-index. The argument has the form c(“SURNAME1 N”,“SURNAME2 N”,…).</p>
+<p>In other words, for each author: surname and initials are separated by one blank space. i.e for the authors ARIA MASSIMO and CUCCURULLO CORRADO, elements argument is elements = c(“ARIA M”, “CUCCURULLO C”).</p>
+<p>To calculate the h-index of the first 10 most productive authors (in this collection):</p>
+<div class="cell" data-hash="report_cache/html/unnamed-chunk-8_3ce2e1294a1c880e1e71ca2b17eb1866">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>authors<span class="ot">=</span><span class="fu">gsub</span>(<span class="st">","</span>,<span class="st">" "</span>,<span class="fu">names</span>(results<span class="sc">$</span>Authors)[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>])</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>indices <span class="ot">&lt;-</span> <span class="fu">Hindex</span>(M, <span class="at">field =</span> <span class="st">"author"</span>, <span class="at">elements=</span>authors, <span class="at">sep =</span> <span class="st">";"</span>, <span class="at">years =</span> <span class="dv">50</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>indices<span class="sc">$</span>H</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Element h_index g_index   m_index   TC NP PY_start
+1       AMOROS C      22      27 0.5789474 2087 27     1986
+2     BORNETTE G      21      27 0.6363636 2055 27     1991
+3      DOLEDEC S      20      24 0.6666667 2953 24     1994
+4      EYROLLE F      13      21 0.5416667  447 26     2000
+5    LAMOUROUX N      17      21 0.6538462 1349 21     1998
+6    MARMONIER P      19      37 0.5757576 1387 37     1991
+7       PIEGAY H      23      38 0.7931034 1480 51     1995
+8         PONT D      14      25 0.4666667  991 25     1994
+9    RABOUILLE C      13      22 0.8125000  744 22     2008
+10 RADAKOVITCH O      17      27 0.6538462  974 27     1998</code></pre>
+</div>
+</div>
+</section>
+<section id="top-authors-productivity-over-time" class="level2">
+<h2 class="anchored" data-anchor-id="top-authors-productivity-over-time">Top-Authors’ Productivity over Time</h2>
+<p>The function AuthorProdOverTime calculates and plots the authors’ production (in terms of number of publications, and total citations per year) over the time.</p>
+<p>Function arguments are: M a bibliographic data frame; k is the number of k Top Authors; graph is a logical. If graph=TRUE, the function plots the author production over time graph.</p>
+<div class="cell" data-hash="report_cache/html/unnamed-chunk-9_1439596bf46307967900043d97d8e7d3">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>topAU <span class="ot">&lt;-</span> <span class="fu">authorProdOverTime</span>(M, <span class="at">k =</span> <span class="dv">10</span>, <span class="at">graph =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="report_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="bibliographic-network-matrices" class="level1">
+<h1>Bibliographic network matrices</h1>
+<p>Manuscript’s attributes are connected to each other through the manuscript itself: author(s) to journal, keywords to publication date, etc.</p>
+<p>These connections of different attributes generate bipartite networks that can be represented as rectangular matrices (Manuscripts x Attributes).</p>
+<p>Furthermore, scientific publications regularly contain references to other scientific works. This generates a further network, namely, co-citation or coupling network.</p>
+<p>These networks are analyzed in order to capture meaningful properties of the underlying research system, and in particular to determine the influence of bibliometric units such as scholars and journals. Bipartite networks</p>
+<p>cocMatrix is a general function to compute a bipartite network selecting one of the metadata attributes.</p>
+<p>For example, to create a network Manuscript x Publication Source you have to use the field tag “SO”:</p>
+<div class="cell" data-hash="report_cache/html/unnamed-chunk-10_8b01cd2f0e919e9e81fedf77c3fbe52f">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">cocMatrix</span>(M, <span class="at">Field =</span> <span class="st">"SO"</span>, <span class="at">sep =</span> <span class="st">";"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A is a rectangular binary matrix, representing a bipartite network where rows and columns are manuscripts and sources respectively.</p>
+<p>The generic element aij is 1 if the manuscript i has been published in source j, 0 otherwise.</p>
+<p>The j−th column sum aj is the number of manuscripts published in source j.</p>
+<p>Sorting, in decreasing order, the column sums of A, you can see the most relevant publication sources:</p>
+<div class="cell" data-hash="report_cache/html/unnamed-chunk-11_ed0b5116a0737aa2789fff38358e2d52">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(Matrix<span class="sc">::</span><span class="fu">colSums</span>(A), <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                           FRESHWATER BIOLOGY 
+                                           83 
+                                HYDROBIOLOGIA 
+                                           78 
+             SCIENCE OF THE TOTAL ENVIRONMENT 
+                                           77 
+HOUILLE BLANCHE-REVUE INTERNATIONALE DE L EAU 
+                                           54 
+                   CONTINENTAL SHELF RESEARCH 
+                                           48 </code></pre>
+</div>
+</div>
+<p>Following this approach, you can compute several bipartite networks:</p>
+<p>Citation network</p>
+<div class="cell" data-hash="report_cache/html/unnamed-chunk-12_ac454bcf52b6a873da8cefa64398cf40">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">cocMatrix</span>(M, <span class="at">Field =</span> <span class="st">"CR"</span>, <span class="at">sep =</span> <span class="st">";"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Author network</p>
+<div class="cell" data-hash="report_cache/html/unnamed-chunk-13_d75507b3da998a385f183e12223a888e">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">cocMatrix</span>(M, <span class="at">Field =</span> <span class="st">"AU"</span>, <span class="at">sep =</span> <span class="st">";"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Author keyword network</p>
+<div class="cell" data-hash="report_cache/html/unnamed-chunk-14_e9bf7d8a8d0ea411f64f6ff79e3a2dd2">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">cocMatrix</span>(M, <span class="at">Field =</span> <span class="st">"DE"</span>, <span class="at">sep =</span> <span class="st">";"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Keyword Plus network</p>
+<div class="cell" data-hash="report_cache/html/unnamed-chunk-15_822f560a6fc9dc6b8f3e0b601a9a9c18">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">cocMatrix</span>(M, <span class="at">Field =</span> <span class="st">"ID"</span>, <span class="at">sep =</span> <span class="st">";"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="bibliographic-coupling" class="level2">
+<h2 class="anchored" data-anchor-id="bibliographic-coupling">Bibliographic coupling</h2>
+<p>Two articles are said to be bibliographically coupled if at least one cited source appears in the bibliographies or reference lists of both articles (Kessler, 1963).</p>
+<p>A coupling network can be obtained using the general formulation:</p>
+<p>B=A×AT</p>
+<p>where A is a bipartite network.</p>
+<p>Element bij indicates how many bibliographic couplings exist between manuscripts i and j. In other words, bij gives the number of paths of length 2, via which one moves from i along the arrow and then to j in the opposite direction.</p>
+<p>B is a symmetrical matrix B=BT.</p>
+<p>The strength of the coupling of two articles, i and j is defined simply by the number of references that the articles have in common, as given by the element bij of matrix B.</p>
+<p>The function biblioNetwork calculates, starting from a bibliographic data frame, the most frequently used coupling networks: Authors, Sources, and Countries.</p>
+<p><code>biblioNetwork()</code> uses two arguments to define the network to compute:</p>
+<ul>
+<li><strong>analysis</strong> argument can be “co-citation”, “coupling”, “collaboration”, or “co-occurrences”.</li>
+<li><strong>network</strong> argument can be “authors”, “references”, “sources”, “countries”, “universities”, “keywords”, “author_keywords”, “titles” and “abstracts”.</li>
+</ul>
+<p>The following code calculates a classical article coupling network:</p>
+<div class="cell" data-hash="report_cache/html/unnamed-chunk-16_b004e804bf830f4a93b913a4b9739175">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>NetMatrix <span class="ot">&lt;-</span> <span class="fu">biblioNetwork</span>(M,</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">analysis =</span> <span class="st">"coupling"</span>,</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">network =</span> <span class="st">"references"</span>,</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">sep =</span> <span class="st">";"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Articles with only a few references, therefore, would tend to be more weakly bibliographically coupled, if coupling strength is measured simply according to the number of references that articles contain in common.</p>
+<p>This suggests that it might be more practical to switch to a relative measure of bibliographic coupling.</p>
+<p><code>normalizeSimilarity()</code> function calculates Association strength, Inclusion, Jaccard or Salton similarity among vertices of a network. <code>normalizeSimilarity()</code> can be recalled directly from networkPlot() function using the argument normalize.</p>
+<div class="cell" data-hash="report_cache/html/unnamed-chunk-17_3aacb232bb513e87abb047c7c1b1f47c">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>NetMatrix <span class="ot">&lt;-</span> <span class="fu">biblioNetwork</span>(M, <span class="at">analysis =</span> <span class="st">"coupling"</span>, <span class="at">network =</span> <span class="st">"authors"</span>, <span class="at">sep =</span> <span class="st">";"</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>net<span class="ot">=</span><span class="fu">networkPlot</span>(NetMatrix,</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">normalize =</span> <span class="st">"salton"</span>, </span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">weighted=</span><span class="cn">NULL</span>,</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">n =</span> <span class="dv">100</span>,</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">Title =</span> <span class="st">"Authors' Coupling"</span>,</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">type =</span> <span class="st">"fruchterman"</span>,</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">size=</span><span class="dv">5</span>,</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>                <span class="at">size.cex=</span>T,</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>                <span class="at">remove.multiple=</span><span class="cn">TRUE</span>,</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>                <span class="at">labelsize=</span><span class="fl">0.8</span>,</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>                <span class="at">label.n=</span><span class="dv">100</span>,</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>                <span class="at">label.cex=</span>F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="report_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="960"></p>
+</div>
+</div>
+</section>
+<section id="bibliographic-collaboration" class="level2">
+<h2 class="anchored" data-anchor-id="bibliographic-collaboration">Bibliographic collaboration</h2>
+<p>Scientific collaboration network is a network where nodes are authors and links are co-authorships as the latter is one of the most well-documented forms of scientific collaboration (Glanzel, 2004).</p>
+<div class="cell" data-hash="report_cache/html/unnamed-chunk-18_3654b07d7333e5e1cf5d1358a10bbe55">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>NetMatrix <span class="ot">&lt;-</span> <span class="fu">biblioNetwork</span>(M,</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">analysis =</span> <span class="st">"collaboration"</span>,</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">network =</span> <span class="st">"authors"</span>,</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">sep =</span> <span class="st">";"</span>)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>net<span class="ot">=</span><span class="fu">networkPlot</span>(NetMatrix,</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">weighted=</span><span class="cn">NULL</span>,</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">degree=</span><span class="dv">5</span>,</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">Title =</span> <span class="st">"collaboration"</span>,</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>                <span class="at">type =</span> <span class="st">"fruchterman"</span>,</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>                <span class="at">size=</span><span class="dv">5</span>,</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>                <span class="at">size.cex=</span>T,</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>                <span class="at">remove.multiple=</span><span class="cn">TRUE</span>,</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>                <span class="at">labelsize=</span><span class="fl">0.8</span>,</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>                <span class="at">label.n=</span><span class="dv">10</span>,</span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>                <span class="at">label.cex=</span>F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="report_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="descriptive-analysis-of-network-graph-characteristics" class="level2">
+<h2 class="anchored" data-anchor-id="descriptive-analysis-of-network-graph-characteristics">Descriptive analysis of network graph characteristics</h2>
+<p>The function networkStat calculates several summary statistics.</p>
+<p>In particular, starting from a bibliographic matrix (or an igraph object), two groups of descriptive measures are computed:</p>
+<ul>
+<li>The summary statistics of the network;</li>
+<li>The main indices of centrality and prestige of vertices.</li>
+</ul>
+</section>
+<section id="an-example-of-a-classical-keyword-co-occurrences-network" class="level2">
+<h2 class="anchored" data-anchor-id="an-example-of-a-classical-keyword-co-occurrences-network">An example of a classical keyword co-occurrences network</h2>
+<div class="cell" data-hash="report_cache/html/unnamed-chunk-19_cb3aebe6506b9ee73066e480329782df">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>NetMatrix <span class="ot">&lt;-</span> <span class="fu">biblioNetwork</span>(M,</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">analysis =</span> <span class="st">"co-occurrences"</span>,</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">network =</span> <span class="st">"keywords"</span>,</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">sep =</span> <span class="st">";"</span>)</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>netstat <span class="ot">&lt;-</span> <span class="fu">networkStat</span>(NetMatrix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The summary statistics of the network</p>
+<p>This group of statistics allows to describe the structural properties of a network:</p>
+<ul>
+<li><strong>Size</strong> is the number of vertices composing the network;</li>
+<li><strong>Density</strong> is the proportion of present edges from all possible edges in the network;</li>
+<li><strong>Transitivity</strong> is the ratio of triangles to connected triples;</li>
+<li><strong>Diameter</strong> is the longest geodesic distance (length of the shortest path between two nodes) in the network;</li>
+<li><strong>Degree</strong> distribution is the cumulative distribution of vertex degrees;</li>
+<li><strong>Degree</strong> centralization is the normalized degree of the overall network; -** Closeness centralization** is the normalized inverse of the vertex average geodesic distance to others in the network;</li>
+<li><strong>Eigenvector centralization</strong> is the first eigenvector of the graph matrix;</li>
+<li><strong>Betweenness centralization</strong> is the normalized number of geodesics that pass through the vertex;</li>
+<li><strong>Average path length</strong> is the mean of the shortest distance between each pair of vertices in the network.</li>
+</ul>
+<div class="cell" data-hash="report_cache/html/unnamed-chunk-20_072b392f4cff4b4a2eecc373e342575e">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(netstat<span class="sc">$</span>network)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "networkSize"             "networkDensity"         
+ [3] "networkTransitivity"     "networkDiameter"        
+ [5] "networkDegreeDist"       "networkCentrDegree"     
+ [7] "networkCentrCloseness"   "networkCentrEigen"      
+ [9] "networkCentrbetweenness" "NetworkAverPathLeng"    </code></pre>
+</div>
+</div>
+<section id="the-main-indices-of-centrality-and-prestige-of-vertices" class="level3">
+<h3 class="anchored" data-anchor-id="the-main-indices-of-centrality-and-prestige-of-vertices">The main indices of centrality and prestige of vertices</h3>
+<p>These measures help to identify the most important vertices in a network and the propensity of two vertices that are connected to be both connected to a third vertex.</p>
+<p>The statistics, at vertex level, returned by networkStat are:</p>
+<ul>
+<li>Degree centrality</li>
+<li>Closeness centrality measures how many steps are required to access every other vertex from a given vertex;</li>
+<li>Eigenvector centrality is a measure of being well-connected connected to the well-connected;</li>
+<li>Betweenness centrality measures brokerage or gatekeeping potential. It is (approximately) the number of shortest paths between vertices that pass through a particular vertex;</li>
+<li>PageRank score approximates probability that any message will arrive to a particular vertex. This algorithm was developed by Google founders, and originally applied to website links;</li>
+<li>Hub Score estimates the value of the links outgoing from the vertex. It was initially applied to the web pages;</li>
+<li>Authority Score is another measure of centrality initially applied to the Web. A vertex has high authority when it is linked by many other vertices that are linking many other vertices;</li>
+<li>Vertex Ranking is an overall vertex ranking obtained as a linear weighted combination of the centrality and prestige vertex measures. The weights are proportional to the loadings of the first component of the Principal Component Analysis.</li>
+</ul>
+<div class="cell" data-hash="report_cache/html/unnamed-chunk-21_cf2a98dba9d5b5d8e11a79a42aa7d29d">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(netstat<span class="sc">$</span>vertex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>NULL</code></pre>
+</div>
+</div>
+<p>To summarize the main results of the networkStat function, use the generic function summary. It displays the main information about the network and vertex description through several tables.</p>
+<p>summary accepts one additional argument. k is a formatting value that indicates the number of rows of each table. Choosing k=10, you decide to see the first 10 vertices.</p>
+<div class="cell" data-hash="report_cache/html/unnamed-chunk-22_bd1b9c4370d8a070c83292bb2e1ad326">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(netstat, <span class="at">k=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+Main statistics about the network
+
+ Size                                  4762 
+ Density                               0.004 
+ Transitivity                          0.138 
+ Diameter                              6 
+ Degree Centralization                 0.242 
+ Average path length                   2.879 
+ </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="visualizing-bibliographic-networks" class="level2">
+<h2 class="anchored" data-anchor-id="visualizing-bibliographic-networks">Visualizing bibliographic networks</h2>
+<p>All bibliographic networks can be graphically visualized or modeled.</p>
+<p>Here, we show how to visualize networks using function networkPlot and VOSviewer software by Nees Jan van Eck and Ludo Waltman (https://www.vosviewer.com).</p>
+<p>Using the function networkPlot, you can plot a network created by biblioNetwork using R routines or using VOSviewer.</p>
+<p>The main argument of networkPlot is type. It indicates the network map layout: circle, kamada-kawai, mds, etc. the function automatically:</p>
+<section id="co-citation-network" class="level3">
+<h3 class="anchored" data-anchor-id="co-citation-network">Co-Citation Network</h3>
+<div class="cell" data-hash="report_cache/html/unnamed-chunk-23_c6c6e1ddff13bdb6e97ff12b3796fcba">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>NetMatrix <span class="ot">&lt;-</span> <span class="fu">biblioNetwork</span>(M,</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">analysis =</span> <span class="st">"co-citation"</span>,</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">network =</span> <span class="st">"references"</span>,</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">sep =</span> <span class="st">";"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="report_cache/html/unnamed-chunk-24_8b47920eac9f4f23d61a8b1155bcf9eb">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>net<span class="ot">=</span><span class="fu">networkPlot</span>(NetMatrix,</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">n =</span> <span class="dv">30</span>,</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">Title =</span> <span class="st">"Co-Citation Network"</span>,</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">type =</span> <span class="st">"fruchterman"</span>,</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">size=</span>T,</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">remove.multiple=</span><span class="cn">FALSE</span>,</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">labelsize=</span><span class="fl">0.7</span>,<span class="at">edgesize =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="report_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="keyword-co-occurrences-network" class="level3">
+<h3 class="anchored" data-anchor-id="keyword-co-occurrences-network">Keyword co-occurrences network</h3>
+<div class="cell" data-hash="report_cache/html/unnamed-chunk-25_79bf50073dbbe92ac33dd9b814f066c1">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>NetMatrix <span class="ot">&lt;-</span> <span class="fu">biblioNetwork</span>(M,</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">analysis =</span> <span class="st">"co-occurrences"</span>,</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">network =</span> <span class="st">"keywords"</span>,</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">sep =</span> <span class="st">";"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="report_cache/html/unnamed-chunk-26_9962d3ebf05f1adc7fcbc9d3500bc628">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>net<span class="ot">=</span><span class="fu">networkPlot</span>(NetMatrix,</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">normalize=</span><span class="st">"association"</span>,</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">weighted=</span>T, <span class="at">n =</span> <span class="dv">30</span>,</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">Title =</span> <span class="st">"Keyword Co-occurrences"</span>,</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">type =</span> <span class="st">"fruchterman"</span>,</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">size=</span>T,</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">edgesize =</span> <span class="dv">5</span>,</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">labelsize=</span><span class="fl">0.7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="report_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Co-Word Analysis: The conceptual structure of a field</p>
+<p>The aim of the co-word analysis is to map the conceptual structure of a framework using the word co-occurrences in a bibliographic collection.</p>
+<p>The analysis can be performed through dimensionality reduction techniques such as Multidimensional Scaling (MDS), Correspondence Analysis (CA) or Multiple Correspondence Analysis (MCA).</p>
+<p>Here, we show an example using the function conceptualStructure that performs a CA or MCA to draw a conceptual structure of the field and K-means clustering to identify clusters of documents which express common concepts. Results are plotted on a two-dimensional map.</p>
+<p>conceptualStructure includes natural language processing (NLP) routines (see the function termExtraction) to extract terms from titles and abstracts. In addition, it implements the Porter’s stemming algorithm to reduce inflected (or sometimes derived) words to their word stem, base or root form.</p>
+</section>
+</section>
+<section id="conceptual-structure-using-keywords-methodca" class="level2">
+<h2 class="anchored" data-anchor-id="conceptual-structure-using-keywords-methodca">Conceptual Structure using keywords (method=“CA”)</h2>
+<div class="cell" data-hash="report_cache/html/unnamed-chunk-27_68f7c00b623d1cb3eb2f07c92b997fb0">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>CS <span class="ot">&lt;-</span> <span class="fu">conceptualStructure</span>(M,</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">field=</span><span class="st">"ID"</span>,</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">method=</span><span class="st">"CA"</span>,</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">minDegree=</span><span class="dv">4</span>,</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">clust=</span><span class="dv">8</span>,</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">stemming=</span><span class="cn">FALSE</span>,</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>                          <span class="at">labelsize=</span><span class="dv">10</span>,</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>                          <span class="at">documents=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: ggrepel: 610 unlabeled data points (too many overlaps). Consider
+increasing max.overlaps</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The `&lt;scale&gt;` argument of `guides()` cannot be `FALSE`. Use "none" instead as
+of ggplot2 3.3.4.
+ℹ The deprecated feature was likely used in the factoextra package.
+  Please report the issue at &lt;]8;;https://github.com/kassambara/factoextra/issueshttps://github.com/kassambara/factoextra/issues]8;;&gt;.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="report_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="report_files/figure-html/unnamed-chunk-27-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: ggrepel: 44 unlabeled data points (too many overlaps). Consider
+increasing max.overlaps</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="report_files/figure-html/unnamed-chunk-27-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: ggrepel: 42 unlabeled data points (too many overlaps). Consider
+increasing max.overlaps</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="report_files/figure-html/unnamed-chunk-27-4.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="historical-direct-citation-network" class="level1">
+<h1>Historical Direct Citation Network</h1>
+<p>The historiographic map is a graph proposed by E. Garfield (2004) to represent a chronological network map of most relevant direct citations resulting from a bibliographic collection.</p>
+<p>Garfield, E. (2004). Historiographic mapping of knowledge domains literature. Journal of Information Science, 30(2), 119-145.</p>
+<p>The function generates a chronological direct citation network matrix which can be plotted using histPlot:</p>
+<section id="create-a-historical-citation-network" class="level2">
+<h2 class="anchored" data-anchor-id="create-a-historical-citation-network">Create a historical citation network</h2>
+<div class="cell" data-hash="report_cache/html/unnamed-chunk-28_a0617ef5c186deca319c2897a0d4d0cc">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">width=</span><span class="dv">130</span>)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>histResults <span class="ot">&lt;-</span> <span class="fu">histNetwork</span>(M, <span class="at">min.citations =</span> <span class="dv">1</span>, <span class="at">sep =</span> <span class="st">";"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+WOS DB:
+Searching local citations (LCS) by reference items (SR) and DOIs...
+
+Analyzing 104795 reference items...
+
+Found 726 documents with no empty Local Citations (LCS)</code></pre>
+</div>
+</div>
+</section>
+<section id="plot-a-historical-co-citation-network" class="level2">
+<h2 class="anchored" data-anchor-id="plot-a-historical-co-citation-network">Plot a historical co-citation network</h2>
+<div class="cell" data-hash="report_cache/html/unnamed-chunk-29_3627d16f8eb49f86a592ccd7edf98f32">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>net <span class="ot">&lt;-</span> <span class="fu">histPlot</span>(histResults, <span class="at">n=</span><span class="dv">150</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">labelsize=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="report_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="768"></p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ Legend
+
+                                                                            Label
+1                                  BLANC F, 1969, MAR BIOL DOI 10.1007/BF00360956
+2                          CASTELLA E, 1984, HYDROBIOLOGIA DOI 10.1007/BF00015212
+3                            CELLOT B, 1986, HYDROBIOLOGIA DOI 10.1007/BF00006534
+4                                     BRAVARD JP, 1986, OIKOS DOI 10.2307/3565924
+5                       BURRUS D, 1989, HYDROL PROCESS DOI 10.1002/HYP.3360030107
+6                            LOCHET F, 1990, HYDROBIOLOGIA DOI 10.1007/BF00041445
+7                 CAUWET G, 1990, CONT SHELF RES DOI 10.1016/0278-4343(90)90073-U
+8                            LEVEAU M, 1990, HYDROBIOLOGIA DOI 10.1007/BF00041444
+9                             GAUDY R, 1990, HYDROBIOLOGIA DOI 10.1007/BF00041462
+10                 GADEL F, 1990, CONT SHELF RES DOI 10.1016/0278-4343(90)90074-V
+11               CRUZADO A, 1990, CONT SHELF RES DOI 10.1016/0278-4343(90)90068-W
+12                MONACO A, 1990, CONT SHELF RES DOI 10.1016/0278-4343(90)90070-3
+13           CHASSEFIERE B, 1990, CONT SHELF RES DOI 10.1016/0278-4343(90)90063-R
+14                MONACO A, 1990, CONT SHELF RES DOI 10.1016/0278-4343(90)90061-P
+15                        MARMONIER P, 1991, HYDROBIOLOGIA DOI 10.1007/BF00034683
+16                    LIPIATOU E, 1991, MAR CHEM DOI 10.1016/0304-4203(91)90025-R
+17                GUIEU C, 1991, MAR POLLUT BULL DOI 10.1016/0025-326X(91)90467-7
+18                                BORNETTE G, 1991, J VEG SCI DOI 10.2307/3236032
+19             LIPIATOU E, 1991, MAR POLLUT BULL DOI 10.1016/0025-326X(91)90808-6
+20                     DOLEOLIVIER MJ, 1992, HYDROBIOLOGIA DOI 10.1007/BF00015114
+21                             GUIEU C, 1993, J ATMOS CHEM DOI 10.1007/BF00699113
+22                 BOULOUBASSI I, 1993, MAR CHEM DOI 10.1016/0304-4203(93)90242-G
+23                             BORNETTE G, 1994, VEGETATIO DOI 10.1007/BF00033397
+24                        BORNETTE G, 1994, ENVIRON MANAGE DOI 10.1007/BF02393763
+25                                BORNETTE G, 1994, J VEG SCI DOI 10.2307/3236156
+26                          HENRY CP, 1995, ENVIRON MANAGE DOI 10.1007/BF02471941
+27                 BARRATSEGRETAIN MH, 1995, HYDROBIOLOGIA DOI 10.1007/BF00016890
+28                         BORNETTE G, 1995, HYDROBIOLOGIA DOI 10.1007/BF00015531
+29               MARSTON RA, 1995, GEOMORPHOLOGY DOI 10.1016/0169-555X(95)00066-E
+30                         PETIT F, 1996, CATENA DOI 10.1016/0341-8162(95)00047-X
+31                       BOURNAUD M, 1996, J N AM BENTHOL SOC DOI 10.2307/1467950
+32                               HENRY CP, 1996, VEGETATIO DOI 10.1007/BF00052812
+33                        BARRATSEGRETAIN MH, 1996, J VEG SCI DOI 10.2307/3236455
+34                 BARRATSEGRETAIN MH, 1996, HYDROBIOLOGIA DOI 10.1007/BF00018677
+35                                BORNETTE G, 1996, J VEG SCI DOI 10.2307/3236373
+36                      DOLEDEC S, 1996, ENVIRON ECOL STAT DOI 10.1007/BF02427859
+37            ESTOURNEL C, 1997, CONT SHELF RES DOI 10.1016/S0278-4343(96)00064-7
+38                          POFF NL, 1997, J N AM BENTHOL SOC DOI 10.2307/1468026
+39                 FORGET P, 1998, OCEANOL ACTA DOI 10.1016/S0399-1784(99)80003-6
+40                              CHARMASSON S, 1998, ESTUARIES DOI 10.2307/1352836
+41                                 HENSEL PF, 1998, ESTUARIES DOI 10.2307/1352546
+42                 BROCHE P, 1998, OCEANOL ACTA DOI 10.1016/S0399-1784(99)80002-4
+43               BORNETTE G, 1998, BIOL CONSERV DOI 10.1016/S0006-3207(97)00166-3
+44                            CLARET C, 1998, AQUAT SCI DOI 10.1007/S000270050025
+45         TUSSEAU-VUILLEMIN MH, 1998, J GEOPHYS RES-OCEANS DOI 10.1029/97JC03709
+46             ARNAUD-FASSETTA G, 1999, HYDROBIOLOGIA DOI 10.1023/A:1003865428112
+47                   AUCOUR AM, 1999, CHEM GEOL DOI 10.1016/S0009-2541(99)00035-2
+48                   HABETS F, 1999, J GEOPHYS RES-ATMOS DOI 10.1029/1999JD901008
+49             FERRAND JL, 1999, CONT SHELF RES DOI 10.1016/S0278-4343(98)00070-3
+50                          LOIZEAU JL, 2000, AQUAT SCI DOI 10.1007/S000270050075
+51                       AMOROS C, 2000, ENVIRON MANAGE DOI 10.1007/S002679910017
+52           USSEGLIO-POLATERA P, 2000, HYDROBIOLOGIA DOI 10.1023/A:1017042921298
+53                  ETCHEVERS P, 2001, J HYDROL DOI 10.1016/S0022-1694(01)00332-8
+54                THILL A, 2001, CONT SHELF RES DOI 10.1016/S0278-4343(01)00047-4
+55                     BRUNETON H, 2001, CATENA DOI 10.1016/S0341-8162(01)00143-6
+56             LLORET J, 2001, FISH OCEANOGR DOI 10.1046/J.1365-2419.2001.00151.X
+57                       AMOROS C, 2001, ENVIRON MANAGE DOI 10.1007/S002670010263
+58           STATZNER B, 2001, ANNU REV ENTOMOL DOI 10.1146/ANNUREV.ENTO.46.1.291
+59                  STATZNER B, 2001, BASIC APPL ECOL DOI 10.1078/1439-1791-00039
+60              LAPOUYADE A, 2001, OCEANOL ACTA DOI 10.1016/S0399-1784(01)01148-3
+61                ETCHEVERS P, 2002, J GEOPHYS RES-ATMOS DOI 10.1029/2001JD000490
+62         ARNAUD-FASSETTA G, 2002, GEODIN ACTA DOI 10.1016/S0985-3111(01)01080-4
+63                     HENRY CP, 2002, ECOL ENG DOI 10.1016/S0925-8574(02)00019-8
+64                         SALEN-PICARD C, 2002, ESTUARIES DOI 10.1007/BF02692209
+65                  SALEN-PICARD C, 2002, OECOLOGIA DOI 10.1007/S00442-002-1032-3
+66            MARSSET T, 2002, SEDIMENTOLOGY DOI 10.1046/J.1365-3091.2002.00440.X
+67                                 PONT D, 2002, ESTUARIES DOI 10.1007/BF02695978
+68                        CHAPRON E, 2002, HOLOCENE DOI 10.1191/0959683602HL520RP
+69                                 LAMOUROUX N, 2002, ECOLOGY DOI 10.2307/3071765
+70              ARNAUD-FASSETTA G, 2003, CATENA DOI 10.1016/S0341-8162(02)00093-0
+71       ARNOUX-CHIAVASSA S, 2003, OCEANOL ACTA DOI 10.1016/S0399-1784(03)00058-6
+72        SALEN-PICARD C, 2003, MAR ENVIRON RES DOI 10.1016/S0141-1136(02)00307-0
+73             CHARMASSON S, 2003, OCEANOL ACTA DOI 10.1016/S0399-1784(03)00036-7
+74               ESTOURNEL C, 2003, J GEOPHYS RES-OCEANS DOI 10.1029/2001JC000825
+75             ANTONELLI C, 2004, GEOMORPHOLOGY DOI 10.1016/S0169-555X(03)00167-3
+76                     DARNAUDE AM, 2004, OECOLOGIA DOI 10.1007/S00442-003-1457-3
+77                            AARTS BGW, 2004, RIVER RES APPL DOI 10.1002/RRA.720
+78          DUFAU-JULLIAND C, 2004, J GEOPHYS RES-OCEANS DOI 10.1029/2003JC002019
+79              PERIANEZ R, 2005, ENVIRON POLLUT DOI 10.1016/J.ENVPOL.2004.05.021
+80                         ARNAUD F, 2005, HOLOCENE DOI 10.1191/0959683605HL801RP
+81                       VELLA C, 2005, MAR GEOL DOI 10.1016/J.MARGEO.2005.06.028
+82                    MIRALLES J, 2005, MAR GEOL DOI 10.1016/J.MARGEO.2005.02.020
+83            OLLIVIER P, 2006, J GEOCHEM EXPLOR DOI 10.1016/J.GEXPLO.2005.08.083
+84                    GATTI J, 2006, CONT SHELF RES DOI 10.1016/J.CSR.2006.05.012
+85                    MIRALLES J, 2006, MAR GEOL DOI 10.1016/J.MARGEO.2006.09.004
+86                    SABATIER F, 2006, MAR GEOL DOI 10.1016/J.MARGEO.2006.09.022
+87                    MAILLET GM, 2006, MAR GEOL DOI 10.1016/J.MARGEO.2006.09.025
+88         EYROLLE F, 2006, SCI TOTAL ENVIRON DOI 10.1016/J.SCITOTENV.2005.12.010
+89               GARCIA-GARCIA A, 2006, MAR GEOL DOI 10.1016/J.MARGEO.2006.09.005
+90                   PALANQUES A, 2006, MAR GEOL DOI 10.1016/J.MARGEO.2006.09.002
+91         LANSARD B, 2007, SCI TOTAL ENVIRON DOI 10.1016/J.SCITOTENV.2007.01.069
+92       COMORETTO L, 2007, SCI TOTAL ENVIRON DOI 10.1016/J.SCITOTENV.2006.11.046
+93                        PAILLEX A, 2007, J N AM BENTHOL SOC DOI 10.1899/06-12.1
+94                       TESI T, 2007, MAR CHEM DOI 10.1016/J.MARCHEM.2007.01.005
+95            ANTONELLI C, 2008, GEOMORPHOLOGY DOI 10.1016/J.GEOMORPH.2007.06.007
+96                  LANSARD B, 2008, CONT SHELF RES DOI 10.1016/J.CSR.2007.10.010
+97                 DREXLER TM, 2008, CONT SHELF RES DOI 10.1016/J.CSR.2007.11.012
+98            SICRE MA, 2008, MAR POLLUT BULL DOI 10.1016/J.MARPOLBUL.2008.07.015
+99                     DIAZ F, 2008, CONT SHELF RES DOI 10.1016/J.CSR.2007.08.009
+100            COMORETTO L, 2008, ENVIRON POLLUT DOI 10.1016/J.ENVPOL.2007.04.021
+101                   ULSES C, 2008, CONT SHELF RES DOI 10.1016/J.CSR.2008.01.015
+102         HARMELIN-VIVIEN M, 2008, CONT SHELF RES DOI 10.1016/J.CSR.2008.03.002
+103                 BOURRIN F, 2008, CONT SHELF RES DOI 10.1016/J.CSR.2008.06.005
+104                   FERRE B, 2008, CONT SHELF RES DOI 10.1016/J.CSR.2008.02.002
+105              DE MADRON XD, 2008, CONT SHELF RES DOI 10.1016/J.CSR.2008.08.001
+106       MOJTAHID M, 2009, MAR MICROPALEONTOL DOI 10.1016/J.MARMICRO.2008.12.006
+107             PAILLEX A, 2009, J APPL ECOL DOI 10.1111/J.1365-2664.2008.01593.X
+108          CITTERIO A, 2009, SEDIMENTOLOGY DOI 10.1111/J.1365-3091.2008.00979.X
+109                 FONTANA C, 2009, CONT SHELF RES DOI 10.1016/J.CSR.2009.03.005
+110            BRAVARD JP, 2010, GEOMORPHOLOGY DOI 10.1016/J.GEOMORPH.2009.01.020
+111                  SASTRE V, 2010, SWISS J GEOSCI DOI 10.1007/S00015-010-0006-4
+112                  MARION C, 2010, CONT SHELF RES DOI 10.1016/J.CSR.2010.02.015
+113        HARMELIN-VIVIEN M, 2010, BIOGEOCHEMISTRY DOI 10.1007/S10533-010-9411-Z
+114                   CATHALOT C, 2010, BIOGEOSCIENCES DOI 10.5194/BG-7-1187-2010
+115                       PARA J, 2010, BIOGEOSCIENCES DOI 10.5194/BG-7-4083-2010
+116           PROVANSAL M, 2010, GEOMORPHOLOGY DOI 10.1016/J.GEOMORPH.2009.01.017
+117                 OLLIVIER P, 2011, CHEM GEOL DOI 10.1016/J.CHEMGEO.2011.02.011
+118                     PASTOR L, 2011, BIOGEOSCIENCES DOI 10.5194/BG-8-1351-2011
+119                  PASTOR L, 2011, CONT SHELF RES DOI 10.1016/J.CSR.2011.03.007
+120                   GOINEAU A, 2011, J SEA RES DOI 10.1016/J.SEARES.2010.07.007
+121                     AUGER PA, 2011, BIOGEOSCIENCES DOI 10.5194/BG-8-3231-2011
+122                  BOURGEOIS S, 2011, BIOGEOSCIENCES DOI 10.5194/BG-8-3107-2011
+123         DESMET M, 2012, SCI TOTAL ENVIRON DOI 10.1016/J.SCITOTENV.2012.06.044
+124                    GOINEAU A, 2012, BIOGEOSCIENCES DOI 10.5194/BG-9-1367-2012
+125            PANAGIOTOPOULOS C, 2012, BIOGEOSCIENCES DOI 10.5194/BG-9-1827-2012
+126                 LABRUNE C, 2012, ECOL INDIC DOI 10.1016/J.ECOLIND.2011.04.028
+127                 LORTHIOIS T, 2012, GEO-MAR LETT DOI 10.1007/S00367-012-0274-2
+128                    FANGET AS, 2013, MAR GEOL DOI 10.1016/J.MARGEO.2012.02.007
+129                      PAILLEX A, 2013, J APPL ECOL DOI 10.1111/1365-2664.12018
+130              CAMPBELL R, 2013, PROG OCEANOGR DOI 10.1016/J.POCEAN.2012.09.005
+131                FRAYSSE M, 2014, J GEOPHYS RES-OCEANS DOI 10.1002/2014JC010022
+132        MOURIER B, 2014, SCI TOTAL ENVIRON DOI 10.1016/J.SCITOTENV.2014.01.026
+133                  DUFOIS F, 2014, CONT SHELF RES DOI 10.1016/J.CSR.2013.11.004
+134           PROVANSAL M, 2014, GEOMORPHOLOGY DOI 10.1016/J.GEOMORPH.2014.04.033
+135                   HIGUERAS M, 2014, BIOGEOSCIENCES DOI 10.5194/BG-11-157-2014
+136       ZEBRACKI M, 2015, SCI TOTAL ENVIRON DOI 10.1016/J.SCITOTENV.2014.08.082
+137                     KREMER K, 2015, MAR GEOL DOI 10.1016/J.MARGEO.2015.10.013
+138                  RASSMANN J, 2016, BIOGEOSCIENCES DOI 10.5194/BG-13-5379-2016
+139                   SADAOUI M, 2016, J HYDROL DOI 10.1016/J.JHYDROL.2016.07.012
+140                GANGLOFF A, 2017, CONT SHELF RES DOI 10.1016/J.CSR.2017.06.024
+141              DEPRET T, 2017, GEOMORPHOLOGY DOI 10.1016/J.GEOMORPH.2017.01.036
+142         MASSON M, 2018, SCI TOTAL ENVIRON DOI 10.1016/J.SCITOTENV.2018.04.343
+143                  MANY G, 2018, PROG OCEANOGR DOI 10.1016/J.POCEAN.2017.05.006
+144 VAZQUEZ-TARRIO D, 2019, SCI TOTAL ENVIRON DOI 10.1016/J.SCITOTENV.2018.12.109
+145        POULIER G, 2019, SCI TOTAL ENVIRON DOI 10.1016/J.SCITOTENV.2018.12.075
+146                TENA A, 2020, GEOMORPHOLOGY DOI 10.1016/J.GEOMORPH.2020.107034
+                                                                                                                                                           Author_Keywords
+1                                                                                                                                                                     &lt;NA&gt;
+2                                                                                                                                                                     &lt;NA&gt;
+3                                                                                                                                                                     &lt;NA&gt;
+4                                                                                                                                                                     &lt;NA&gt;
+5                                                                                                                                                                     &lt;NA&gt;
+6                                                                             NUTRIENTS; CHLOROPHYLL; SUSPENDED PARTICULATE MATTER; DILUTION; RHONE;; NW MEDITERRANEAN SEA
+7                                                                                                                                                                     &lt;NA&gt;
+8                                                                                                                    RHONE RIVER; PLUME FRONT; ORGANIC MATTER ACCUMULATION
+9                                                                                                                     RIVER PLUME; ZOOPLANKTON; PARTICLE SPECTRUM; GRAZING
+10                                                                                                                                                                    &lt;NA&gt;
+11                                                                                                                                                                    &lt;NA&gt;
+12                                                                                                                                                                    &lt;NA&gt;
+13                                                                                                                                                                    &lt;NA&gt;
+14                                                                                                                                                                    &lt;NA&gt;
+15                                                                                                                           HYPORHEIC; INVERTEBRATES; SPATES; LARGE RIVER
+16                                                                                                                                                                    &lt;NA&gt;
+17                                                                                                                                                                    &lt;NA&gt;
+18                                                              FORMER CHANNEL; DISTURBANCE; ECOTONE; MACROPHYTE; RHONE; FLORISTIC; COMPOSITION; SEDIMENT; WATER CHEMISTRY
+19                                                                                                                                                                    &lt;NA&gt;
+20                                                                          DISTURBANCE REGIME; VERTICAL STRUCTURE DISTORTION; RECOVERY; SPATE;; HYPOGEAN FAUNA; HYPORHEOS
+21                                                                                                       ATMOSPHERIC FALLOUT; WATER CHEMISTRY; NORTH-WESTERN MEDITERRANEAN
+22                                                                                                                                                                    &lt;NA&gt;
+23                                                                                   DISTURBANCE; MACROPHYTE; RHONE RIVER; SHIFTING MOSAIC; SPATIAL SCALE;; TEMPORAL SCALE
+24                                                                                          ALLOGENIC PROCESSES; GROUNDWATER SUPPLY; MACROPHYTES; RHONE RIVER;; SUCCESSION
+25                                                                              DISTURBANCE; FLOOD SCOURING; GRAIN SIZE; GROUND WATER; INTER-BATTERY; ANALYSIS; MACROPHYTE
+26                                              BIODIVERSITY; EUTROPHICATION; GROUNDWATER SUPPLY; INTERDISCIPLINARY; COOPERATION; REVERSIBLE PROCESSES; TERRESTRIALIZATION
+27                                                                                                    RIVER PLANTS; DISTURBANCE; FLOOD TIMING; RHONE RIVER; FORMER CHANNEL
+28                                                                    BACKFLOWS; BOUNDARY; PHYSICOCHEMICAL FLUCTUATIONS; MACROPHYTE; TEMPORAL; STABILITY; SPECIES RICHNESS
+29                                                                                                                                                                    &lt;NA&gt;
+30                                                                                                                                                                    &lt;NA&gt;
+31                                          MACROINVERTEBRATES; DISTURBED LARGE RIVER; LEVEL OF IDENTIFICATION;; CONTINUUM; IMPOUNDMENTS; TWO TABLES ANALYSIS; RHONE RIVER
+32                                                                      FLOOD; FRESHWATER PLANTS; REFUGE; REGENERATION NICHE; RHONE RIVER;; SPECIES COMPOSITION PREDICTION
+33                                                                                 AQUATIC PLANT; DISTURBANCE; PROPAGULE; SPECIES TRAIT; STRATEGY;; VEGETATIVE PROPAGATION
+34                                                                  RIVER PLANTS; SPATIAL HETEROGENEITY; TEMPORAL HETEROGENEITY; FLOODS;; ECOSYSTEM RESILIENCE; STRATEGIES
+35                                            AQUATIC PLANT; DIVERSITY; INTERMEDIATE DISTURBANCE HYPOTHESIS; RIVER; CHANNEL; SHIFTING MOSAIC; SPECIES RICHNESS; SUCCESSION
+36                     CORRESPONDENCE ANALYSIS; THREE-TABLE ORDINATION; RANDOMIZATION TESTS;; RLQ ANALYSIS; SPECIES-TRAIT-ENVIRONMENT RELATIONSHIPS; STATISTICAL; GRAPHICS
+37                                                                                                                                                                    &lt;NA&gt;
+38                       SPECIES TRAITS; FUNCTIONAL GROUPS; FILTERS; LANDSCAPE; HABITAT;; HIERARCHY; COMMUNITY COMPOSITION; COMMUNITY ASSEMBLY; UNDERSTANDING;; PREDICTION
+39                                                                                                 REFLECTANCE; SUSPENDED MATTER; REMOTE SENSING; RIVER PLUME; RHONE RIVER
+40                                                                                                                                                                    &lt;NA&gt;
+41                                                                                                                                                                    &lt;NA&gt;
+42                                                                                                                                 RIVER PLUME; VHF RADAR; RHONE; DYNAMICS
+43                                                                                        AQUATIC PLANTS; CUT-OFF CHANNELS; GEOMORPHOLOGY; GROUNDWATER;; PHYSICO-CHEMISTRY
+44                                                                               LARGE RIVER; HYPORRHEIC; RIVER BED INCISION; DISSOLVED ORGANIC CARBON;; NITRATE; BACTERIA
+45                                                                                                                                                                    &lt;NA&gt;
+46                                                                 RHONE DELTA; FLUVIAL DYNAMICS; SEDIMENT DISCHARGE; SOURCE ZONES; FLUVIAL; METAMORPHOSIS; LITTLE ICE AGE
+47                                                             CARBON ISOTOPE; DISSOLVED INORGANIC CARBON; PARTICULATE INORGANIC; CARBON; RHONE RIVER; GLOBAL CARBON CYCLE
+48                                                                                                                                                                    &lt;NA&gt;
+49                                                                                                                                                                    &lt;NA&gt;
+50                                                                                                              SEDIMENT RATING CURVE; SEDIMENT LOAD; DAM; DEEP WATER LAKE
+51                                      AQUATIC MACROPHYTES; ECOLOGICAL PROCESSES; ECOSYSTEM DYNAMICS;; DISTURBANCE; ENVIRONMENTAL MANAGEMENT; SUSTAINABILITY; RESTORATION
+52                                                                                     SPECIES TRAITS; MACROINVERTEBRATES; COMMUNITY STRUCTURE; INDICATORS;; BIOASSESSMENT
+53                                                                                                 RHONE; HYDROLOGICAL MODELLING; REGIONAL HYDROLOGY; SURFACE WATER BUDGET
+54                                                                                      RHONE RIVER; ESTUARINE MIXING ZONE; AGGREGATION; SEDIMENTATION; PARTICLE; COUNTING
+55                                                                                   FLUVIAL GEOMORPHOLOGY; FLOODS; GEOARCHAEOLOGY; HOLOCENE; ROMAN PERIOD;; RHONE; FRANCE
+56                             BOX-JENKINS MODELS; EBRE RIVER; GULF OF LIONS; GULF OF ROSES-CAPE CREUS;; MEDITERRANEAN FISHERIES; MUGA RIVER; NAO INDEX; RHONE RIVER; WIND
+57                                                            CONNECTIVITY; FLOOD DISTURBANCES; FLOODPLAIN; GROUNDWATER SUPPLY;; RIPARIAN ECOTONE; SUSTAINABILITY; WETLAND
+58                                                                      DEMOGRAPHY; HABITAT TEMPLET CONCEPT; NICHE; NONEQUILIBRIUM AND; EQUILIBRIUM CONDITIONS; SUCCESSION
+59                                                         BIOLOGICAL TRAITS; HABITAT TEMPLET CONCEPT; SEWAGE INPUT; STABILITY OF; REFERENCE CONDITIONS; STREAM REGULATION
+60                                                                                          ADVECTIVE TRANSPORT; BUDGET; GULF OF LION; ORGANIC CARBON; PARTICULATE; MATTER
+61                                                                                                                       CLIMATE CHANGE; SURFACE BUDGETS; HYDROLOGY; RHONE
+62                                                                                 CONTINENTAL PALEOHYDROLOGY; FLOOD-DOMINATED REGIME; LATE HOLOCENE; RHONE; DELTA; FRANCE
+63  AQUATIC VEGETATION; FORMER RIVER CHANNELS; HYDROELECTRIC SCHEME IMPACT;; LONG-TERM STUDY; MULTIVARIATE DATA ANALYSIS; RESTORATION ASSESSMENT;; RHONE RIVER; SUCCESSION
+64                                                                                                                                                                    &lt;NA&gt;
+65                                                                 POLYCHAETES; TERRESTRIAL ORGANIC MATTER; FLATFISH LANDINGS; NORTH; ATLANTIC OSCILLATION; WESTERN EUROPE
+66                                                                         LATE QUATERNARY; RHONE DELTA; SEISMIC STRATIGRAPHY; SHELF SEDIMENTATION;; WESTERN MEDITERRANEAN
+67                                                                                                                                                                    &lt;NA&gt;
+68                                 ALPS; `LITTLE ICE AGE'; NORTH ATLANTIC OSCILLATION; TERRIGENOUS; LACUSTRINE SEDIMENTATION; SPECTRAL ANALYSIS; WATERSHED PALAEOHYDROLOGY
+69                               ANCOVA; COMMUNITY CONVERGENCE; GEOMORPHOLOGY; HABITAT TEMPLATE;; HYDRAULICS; INSTREAM HABITAT MODELS; POOL; RIFFLE; STREAM-FISH COMMUNITY
+70                                   RHONE DELTA; HYDROCLIMATIC CHANGE; ARTIFICIAL WIDTH CONTRACTION; CHANNEL; BED DEGRADATION; FLOOD FLOW MODIFICATIONS; SEA-LEVEL CHANGE
+71                                                           COASTAL OCEANOGRAPHY; 3D NUMERICAL MODEL; RIVER PLUME; STRATIFIED FLOWS;; TOTAL VARIATION DIMINISHING SCHEMES
+72                                                                                 POLYCHAETE FAUNA; RIVER FLOW; TERRESTRIAL INPUTS; SUCCESSIONAL DYNAMICS;; MEDITERRANEAN
+73                                                                                                            RHONE; MEDITERRANEAN SEA; RADIONUCLIDES; SEDIMENT; INVENTORY
+74                                                                                                     GULF OF LION; COASTAL CIRCULATION; WIND CURL; SHELF-SLOPE EXCHANGES
+75                                                            CHANNEL CHANGES; BOUNDARY SHEAR STRESS; SPECIFIC STREAM POWER;; CLIMATO-ANTHROPIC IMPACTS; LOWER RHONE RIVER
+76                                                                                     CARBON; NITROGEN; TERRESTRIAL ORGANIC MATTER; MACROBENTHIC COMMUNITIES;; FLATFISHES
+77                                                                                   HABITAT LOSS; FISH GUILDS; REGULATED RIVERS; FLOODPLAIN; RHONE; DANUBE;; RHINE; MEUSE
+78                                                                                                         3-D MODELING; CASCADING OF DENSE WATER; NORTHWEST MEDITERRANEAN
+79                                                            RHONE RIVER; NUMERICAL MODELLING; SUSPENDED MATTER; SEDIMENTS;; HYDRODYNAMICS; DISPERSION; CESIUM; PLUTONIUM
+80            RIVER DISCHARGE; FLOODS; PALAEOHYDROLOGY; CLIMATE; HUMAN IMPACT;; MAGNETIC SUSCEPTIBILITY; SILICATE MINERALS; MAJOR ELEMENTS; RHONE; ALPS;; FRANCE; HOLOCENE
+81                                                                                 HOLOCENE; BEACH RIDGE; SEA-LEVEL; ACCOMMODATION SPACE; SEDIMENTARY; INPUT; PROGRADATION
+82                                            SEDIMENTATION RATE; MASS ACCUMULATION RATE; PB-210(XS) INVENTORIES;; CONTINENTAL SHELF; CONTINENTAL SLOPE; MEDITERRANEAN SEA
+83                                                                                                                       ARSENIC; TRACE ELEMENT; RHONE RIVER; FLOOD EVENTS
+84                                                                         RIVER PLUMES; SHELF DYNAMICS; CURRENT DATA (ADCP); CRUISE STATIONS;; AVHRR IMAGES; GULF OF LION
+85                                                                                            RADIONUCLIDE DEPOSITION; EXTREME FLOOD; RHONE RIVER PRODELTA; GULF OF; LIONS
+86                                                                                      BATHYMETRY; RIVER SEDIMENTS INPUT; PRODELTAIC LOBE; LARGE SCALE COASTAL; BEHAVIOUR
+87                                                                                MOUTH-BAR; DELTA FRONT; PRODELTA; FLOOD PROCESSES; SEDIMENTATION RATE;; BATHYMETRIC MAPS
+88                                                                                                                                                                    &lt;NA&gt;
+89                                                                                           SHALLOW GAS; BIOGENIC METHANE; FLOOD DEPOSITS; RHONE PRODELTA; GULF OF; LIONS
+90                                                                          SUSPENDED SEDIMENT TRANSPORT; SUBMARINE CANYON; GULF OF LIONS; STORM; EVENTS; CASCADING EVENTS
+91                                                                      PLUTONIUM; MARINE SEDIMENT; CONTAMINANT DISPERSION; RHONE RIVER; GULF OF; LIONS; MEDITERRANEAN SEA
+92                                                                                                             PESTICIDE; PADDY FIELDS; WATER CONTAMINATION; LAGOON; DELTA
+93                                         MACROINVERTEBRATES; LATERAL CONNECTIVITY; RICHNESS; TAXONOMIC; COMPOSITION; FUNCTIONAL METRICS; FLOODPLAIN ECOLOGY; RHONE RIVER
+94                                         ORGANIC MATTER; GULF OF LIONS; RHONE RIVER; SURFACE SEDIMENT; STABLE; ISOTOPES; LIGNIN-DERIVED; PHENOLS; ALKALINE CUO OXIDATION
+95                                                                                                                       EXTREME FLOOD; SUSPENDED SEDIMENT; CS-137; FLUXES
+96                                         SEDIMENT; OXYGEN UPTAKE RATE; MICROELECTRODES; ORGANIC CARBON;; REMINERALIZATION; MEDITERRANEAN SEA; GULF OF LIONS; RHONE RIVER
+97                                                                                             MEDITERRANEAN SEA; GULF OF LIONS; RHONE RIVER DELTA; FLOOD DEPOSIT;; PB-210
+98                                                                                                                     PAHS; FLOODS; LOADS; RHONE RIVER; MEDITERRANEAN SEA
+99                                                    NW MEDITERRANEAN; RHONE RIVER; ROFI; LOW-SALINITY WATER LENSES;; MICROBIAL FOOD WEB; NUTRIENTS/ORGANIC MATTER EXPORT
+100                                                                                                                      PESTICIDES; TRANSPORT; MONITORING; RICE; MODELING
+101       SEDIMENT TRANSPORT; SEDIMENT RESUSPENSION; SEDIMENT BUDGET; 3D SEDIMENT; TRANSPORT MODELING; CONTINENTAL MARGINS; NORTHWESTERN MEDITERRANEAN SEA;; GULF OF LIONS
+102                                PARTICULATE ORGANIC MATTER; PHYTOPLANKTON COMPOSITION; FLUORESCENCE; MAXIMUM; STABLE ISOTOPES; C/N RATIO; PON/CHL A; SEASONAL VARIATION
+103                                                            FLASH-FLOOD; SEDIMENT TRANSPORT; HYPOPYCNAL RIVER PLUME; TET RIVER; GULF; OF LIONS; NORTHWEST MEDITERRANEAN
+104                                                                      SEDIMENT DYNAMICS; SEDIMENT TRANSPORT; SHELF-SLOPE EXCHANGES; FISHERIES;; TRAWLING; MEDITERRANEAN
+105                                                                                                                                                                   &lt;NA&gt;
+106                                                  BENTHIC FORAMINIFERA; EUTROPHICATION; RIVER PLUME; OXYGEN; ORGANIC; CARBON; COASTAL OCEAN; GULF OF LIONS; RHONE RIVER
+107                                        FLOODPLAIN RESTORATION; LATERAL CONNECTIVITY; LARGE RIVER;; MACROINVERTEBRATES; SPECIES TRAITS; NON-NATIVE SPECIES; RHONE RIVER
+108                 ANTHROPOGENIC IMPACTS; CHANNEL CHANGES; FORMER CHANNEL GEOMETRY;; HYDROLOGICAL CONNECTIVITY; OXBOW LAKES; SEDIMENT CONCENTRATION;; SEDIMENTATION RATES
+109                                                                                                       DATA ASSIMILATION; KALMAN FILTER; REMOTE SENSING; EUTROPHICATION
+110                                                               BRAIDED PATTERN; RIVER DISCONTINUUM; FLUVIAL METAMORPHOSIS; STREAM; POWER; BED LOAD; RHONE RIVER; FRANCE
+111                                                                         BATHYMETRY; MULTI-BEAM; DELTA TOPOGRAPHY; LAKE GENEVA; RHONE RIVER; DELTA; SUB-AQUATIC CANYONS
+112                                                                                          SEDIMENT DYNAMICS; FLOODS; HYDRODYNAMICS; RADIOTRACERS; RHONE RIVER; PRODELTA
+113                                                                                           CHLOROPHYLL; C/N; FRESHWATER ORGANIC MATTER; GULF OF LIONS; STABLE; ISOTOPES
+114                                                                                                                                                                   &lt;NA&gt;
+115                                                                                                                                                                   &lt;NA&gt;
+116                                                                                                         RIVER RHONE; MANAGED RIVER; BANK ACCRETION; MULTI-PROXY RECORD
+117                                                 RHONE RIVER; MAJOR AND TRACE ELEMENTS; METAL ELEMENTS; SUSPENDED; PARTICULATE MATTER; FLUXES; DISTRIBUTION COEFFICIENT
+118                                                                                                                                                                   &lt;NA&gt;
+119                                                                       ORGANIC MATTER; OXYGEN CONSUMPTION RATES; RHONE RIVER; CARBON; MINERALIZATION; COASTAL SEDIMENTS
+120                                                                                                     LIVE BENTHIC FORAMINIFERA; RHONE PRODELTA; ECOLOGY; ORGANIC MATTER
+121                                                                                                                                                                   &lt;NA&gt;
+122                                                                                                                                                                   &lt;NA&gt;
+123                                                                               POLYCHLORINATED BIPHENYL (PCB); SEDIMENT CORE; RHONE RIVER; SPATIAL AND; TEMPORAL TRENDS
+124                                                                                                                                                                   &lt;NA&gt;
+125                                                                                                                                                                   &lt;NA&gt;
+126                                   BQI; M-AMBI; BENTHIC HABITAT QUALITY; SEDIMENT PROFILE IMAGERY; WATER; FRAMEWORK DIRECTIVE; RHONE RIVER; MACROFAUNA; ORGANIC CONTENT
+127                                                                                                                                                                   &lt;NA&gt;
+128                                                                                                                   BENTHIC FORAMINIFERA; OSTRACODS; RHONE DELTA; FLOODS
+129                                                             ASSEMBLY RULES; FRESHWATER; LATERAL CONNECTIVITY; QUADRATIC ENTROPY;; RESTORATION; RHONE RIVER; -DIVERSITY
+130                                                                                                                                                                   &lt;NA&gt;
+131   THREE-DIMENSIONAL PHYSICAL; BIOGEOCHEMICAL MODELING; RHONE RIVER; INTRUSIONS; BIOGEOCHEMICAL MASS BALANCES; COASTAL PROCESSES; BAY OF; MARSEILLE (MEDITERRANEAN SEA)
+132                                                                    POLYCHLORINATED BIPHENYLS (PCBS); FLUVIAL SEDIMENT; CORE; RHONE RIVER;; SPATIAL AND TEMPORAL TRENDS
+133                                                                                          SEDIMENT TRANSPORT; GULF OF LIONS; RHONE PRODELTA; 3D MODELLING; ADCP;; ALTUS
+134                              FLUVIAL GEOMORPHOLOGY; SECULAR SEDIMENT BALANCE; RIVER MANAGEMENT;; HYDROPOWER DAMS; SOURCE-TO-SINK SEDIMENT TRANSPORT; LOWER RHONE RIVER
+135                                                                                                                                                                   &lt;NA&gt;
+136                                                                                       RHONE RIVER; RADIONUCLIDES; FINGERPRINTING; SUSPENDED SEDIMENT; SEDIMENT; ORIGIN
+137                                                                                                     SUBLACUSTRINE CHANNELS; TURBIDITE; DELTA; LAKE GENEVA; RHONE RIVER
+138                                                                                                                                                                   &lt;NA&gt;
+139                                                                                            SEDIMENT FLUXES; RATING CURVES; COASTAL RIVERS; RHONE RIVER; GULF OF; LIONS
+140                                                          RIVER PLUME METRICS; SEDIMENT DYNAMICS; MERIS; OCEAN COLOR DATA;; SUSPENDED PARTICULATE MATTER; GULF OF LIONS
+141                                     ABANDONED CHANNEL FILLING; HYDROLOGICAL CONNECTIVITY; SEDIMENT FLUX;; FLOODPLAIN SEDIMENTATION; TERRESTRIALIZATION; HUMAN PRESSURE
+142                             HYDROPHOBIC CONTAMINANTS; CONTINUOUS FLOW CENTRIFUGATION; GRAIN SIZE; DISTRIBUTION; PARTICULATE ORGANIC MATTER; PARTICLE TRAP; RHONE RIVER
+143                                                                                                      NEPHELOID LAYERS; ROFI; GULF OF LIONS; RHONE RIVER; FLOOD; GLIDER
+144                                                                                                       BEDLOAD; RHONE RIVER; DAMS; RIVER EMBANKMENT; SEDIMENT TRANSPORT
+145                                                                     SUSPENDED PARTICULATE MATTER; RATING CURVES; HYDROPHOBIC CONTAMINANTS;; RHONE RIVER; ANNUAL FLUXES
+146                                  RHONE RIVER; RIVER ENGINEERING; GROYNE FIELDS; RIVER REGULATION;; CONNECTION FREQUENCY; SEDIMENTATION; METAL CONTENT; RIVER NARROWING
+                                                                                                                                                                                                                                      KeywordsPlus
+1                                                                                                                                                                                                                                             &lt;NA&gt;
+2                                                                                                                                                                                                                                             &lt;NA&gt;
+3                                                                                                                                                                                                                                             &lt;NA&gt;
+4                                                                                                                                                                                                                                             &lt;NA&gt;
+5                                                                                                                                                                                                                                             &lt;NA&gt;
+6                                                                                            DISSOLVED ORGANIC-CARBON; PHYTOPLANKTON GROWTH; NUTRIENT LIMITATION;; ESTUARY; PRECIPITATION; PARTICULATE; ENVIRONMENT; PHOSPHORUS; NITROGEN;; AMAZON
+7                                                                                                                                                                                                                                             GULF
+8                                                                                                                                                                              BEDFORD BASIN; LIPID CLASSES; MARINE; PARTICULATE; CHEMISTRY; WATER
+9                                                                                                                                                    COPEPODS; SIZE; PARTICULATE; CHLOROPHYLL; SELECTION; ESTUARY; GEORGIA;; MATTER; STRAIT; RATES
+10                                                                                            PERFORMANCE LIQUID-CHROMATOGRAPHY; PYROLYSIS-GAS CHROMATOGRAPHY;; MASS-SPECTROMETRY; MARINE BAY; OXIDATION; LIGNIN; MATTER; SEDIMENTATION;; PRODUCTS
+11                                                                                                                                                                                                                                            &lt;NA&gt;
+12                                                                                        SEDIMENT TRAP; CONTINENTAL-SHELF; SUBMARINE-CANYON; ORGANIC-CARBON;; MEDITERRANEAN-SEA; NEPHELOID LAYER; SARGASSO SEA; MARINE SNOW; DEEP-SEA;; PARTICLES
+13                                                                                                                                                                             GEOTECHNICAL PROPERTIES; SHELF; PARTICLES; ENVIRONMENT; OCEAN; GULF
+14                                                 BRISSOPSIS-LYRIFERA ECHINOIDEA; SUSPENDED PARTICULATE MATTER;; GULF-OF-LIONS; DEEP-SEA; MARINE SNOW; REPRODUCTIVE-CYCLE; NORTHEAST; PACIFIC; SUBMARINE-CANYON; NEPHELOID LAYERS; SURFACE WATERS
+15                                                                                                                                                                                       DESERT STREAM; SUCCESSION; SUBSTRATUM; CLADOCERA; BENTHOS
+16                                                                 CHROMATOGRAPHY MASS-SPECTROMETRY; RECENT LAKE-SEDIMENTS;; MARINE-ENVIRONMENT; GAS-CHROMATOGRAPHY; VERTICAL TRANSPORT; SURFACE; SEDIMENTS; UNITED-STATES; FATE; AEROSOLS; ORIGIN
+17                                                                                                                                                                                         MEDITERRANEAN-SEA; MARINE AEROSOLS; RAINWATER; SEAWATER
+18                                                                                                                                                                                                                                            &lt;NA&gt;
+19                                                                                                       CHROMATOGRAPHY-MASS-SPECTROMETRY; PETROLEUM-HYDROCARBONS;; AROMATIC-HYDROCARBONS; GAS-CHROMATOGRAPHY; SEDIMENTS; SEA; ESTUARY;; FATE; OIL
+20                                                                                                                           STREAM ECOLOGY; DISTURBANCE; RECOLONIZATION; BENTHOS; FLOODS; FAUNA;; GROUNDWATER; POPULATIONS; DEFINITION; TEMPORARY
+21                                                                                                                                                      DISSOLVED ALUMINUM; SEA; FLUXES; RIVER; LIONS; GULF; VARIABILITY;; PACIFIC; METALS; COPPER
+22                                                                                                                                MEDITERRANEAN-SEA; MARINE-SEDIMENTS; ORGANIC-MATTER; TRANSPORT;; AEROSOLS; TROPOSPHERE; PERYLENE; REGION; LIPIDS
+23                                                                                                                                                                  DYNAMICS; COMMUNITIES; MACROPHYTES; ORDINATION; SECTION; WATERS; SCALES;; TIME
+24                                                                                                                                                                                                                        SUCCESSIONS; COMMUNITIES
+25                                                                                                                                                                                                                                            &lt;NA&gt;
+26                                                                                                                                                                                                     COMMUNITIES; MANAGEMENT; ECOSYSTEMS; SYSTEM
+27                                                                                                   PLANT-COMMUNITIES; SPECIES-DIVERSITY; PATCH DYNAMICS; DESERT STREAM;; DISTURBANCE; SUCCESSION; RESILIENCE; PATTERNS; FIRE; MACROINVERTEBRATES
+28                                                                                                                                                                                  VEGETATION DYNAMICS; COMMUNITIES; ECOSYSTEMS; LOUISIANA; DELTA
+29                                                                                                                                                                                                                                     UPPER RHONE
+30                                                                                                                  BED RIVERS; FLUVIAL GEOMORPHOLOGY; TEMPORAL VARIATIONS; SEDIMENT; TRANSPORT; ENTRAINMENT; MOVEMENT; STREAMS; RATES; LOAD; FLOW
+31                                                                                                                                                                                                                                           RHONE
+32                                                                                                                                       PLANT-COMMUNITIES; VEGETATION; PATTERNS; DYNAMICS; PERSPECTIVE;; STRATEGIES; RICHNESS; RECOVERY; HABITATS
+33                                                                                                            AQUATIC MACROPHYTES; STREAM BENTHOS; DESERT STREAM; COMMUNITIES;; DISTURBANCE; SUCCESSION; PATTERNS; ECOSYSTEMS; DIVERSITY; DYNAMICS
+34                                                                                                             COMMUNITY STRUCTURE; STREAM COMMUNITY; HIGH DIVERSITY; MACROPHYTES;; MAINTENANCE; STRATEGIES; ABUNDANCE; PATTERNS; PRAIRIE; WETLAND
+35                                                                                                          UPPER RHONE RIVER; MOUNT ST-HELENS; SPECIES-DIVERSITY; CORAL REEFS;; COMMUNITIES; SUCCESSION; CHANNELS; PATTERNS; RECOVERY; WASHINGTON
+36                                                                                                                 CANONICAL CORRESPONDENCE-ANALYSIS; UPPER RHONE RIVER; HABITAT;; FLOODPLAIN; STRATEGIES; ADVANTAGES; COMMUNITY; ECOLOGY; TEMPLET
+37                                                                                                                                                   RIVER PLUME; CONTINENTAL-MARGIN; MODEL; LIONS; GULF; SHELF; CIRCULATION;; TURBULENCE; SURFACE
+38                                     FISH COMMUNITY STRUCTURE; LIFE-HISTORY ATTRIBUTES; UPPER RHONE RIVER;; AQUATIC INSECTS; HABITAT TEMPLET; DISTRIBUTIONAL PATTERNS;; MACROINVERTEBRATE FAUNA; HEADWATER STREAM; ASSEMBLY RULES; WATER-QUALITY
+39                                                                                                                 SEDIMENT CONCENTRATION; THEMATIC MAPPER; WATER-QUALITY; IN-WATER; PLUME;; REFLECTANCE; LAKE; CHLOROPHYLL; SIMULATION; TRANSPORT
+40                                                                                       ACCUMULATION RATES; MIXING RATES; POSTDEPOSITIONAL MOBILITY;; CONTINENTAL-MARGIN; GEOCHRONOLOGY; DISTRIBUTIONS; ENVIRONMENT;; PARTICLES; PACIFIC; ESTUARY
+41                                                                                                                    SEA-LEVEL RISE; SALT-MARSH; COASTAL SUBMERGENCE; NILE-DELTA; LOUISIANA;; ACCRETION; WETLAND; SUBSIDENCE; DEPOSITION; EROSION
+42                                                                                                                MISSISSIPPI RIVER DELTA; SURFACE CURRENTS; DENSITY GRADIENTS; ESTUARINE; PLUMES; WIND; COASTAL; OCEAN; DISCHARGE; MOTION; FRONTS
+43                                                                                                      UPPER RHONE RIVER; VEGETATION DYNAMICS; AQUATIC VEGETATION; CHANNELS;; GROUNDWATER; FLOODPLAIN; SUCCESSIONS; COMMUNITIES; INCISION; POLAND
+44                             DISSOLVED ORGANIC-CARBON; SONORAN DESERT STREAM; FLUORESCEIN DIACETATE; HYDROLYSIS; HYPORHEIC ZONE; SURFACE-WATER; INTEGRATING HYDROLOGY;; RESPIRING BACTERIA; MICROBIAL ACTIVITY; IMPOUNDED RIVER; MOUNTAIN STREAM
+45                                                                                                                      GENERAL-CIRCULATION MODEL; WESTERN MEDITERRANEAN-SEA; DEEP-WATER; FORMATION; PHYTOPLANKTON; VARIABILITY; CARBON; DIFFUSION
+46                                                                                                                                                                                                                                            NILE
+47                                                                                                                                  STABLE ISOTOPIC COMPOSITION; AMAZON RIVER; SOIL; DIOXIDE; GEOCHEMISTRY;; EVOLUTION; WATERS; RATIOS; CHALK; CO2
+48                                                                                  SURFACE PARAMETERIZATION SCHEMES; HAPEX-MOBILHY; METEOROLOGICAL MODELS;; TEMPORAL ANALYSIS; MOISTURE FLUXES; LAND; PROJECT; BALANCE; EVAPORATION;; VARIABILITY
+49                                                                                                                        STABLE LEAD ISOTOPES; ATMOSPHERIC LEAD; CONTINENTAL-MARGIN; RIVER;; METALS; OCEAN; INDUSTRIAL; POLLUTION; ATLANTIC; POND
+50                                                                                                                                                         TURBIDITY CURRENTS; DEEP-LAKE; MACROINVERTEBRATE; COMMUNITIES;; SWITZERLAND; UNDERFLOWS
+51                                                                          UPPER RHONE RIVER; THEORETICAL HABITAT TEMPLETS; AQUATIC VEGETATION;; RESTORATION ECOLOGY; SPECIES RICHNESS; DYNAMICS; CHANNELS; COMMUNITIES;; DISTURBANCE; FLOODPLAIN
+52                                                                         THEORETICAL HABITAT TEMPLETS; LOIRE RIVER FRANCE; UPPER RHONE RIVER;; COMMUNITY STRUCTURE; AQUATIC INSECTS; BIOTIC INDEXES; STREAMS;; HETEROGENEITY; POLLUTION; SYSTEMS
+53                                                                                                                                         SURFACE PARAMETERIZATION SCHEMES; SNOW-COVER; METEO-FRANCE; MODEL;; HYDROLOGY; PROJECT; SOIL; VARIABLES
+54                                                                                                                                                          SUSPENDED-MATTER; ORGANIC-MATTER; WATER; PLUME; ESTUARIES; ORIGIN;; LAYER; LIONS; GULF
+55                                                                                                                                                                   SEDIMENTATION; AGE; INDICATORS; CATCHMENT; PROVENCE; HISTORY; CLIMATE;; DELTA
+56                                                                                                       ANCHOVY ENGRAULIS-ENCRASICOLUS; ATLANTIC OSCILLATION; EUROPEAN HAKE;; ADRIATIC SEA; ST-LAWRENCE; FISH; MODELS; COAST; GULF; PRECIPITATION
+57                                            UPPER RHONE RIVER; AQUATIC VEGETATION; WETLAND RESTORATION; DISTURBANCE; REGIMES; RIPARIAN VEGETATION; LANDSCAPE APPROACH; PLANT-COMMUNITIES;; NUTRIENT DYNAMICS; SPECIES-RICHNESS; FLOODPLAIN LAKES
+58                                                                                                                             UPPER RHONE RIVER; HABITAT TEMPLETS; R-SELECTION; K-SELECTION;; STRATEGIES; EVOLUTION; ADAPTATION; SYSTEMS; CONTEXT
+59                                               UPPER RHONE RIVER; THEORETICAL HABITAT TEMPLETS; SPECIES TRAITS;; MACROINVERTEBRATE COMMUNITIES; BENTHIC MACROINVERTEBRATES; FLUCTUATING; ASYMMETRY; SMALL STREAM; BIODIVERSITY; FISH; FLOODPLAIN
+60                                                                                                                 CONTINENTAL-MARGIN; NORTHERN CURRENT; MESOSCALE VARIABILITIES; FLUXES;; CIRCULATION; SEA; ACCUMULATION; ECOMARGE; ORIGIN; RATES
+61                                                                                                                                        METEO-FRANCE; SNOW-COVER; WATER-BUDGET; MODEL; PARAMETERIZATION;; SIMULATION; SCHEME; FLOWS; BASIN; SOIL
+62                                                                                                                                                                                                                MEDITERRANEAN FRANCE; AGE; SHELF
+63                                                                                                                                                        VEGETATION DYNAMICS; AQUATIC VEGETATION; MANAGEMENT; FLOODPLAIN;; PATTERNS; SYSTEM; TIME
+64                                                                                                                          WESTERN ENGLISH-CHANNEL; MACROBENTHIC COMMUNITIES; SEA; BAY; ECOSYSTEM;; GULF; MACROFAUNA; MARSEILLES; DYNAMICS; LIONS
+65                                                                                             LONG-TERM CHANGES; SAND-BOTTOM MACROFAUNA; RHONE RIVER; NORTH-SEA;; THERAGRA-CHALCOGRAMMA; WALLEYE POLLOCK; WESTERN GULF; GROWTH; FLATFISH;; LARVAL
+66                                                                                                                              SEA-LEVEL RISE; SEQUENCE STRATIGRAPHY; QUATERNARY; DELTA; GULF;; SEDIMENTATION; EVOLUTION; LOWSTAND; RECORD; LIONS
+67                                                                                                     SPARTINA-FOLIOSA TRIN; SAN-FRANCISCO BAY; SALT-MARSH; VIRGINICA L;; NORTH-CAROLINA; VENICE LAGOON; RIVER DELTA; NILE DELTA; DYNAMICS; WATER
+68                                                                                                                                          NORTH-ATLANTIC OSCILLATION; SPECTRAL-ANALYSIS; GLACIER BAY; RECORD;; FLUCTUATIONS; SCALE; SWISS; SOUTH
+69                                                                    THEORETICAL HABITAT TEMPLETS; UPPER RHONE RIVER; SPECIES TRAITS;; TEMPORAL VARIABILITY; GRAYLING ONTOGENY; PHYSICAL HABITAT; HEADWATER; STREAM; VIRGINIA; PATTERNS; BEHAVIOR
+70                                                                                                                                                                                                    SEDIMENT; VEGETATION; DISCHARGE; LEVEL; DAMS
+71                                                                                                                        CONTINENTAL-SHELF; ESTUARINE PLUMES; COASTAL WATERS; SUSPENDED SEDIMENT;; TURBULENCE; BUOYANT; FLUX; DRIVEN; FLOWS; WIND
+72                                                                                                                                                TIDAL-FLAT; SEDIMENT; PLUME; ACCUMULATION; ECOSYSTEM; BENTHOS; GULF;; ESTUARIES; PATTERNS; LIONS
+73                                                                                                                                           MEDITERRANEAN-SEA; ARTIFICIAL RADIONUCLIDES; ACCUMULATION; LIONS; RIVER;; GULF; PB-210; CS-137; RATES
+74                                                                                                                                                                                            RHONE RIVER PLUME; MEDITERRANEAN-SEA; INVERSE METHOD
+75                                                                                                                                                                                                                            TRANSPORT; EVOLUTION
+76                                                                                                                        ORGANIC-MATTER; FOOD-WEB; FRESH-WATER; CARBON-ISOTOPE; RHONE RIVER;; ESTUARINE; NITROGEN; DELTA-N-15; DELTA-C-13; MARINE
+77                                                                                                ECOLOGICAL REHABILITATION; SECONDARY CHANNELS; RHINE; RESTORATION;; CONNECTIVITY; NETHERLANDS; DIVERSITY; INTEGRITY; CLASSIFICATION;; ECOSYSTEMS
+78                                                                                                                        RHONE RIVER PLUME; NORTHERN CURRENT; DENSE WATER; DEEP-WATER;; CIRCULATION; OCEAN; VARIABILITY; COASTAL; SEA; SIMULATION
+79                                               EASTERN IRISH SEA; COHESIVE SEDIMENT TRANSPORT; ARTIFICIAL; RADIONUCLIDES; MARINE-ENVIRONMENT; MEDITERRANEAN-SEA; 3-DIMENSIONAL; MODEL; TIDAL DISPERSION; ESTUARINE SYSTEM; PART I; PU-239;PU-240
+80                                                   MINERAL-MAGNETIC RECORD; NORTH-ATLANTIC CLIMATE; HOLOCENE CLIMATE;; ENVIRONMENTAL-CHANGES; LEVEL FLUCTUATIONS; NORTHWESTERN ALPS; AGE; CALIBRATION; ORGANIC-MATTER; HUMAN IMPACT; LAC DANNECY
+81                                                                                              SEA-LEVEL RISE; RHINE-MEUSE DELTA; SEQUENCE STRATIGRAPHY;; MEDITERRANEAN-SEA; SOUTHERN FRANCE; ANCIENT HARBOR; CLIMATE; RECORD;; COAST; MARSEILLES
+82                                                                           LIONS CONTINENTAL-MARGIN; MIDDLE ATLANTIC BIGHT; ACCUMULATION RATES;; ORGANIC-CARBON; PARTICULATE MATTER; WATER INTERFACE; MIXING RATES; RHONE; RIVER; DEEP-SEA; GULF
+83                                                                                                                                                                                                               CHEMICAL CONCENTRATION; DISCHARGE
+84                                                                                                                                         WESTERN MEDITERRANEAN-SEA; NORTHERN CURRENT; MESOSCALE VARIABILITIES;; PLUME; WIND; CIRCULATION; DRIVEN
+85                                                                                                                                           PO RIVER; SEDIMENT DEPOSITION; CARBON BUDGETS; GULF; LIONS; BE-7;; ACCUMULATION; PB-210; DELTA; RATES
+86                                                                                                                                     EBRO DELTA; CHANNEL CHANGES; SOUTHERN FRANCE; ICE-AGE; RIVER; EVOLUTION;; COAST; TRANSPORT; DELIVERY; WATER
+87                                                                                                  CONTINENTAL-SHELF; MEDITERRANEAN SEA; BRITISH-COLUMBIA; SUBAQUEOUS; DELTA; INTERNAL WAVES; FRASER DELTA; SLOPE; GULF; ENVIRONMENT;; DEPOSITION
+88                                                                                                                                                                     MEDITERRANEAN SEA; SEDIMENTS; RIVER; RADIONUCLIDES; ENVIRONMENT;; TRANSPORT
+89                                                                                               CONTINENTAL-SHELF; ORGANIC-CARBON; PLEISTOCENE DEPOSITS; PRIMARY; PRODUCTIVITY; MEDITERRANEAN SEA; RIVER; SEDIMENTARY; METHANE; MARINE;; LOWSTAND
+90                                                    DOWNWARD PARTICLE FLUXES; PARTICULATE MATTER; CONTINENTAL-MARGIN;; MEDITERRANEAN SEA; INNER-SHELF; TEMPORAL VARIABILITY; ADVECTIVE; TRANSPORT; BALTIMORE CANYON; ORGANIC-CARBON; CIRCULATION
+91                                                                                                                    ARTIFICIAL RADIONUCLIDES; CONTINENTAL-MARGIN; LIONS; GULF; INVENTORY;; TRANSPORT; PB-210; PLUME; DISTRIBUTIONS; ACCUMULATION
+92                                                                                    TANDEM MASS-SPECTROMETRY; SOLID-PHASE EXTRACTION; LIQUID-CHROMATOGRAPHY;; SURFACE WATERS; HERBICIDES; LEVEL; PHARMACEUTICALS; QUANTIFICATION;; RUNOFF; JAPAN
+93                        UPPER RHONE-RIVER; FRENCH UPPER RHONE; DEVELOPED ECOLOGICAL THEORY;; DANUBE RESTORATION PROJECT; SPECIES TRAITS; BENTHIC MACROINVERTEBRATES;; HYDROLOGICAL CONNECTIVITY; BIOLOGICAL TRAITS; HABITAT TEMPLET;; ECOSYSTEMS
+94                                                                                                                NORTHERN CALIFORNIA SHELF; CONTINENTAL-SHELF; RHONE RIVER; MATTER;; LIGNIN; SEDIMENTS; WASHINGTON; MARINE; DIAGENESIS; OXIDATION
+95                                                                                                                                                                                                             VARIABILITY; CONSEQUENCES; ELEMENTS
+96                                                               CONTINENTAL-MARGIN SEDIMENTS; ORGANIC-CARBON PRESERVATION; BENTHIC; BOUNDARY-LAYER; GULF-OF-LIONS; WATER INTERFACE; MARINE-SEDIMENTS;; SPATIAL VARIABILITY; FLUXES; MATTER; OCEAN
+97                                                                       LARGE-SCALE DISTRIBUTION; NORTHERN CALIFORNIA; CONTINENTAL-MARGIN;; SUSPENDED SEDIMENT; EEL CANYON; ACCUMULATION RATES; SUBMARINE-CANYON;; GRAVITY FLOWS; SHELF; PRODELTA
+98                                                                                                                                                                                                                            DISTRIBUTIONS; DELTA
+99                                                                     DISSOLVED ORGANIC NITROGEN; ISOTOPE-DILUTION MODELS; WEST FLORIDA SHELF;; COASTAL ZONE GULF; MARINE-PHYTOPLANKTON; HETEROTROPHIC BACTERIA;; OF-MEXICO; PLUME; CARBON; LIONS
+100                                                                                                                                                                    LAKE BIWA; VADOFT MODEL; PADDY FIELDS; WATER; HERBICIDES; SOIL; RISK;; FATE
+101                                                            FINE-GRAINED SEDIMENTS; DECEMBER 2003 FLOOD; CONTINENTAL-SHELF; RHONE; RIVER; IN-SITU; TEMPORAL VARIABILITY; PARTICULATE MATTER; SETTLING; VELOCITY; ORGANIC-CARBON; BOUNDARY-LAYER
+102                                                                                                                                      RHONE RIVER; FOOD WEBS; CARBON; MARINE; DELTA-N-15; NITROGEN;; PHYTOPLANKTON; DELTA-C-13; SIZE; ECOSYSTEM
+103                                                                                                          SUSPENDED SEDIMENT; CONTINENTAL-SHELF; INNER-SHELF; TRANSPORT MODEL;; ORGANIC-MATTER; RHONE RIVER; FLUXES; VARIABILITY; DYNAMICS; SEA
+104                                                                SUSPENDED SEDIMENT FLUXES; FINE-GRAINED SEDIMENTS; RHONE RIVER; TEMPORAL; VARIABILITY; COHESIVE SEDIMENTS; CARBON BUDGETS; ORGANIC-CARBON; BED; ROUGHNESS; INNER-SHELF; EROSION
+105                                                                       NW MEDITERRANEAN SEA; RHONE RIVER; SUSPENDED SEDIMENT; DENSE WATER;; ADVECTIVE TRANSPORT; PARTICULATE MATTER; SUBMARINE CANYONS;; ORGANIC-CARBON; SHELF EDGE; DEEP-WATER
+106                                                                          IN-SITU MICROELECTRODES; HEAVY-METAL POLLUTION; NORTHERN ADRIATIC SEA;; VERTICAL-DISTRIBUTION; MEDITERRANEAN SEA; IBERIAN MARGIN; CARBON; BUDGETS; GULF; SHELF; LIONS
+107                                                                                      UPPER RHONE RIVER; LARGE EUROPEAN RIVERS; INVERTEBRATE TRAITS;; DISTURBANCE; DIVERSITY; ECOSYSTEMS; PATTERNS; RECOVERY;; MACROINVERTEBRATES; BIODIVERSITY
+108                                                                                                                                                                                                               SPATIAL-PATTERNS; RIVER; CUTOFFS
+109                                                                                                                        EXTENDED KALMAN FILTER; ATLANTIC TIME-SERIES; ECOSYSTEM MODEL; PART I;; OCEAN; PLUME; SEA; BAY; CIRCULATION; SIMULATION
+110                                                                                                                                                                                                                  VALLEY; FRANCE; SYSTEM; BASIN
+111                                                                                                                                                                                                                                           &lt;NA&gt;
+112                                                                                              DECEMBER 2003 FLOOD; SUSPENDED SEDIMENT; TEMPORAL VARIABILITY;; CONTINENTAL-SHELF; PARTICLE-SIZE; DELTA; ACCUMULATION; TRANSPORT;; PB-210; FLUXES
+113                                                                            PARTICULATE ORGANIC-MATTER; SAN-FRANCISCO BAY; FRESH-WATER; FOOD WEBS;; BIOGEOCHEMICAL IMPLICATIONS; SUSPENDED SEDIMENT; SCHELDT ESTUARY; BALTIC; SEA; CARBON; GULF
+114 DIFFUSIVE BOUNDARY-LAYER; NORTHWESTERN MEDITERRANEAN-SEA; PARTICULATE; ORGANIC-CARBON; NORTHERN CALIFORNIA SHELF; IN-SITU MICROELECTRODES;; CONTINENTAL-MARGIN; MARINE-SEDIMENTS; WATER INTERFACE; SUSPENDED; SEDIMENT; BENTHIC MINERALIZATION
+115                                                                                      OPTICAL-ABSORPTION; ULTRAVIOLET-RADIATION; BACTERIAL PRODUCTION;; SEASONAL-VARIATION; CONTINENTAL-SHELF; ATLANTIC-OCEAN; CARBON DOC;; MARINE; PLUME; GULF
+116                                                                                                                        SUSPENDED SEDIMENT; CHANNEL CHANGES; DECEMBER 2003; RIVER; CS-137;; FLOOD; DEPOSITION; CONSEQUENCES; TRANSPORT; RECORDS
+117                                                                                                             SUSPENDED SEDIMENT DYNAMICS; MEDITERRANEAN SEA; ORGANIC-CARBON;; FRESH-WATER; METALS CD; VARIABILITY; ESTUARIES; TRANSPORT; PB; NI
+118                                                 EARLY DIAGENETIC PROCESSES; COASTAL MARINE SEDIMENT; ORGANIC-CARBON; PRESERVATION; SULFATE REDUCTION; ANAEROBIC MINERALIZATION;; CONTINENTAL-SHELF; OXYGEN-UPTAKE; SALT-MARSH; IN-SITU; MATTER
+119                                                                                    LOWER MISSISSIPPI RIVER; AMINO-ACIDS; COASTAL SEDIMENTS;; CONTINENTAL-SHELF; TEMPORAL-CHANGES; LOUISIANA SHELF; CARBON BUDGETS;; CHLOROPHYLL-A; RATES; GULF
+120                                                     SEDIMENTARY ORGANIC-MATTER; NORTHERN ADRIATIC SEA; CONTINENTAL-SHELF;; OF-MEXICO; IN-SITU; INTERANNUAL VARIABILITY; SEASONAL VARIABILITY;; MARINE-SEDIMENTS; CARBON BUDGETS; OCEAN MARGINS
+121                                      RHONE RIVER PLUME; DISSOLVED ORGANIC-MATTER; MICROBIAL FOOD-WEB;; CONTINENTAL-SHELF; P-LIMITATION; LIGURIAN SEA; MARINE PROCHLOROCOCCUS;; PARTICULATE MATERIALS; ELEMENTAL COMPOSITION; EMILIANIA-HUXLEYI
+122                                   FATTY-ACID COMPOSITION; AMINO-ACIDS; COASTAL SEDIMENTS; ISOTOPIC; FRACTIONATION; DIAGENETIC ALTERATION; ESTUARINE SEDIMENTS; BIOMARKER; COMPOUNDS; PARTICULATE MATTER; SEASONAL-VARIATION; CONTINENTAL-SHELF
+123                                                                                                 ORGANOCHLORINE COMPOUNDS; POLYCHLORINATED-BIPHENYLS; UNITED-STATES; TERM; CHANGES; LAKE; CONTAMINATION; ACCUMULATION; CORES; URBAN; PERSISTENT
+124                                                                                      GULF-OF-MEXICO; ORGANIC-MATTER; MICROHABITAT SELECTION;; VERTICAL-DISTRIBUTION; CONTINENTAL-SHELF; CARBON BUDGETS; OXYGEN-DEMAND;; LIFE-CYCLE; LIONS; SEA
+125                                                          TERRESTRIAL ORGANIC-MATTER; CARBON BUDGETS; NEUTRAL MONOSACCHARIDES;; BIOGEOCHEMICAL CYCLES; MOLECULAR INDICATORS; SURFACE SEDIMENTS; LANYANG; HSI; AMINO-ACIDS; PARTICLES; NUTRIENTS
+126                                                                                        MARINE BIOTIC INDEX; LONG-TERM CHANGES; SOFT-BOTTOM BENTHOS;; MEDITERRANEAN SEA; COASTAL SEDIMENTS; IMPACT SOURCES; WATER BODIES;; IN-SITU; GULF; LIONS
+127                                                                                                                                   RHONE RIVER; BACKSCATTERING COEFFICIENT; IN-SITU; GULF; SEDIMENT; LIONS;; OCEAN; FRANCE; MATTER; REFLECTANCE
+128                                                            DECEMBER 2003 FLOOD; SEA-LEVEL RISE; BENTHIC FORAMINIFERA; SUSPENDED; SEDIMENT; MARGINAL MARINE; MICROHABITAT SELECTION; LATE PLEISTOCENE;; ADRIATIC SEA; WESTERN GULF; RIVER MOUTH
+129                                                                                                                      INVERTEBRATE TRAITS; SPECIES RICHNESS; ASSEMBLY RULES; BIODIVERSITY;; COMMUNITIES; PATTERNS; ECOLOGY; SYSTEMS; FUTURE; US
+130            NW MEDITERRANEAN SEA; EMILIANIA-HUXLEYI PRYMNESIOPHYCEAE; LATE SUMMER; CONDITIONS; NORTH-ATLANTIC; PHYTOPLANKTON GROWTH; MESOSCALE EDDIES;; RHONE RIVER; PHOTOSYNTHETIC PARAMETERS; INTERANNUAL VARIABILITY;; ELEMENTAL COMPOSITION
+131                                                                                                                             SELF-ORGANIZING MAP; COASTAL WATERS; MEDITERRANEAN SEA; PLUME;; PHYTOPLANKTON; SHELF; GULF; DYNAMICS; RADAR; MODEL
+132                                                                                                                                                                                             UNITED-STATES; SEDIMENTS; CONTAMINANTS; PERSISTENT
+133                                                                                 3RD-GENERATION WAVE MODEL; SUSPENDED SEDIMENT; BACKSCATTER INTENSITY;; COASTAL REGIONS; GRAVITY WAVES; INNER-SHELF; TRANSPORT; RESUSPENSION;; DYNAMICS; EVENTS
+134                                                                                 LOWER TRINITY RIVER; CHANNEL ADJUSTMENTS; SUSPENDED SEDIMENT; BEDLOAD; TRANSPORT; FLUVIAL SYSTEMS; HUMAN IMPACTS; DELTA PLAIN; MOUNTAIN;; DYNAMICS; MANAGEMENT
+135                                                                  NITROGEN ISOTOPIC COMPOSITIONS; RHONE RIVER; SEDIMENT DISCHARGE;; LAND-USE; TEMPORAL VARIABILITY; SURFACE WATERS; CARBON INPUTS; COASTAL; OCEAN; STABLE CARBON; YANGTZE-RIVER
+136                                                                                                                  LOWER RHONE RIVER; HISTORICAL RECORDS; PLUTONIUM ISOTOPES; DECEMBER; 2003; HEAVY-METALS; CS-137; CATCHMENT; FLUXES; SEA; GULF
+137                                                                                                                                                                            RIVER; MORPHOLOGY; DEPOSITS; GLACIER; HISTORY; TSUNAMI; RECORD; SEA
+138                                                                DISSOLVED INORGANIC CARBON; COASTAL MARINE-SEDIMENTS; ORGANIC-MATTER;; SURFACE SEDIMENTS; OXYGEN-DEMAND; PORE-WATER; BIOGEOCHEMICAL PROCESSES;; CALCITE DISSOLUTION; OCEAN; SEA
+139                                                                                                                                                                 RHONE RIVER; COASTAL; EROSION; DELIVERY; YIELD; FRANCE; IMPACT; INPUTS;; WATER
+140                                                                                                    SUSPENDED PARTICULATE MATTER; ADOUR RIVER; SPATIOTEMPORAL VARIABILITY;; IN-SITU; TURBIDITY; CIRCULATION; BAY; SEDIMENT; DISCHARGE; PRODELTA
+141                                                                                                                                       VEGETATION DYNAMICS; FLOODPLAIN; CUTOFFS; RHONE; INCISION;; MORPHODYNAMICS; RESTORATION; PATTERNS; LAKES
+142                                                                                    ENVIRONMENTAL SPECIMEN BANK; GRAIN-SIZE DISTRIBUTION; ORGANIC-CARBON;; TEMPORAL TRENDS; HEAVY-METALS; SEDIMENT; WATER; FRANCE; CENTRIFUGATION;; METHODOLOGY
+143                                                                                                                               RIVER PLUME; SETTLING VELOCITY; GULF; SEDIMENT; LIONS; COASTAL; IMPACT;; TRANSPORT; BACKSCATTERING; FLOCCULATION
+144                                                                                                                               BED-LOAD; GRAIN-SIZE; SEDIMENT; DOWNSTREAM; IMPACT; GEOMORPHOLOGY;; RESTORATION; MANAGEMENT; EVOLUTION; UPSTREAM
+145                                                                                                    SEDIMENT TRANSPORT; VERTICAL FLUXES; ORGANIC-CARBON; TRACE-ELEMENT;; RATING CURVES; DECEMBER 2003; GULF; CONSEQUENCES; IMPACT; HYDROCARBONS
+146                                                                                    HEAVY-METAL POLLUTION; SEDIMENTATION-RATES; RIVER-FLOODPLAIN; RIPARIAN; VEGETATION; DANUBE RIVER; RHONE RIVER; GREEN RIVER; RESTORATION;; ECOSYSTEMS; BASIN
+                                 DOI Year LCS  GCS
+1                 10.1007/BF00360956 1969  13   39
+2                 10.1007/BF00015212 1984  21   63
+3                 10.1007/BF00006534 1986   8   14
+4                    10.2307/3565924 1986  63  184
+5             10.1002/hyp.3360030107 1989  11   29
+6                 10.1007/BF00041445 1990  28   37
+7       10.1016/0278-4343(90)90073-U 1990  50  111
+8                 10.1007/BF00041444 1990  11   17
+9                 10.1007/BF00041462 1990   8   13
+10      10.1016/0278-4343(90)90074-V 1990   8   23
+11      10.1016/0278-4343(90)90068-W 1990  16   56
+12      10.1016/0278-4343(90)90070-3 1990  25  131
+13      10.1016/0278-4343(90)90063-R 1990  11   16
+14      10.1016/0278-4343(90)90061-P 1990  25  175
+15                10.1007/BF00034683 1991  20   59
+16      10.1016/0304-4203(91)90025-R 1991   9  164
+17      10.1016/0025-326X(91)90467-7 1991  13   70
+18                   10.2307/3236032 1991  28   73
+19      10.1016/0025-326X(91)90808-6 1991  12   84
+20                10.1007/BF00015114 1992  16   60
+21                10.1007/BF00699113 1993  11   38
+22      10.1016/0304-4203(93)90242-G 1993   9   81
+23                10.1007/BF00033397 1994  18   44
+24                10.1007/BF02393763 1994  12   19
+25                   10.2307/3236156 1994  19   65
+26                10.1007/BF02471941 1995   8   22
+27                10.1007/BF00016890 1995   9   28
+28                10.1007/BF00015531 1995  13   21
+29      10.1016/0169-555X(95)00066-E 1995  14  182
+30      10.1016/0341-8162(95)00047-X 1996  14   64
+31                   10.2307/1467950 1996  12   63
+32                10.1007/BF00052812 1996  15   74
+33                   10.2307/3236455 1996   9   44
+34                10.1007/BF00018677 1996   9   30
+35                   10.2307/3236373 1996  12  110
+36                10.1007/BF02427859 1996  12  438
+37     10.1016/S0278-4343(96)00064-7 1997  54  100
+38                   10.2307/1468026 1997  33 1293
+39     10.1016/S0399-1784(99)80003-6 1998  13   60
+40                   10.2307/1352836 1998  43   64
+41                   10.2307/1352546 1998   9   38
+42     10.1016/S0399-1784(99)80002-4 1998  41   69
+43     10.1016/S0006-3207(97)00166-3 1998  11   72
+44             10.1007/s000270050025 1998   8   53
+45                 10.1029/97JC03709 1998   9   39
+46           10.1023/A:1003865428112 1999  20   44
+47     10.1016/S0009-2541(99)00035-2 1999  12  154
+48              10.1029/1999JD901008 1999  18   70
+49     10.1016/S0278-4343(98)00070-3 1999   8   68
+50             10.1007/s000270050075 2000  30   71
+51             10.1007/s002679910017 2000   9   61
+52           10.1023/A:1017042921298 2000  12  161
+53     10.1016/S0022-1694(01)00332-8 2001  18   53
+54     10.1016/S0278-4343(01)00047-4 2001  26   77
+55     10.1016/S0341-8162(01)00143-6 2001  18   49
+56  10.1046/j.1365-2419.2001.00151.x 2001  10  141
+57             10.1007/s002670010263 2001   9   62
+58     10.1146/annurev.ento.46.1.291 2001  17  128
+59           10.1078/1439-1791-00039 2001  23  186
+60     10.1016/S0399-1784(01)01148-3 2001  12   53
+61              10.1029/2001JD000490 2002   8   53
+62     10.1016/S0985-3111(01)01080-4 2002  15   43
+63     10.1016/S0925-8574(02)00019-8 2002   8   57
+64                10.1007/BF02692209 2002  14   48
+65         10.1007/s00442-002-1032-3 2002  21   98
+66  10.1046/j.1365-3091.2002.00440.x 2002   9   22
+67                10.1007/BF02695978 2002   8   71
+68         10.1191/0959683602hl520rp 2002  10   58
+69                   10.2307/3071765 2002  13  211
+70     10.1016/S0341-8162(02)00093-0 2003  35  106
+71     10.1016/S0399-1784(03)00058-6 2003  11   17
+72     10.1016/S0141-1136(02)00307-0 2003  17   42
+73     10.1016/S0399-1784(03)00036-7 2003  14   17
+74              10.1029/2001JC000825 2003  33  132
+75     10.1016/S0169-555X(03)00167-3 2004  24   39
+76         10.1007/s00442-003-1457-3 2004  27  159
+77                   10.1002/rra.720 2004  10  188
+78              10.1029/2003JC002019 2004  16   63
+79      10.1016/j.envpol.2004.05.021 2005   8   36
+80         10.1191/0959683605hl801rp 2005  15  112
+81      10.1016/j.margeo.2005.06.028 2005  32  106
+82      10.1016/j.margeo.2005.02.020 2005  49   88
+83      10.1016/j.gexplo.2005.08.083 2006  11   21
+84         10.1016/j.csr.2006.05.012 2006  20   37
+85      10.1016/j.margeo.2006.09.004 2006  24   30
+86      10.1016/j.margeo.2006.09.022 2006  30   73
+87      10.1016/j.margeo.2006.09.025 2006  36   73
+88   10.1016/j.scitotenv.2005.12.010 2006  16   20
+89      10.1016/j.margeo.2006.09.005 2006  11   19
+90      10.1016/j.margeo.2006.09.002 2006  28  203
+91   10.1016/j.scitotenv.2007.01.069 2007  13   24
+92   10.1016/j.scitotenv.2006.11.046 2007  20   76
+93                   10.1899/06-12.1 2007  16   53
+94     10.1016/j.marchem.2007.01.005 2007  33   99
+95    10.1016/j.geomorph.2007.06.007 2008  55   68
+96         10.1016/j.csr.2007.10.010 2008  14   29
+97         10.1016/j.csr.2007.11.012 2008  13   30
+98   10.1016/j.marpolbul.2008.07.015 2008  13   28
+99         10.1016/j.csr.2007.08.009 2008  15   24
+100     10.1016/j.envpol.2007.04.021 2008  11   45
+101        10.1016/j.csr.2008.01.015 2008  37  104
+102        10.1016/j.csr.2008.03.002 2008  16  107
+103        10.1016/j.csr.2008.06.005 2008  16   50
+104        10.1016/j.csr.2008.02.002 2008   9   66
+105        10.1016/j.csr.2008.08.001 2008  14   34
+106   10.1016/j.marmicro.2008.12.006 2009  18  135
+107 10.1111/j.1365-2664.2008.01593.x 2009  24   92
+108 10.1111/j.1365-3091.2008.00979.x 2009   9   54
+109        10.1016/j.csr.2009.03.005 2009   8   27
+110   10.1016/j.geomorph.2009.01.020 2010  26   45
+111        10.1007/s00015-010-0006-4 2010   9   22
+112        10.1016/j.csr.2010.02.015 2010  23   30
+113        10.1007/s10533-010-9411-z 2010  22   41
+114           10.5194/bg-7-1187-2010 2010  38   54
+115           10.5194/bg-7-4083-2010 2010  16  114
+116   10.1016/j.geomorph.2009.01.017 2010   8   20
+117    10.1016/j.chemgeo.2011.02.011 2011  30   83
+118           10.5194/bg-8-1351-2011 2011  21   38
+119        10.1016/j.csr.2011.03.007 2011  22   48
+120     10.1016/j.seares.2010.07.007 2011  13   90
+121           10.5194/bg-8-3231-2011 2011  13   33
+122           10.5194/bg-8-3107-2011 2011  26   56
+123  10.1016/j.scitotenv.2012.06.044 2012  25   55
+124           10.5194/bg-9-1367-2012 2012  12   37
+125           10.5194/bg-9-1827-2012 2012  14   27
+126    10.1016/j.ecolind.2011.04.028 2012   8   20
+127        10.1007/s00367-012-0274-2 2012   8   21
+128     10.1016/j.margeo.2012.02.007 2013  13   24
+129          10.1111/1365-2664.12018 2013   9   50
+130     10.1016/j.pocean.2012.09.005 2013   8   24
+131             10.1002/2014JC010022 2014  15   34
+132  10.1016/j.scitotenv.2014.01.026 2014  30   52
+133        10.1016/j.csr.2013.11.004 2014  20   43
+134   10.1016/j.geomorph.2014.04.033 2014  22   51
+135           10.5194/bg-11-157-2014 2014  10   25
+136  10.1016/j.scitotenv.2014.08.082 2015  16   26
+137     10.1016/j.margeo.2015.10.013 2015   8   18
+138          10.5194/bg-13-5379-2016 2016  10   30
+139    10.1016/j.jhydrol.2016.07.012 2016  22   36
+140        10.1016/j.csr.2017.06.024 2017   8   19
+141   10.1016/j.geomorph.2017.01.036 2017  12   24
+142  10.1016/j.scitotenv.2018.04.343 2018  16   28
+143     10.1016/j.pocean.2017.05.006 2018   9   16
+144  10.1016/j.scitotenv.2018.12.109 2019  14   26
+145  10.1016/j.scitotenv.2018.12.075 2019  26   34
+146   10.1016/j.geomorph.2020.107034 2020   9   15</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="analyse-textuelle-des-abstracts" class="level1">
+<h1>Analyse textuelle des abstracts</h1>
+<section id="mise-en-forme-de-la-base" class="level2">
+<h2 class="anchored" data-anchor-id="mise-en-forme-de-la-base">Mise en forme de la base</h2>
+<div class="cell" data-hash="report_cache/html/tib_textes_e47337d6289a337826ade376127755f4">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>tib_textes<span class="ot">=</span><span class="fu">as_tibble</span>(M) <span class="sc">%&gt;%</span> </span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(TI,AU,SO,DT,DE,TC,PY,AB) <span class="sc">%&gt;%</span> </span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">document=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">n</span>())</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>tib_meta<span class="ot">=</span>tib_textes <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>AB)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="tokenisation-lemmatisation" class="level2">
+<h2 class="anchored" data-anchor-id="tokenisation-lemmatisation">Tokenisation, lemmatisation:</h2>
+<div class="cell" data-hash="report_cache/html/token_lemma_b8356f144c10853f29a1b0b84071315b">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>tib_lemma<span class="ot">=</span>tib_textes <span class="sc">%&gt;%</span> </span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word,AB,<span class="at">token=</span><span class="st">"words"</span>)</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>lex_en<span class="ot">=</span>mixr<span class="sc">::</span><span class="fu">get_lexicon</span>(<span class="st">"en"</span>)</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>tib_lemma_cl<span class="ot">=</span><span class="fu">left_join</span>(tib_lemma, lex_en,<span class="at">by=</span><span class="st">"word"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(type <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"nom"</span>,<span class="st">"ver"</span>,<span class="st">"adj"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="mise-en-forme-pour-stm" class="level2">
+<h2 class="anchored" data-anchor-id="mise-en-forme-pour-stm">mise en forme pour STM</h2>
+<div class="cell" data-hash="report_cache/html/cast_sparse_212ceb40a200204222b7a0e5b13c062e">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>tib_sparse<span class="ot">=</span>tib_lemma_cl <span class="sc">%&gt;%</span> </span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(lemma) <span class="sc">%&gt;%</span> <span class="co"># compte pour chaque lemme...</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">n=</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span> <span class="co"># ...son nombre d'occurrences puis</span></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n<span class="sc">&gt;</span><span class="dv">20</span>) <span class="sc">%&gt;%</span>  <span class="co"># retire ceux représentés moins de 20 fois dans le corpus</span></span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cast_sparse</span>(<span class="at">row=</span>TI, <span class="at">column=</span>lemma, <span class="at">value=</span>n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="stm" class="level2">
+<h2 class="anchored" data-anchor-id="stm">STM</h2>
+<div class="cell" data-hash="report_cache/html/stm_e924051109048041bc84860c33220778">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>stm v1.3.6 successfully loaded. See ?stm for help. 
+ Papers, resources, and other materials at structuraltopicmodel.com</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>topic_model<span class="ot">&lt;-</span><span class="fu">stm</span>(tib_sparse,<span class="at">K=</span><span class="dv">8</span>, <span class="at">verbose=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="explore-thématiques" class="level2">
+<h2 class="anchored" data-anchor-id="explore-thématiques">Explore thématiques</h2>
+<div class="cell" data-hash="report_cache/html/termes_thematiques_a3ffc6259e0b03d9b1f693d7ea0052de">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>termes_thematiques<span class="ot">=</span><span class="fu">tidy</span>(topic_model, <span class="at">matrix=</span><span class="st">"beta"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(topic) <span class="sc">%&gt;%</span> </span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(beta,<span class="at">n=</span><span class="dv">10</span>) <span class="sc">%&gt;%</span>  </span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rank=</span><span class="fu">row_number</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(topic,<span class="fu">desc</span>(beta)) <span class="sc">%&gt;%</span> </span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="report_cache/html/plot_termes_thematiques_0ca90b4faeff7a75b006ace085442c50">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(termes_thematiques  <span class="sc">%&gt;%</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>         <span class="fu">mutate</span>(<span class="at">topic=</span><span class="fu">as.factor</span>(topic)) <span class="sc">%&gt;%</span></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>         <span class="fu">mutate</span>(<span class="at">term=</span><span class="fu">reorder_within</span>(term,<span class="at">by=</span>beta,<span class="at">within=</span>topic)),</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x=</span>beta,<span class="at">y=</span>term, <span class="at">fill=</span>topic))<span class="sc">+</span></span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">"identity"</span>)<span class="sc">+</span></span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="at">facets=</span><span class="fu">vars</span>(topic), <span class="at">scales=</span><span class="st">"free"</span>)<span class="sc">+</span></span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>)<span class="sc">+</span></span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_reordered</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="report_files/figure-html/plot_termes_thematiques-1.png" class="img-fluid" width="768"></p>
+</div>
+</div>
+<div class="cell" data-hash="report_cache/html/tib_gamma_07df67a47971a38011c391979962abda">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>tib_gamma <span class="ot">&lt;-</span> <span class="fu">tidy</span>(topic_model, <span class="at">matrix =</span> <span class="st">"gamma"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(document,<span class="fu">desc</span>(gamma))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="report_cache/html/thematiques_c1864097a973c64952d32728c6f7848e">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>thematiques<span class="ot">=</span>termes_thematiques <span class="sc">%&gt;%</span> </span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(topic) <span class="sc">%&gt;%</span> </span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nest</span>()<span class="sc">%&gt;%</span>  </span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">topic_terms=</span><span class="fu">map</span>(data, <span class="sc">~</span><span class="fu">paste</span>(.<span class="sc">$</span>term,<span class="at">collapse=</span><span class="st">", "</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(<span class="at">cols=</span><span class="fu">c</span>(topic_terms))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="report_cache/html/tib_meta_thematiques_938494e4ca0e3169fbc6a99b183ffa80">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>tib_meta_thematiques<span class="ot">=</span>tib_meta  <span class="sc">%&gt;%</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(tib_gamma) <span class="sc">%&gt;%</span> </span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(thematiques,<span class="at">by=</span><span class="st">"topic"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>         <span class="fu">group_by</span>(PY,topic,topic_terms) <span class="sc">%&gt;%</span> </span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>         <span class="fu">summarise</span>(<span class="at">sgamma=</span><span class="fu">sum</span>(gamma)) <span class="sc">%&gt;%</span> </span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>         <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>         <span class="fu">na.omit</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining, by = "document"
+`summarise()` has grouped output by 'PY', 'topic'. You can override using the `.groups` argument.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tib_meta_thematiques,</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x=</span>PY,<span class="at">y=</span>sgamma,<span class="at">col=</span>topic))<span class="sc">+</span></span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>()<span class="sc">+</span></span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="at">rows=</span><span class="fu">vars</span>(topic_terms))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="report_files/figure-html/tib_meta_thematiques-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

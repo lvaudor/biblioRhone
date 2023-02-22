@@ -1,0 +1,6 @@
+project:
+  title: "biblioRhone"
+  type: website
+  output-dir: docs
+editor: visual
+
