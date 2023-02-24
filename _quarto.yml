@@ -3,4 +3,7 @@ project:
   type: website
   output-dir: docs
 editor: visual
+format:
+  html:
+    theme: minty
 

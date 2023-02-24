@@ -1,255 +1,283 @@
 ---
-title: "report"
-format: html
+title: "BiblioRhone"
+format: 
+  html:
+    toc: true
+    toc_float: true
 editor: visual
 execute:
   cache: true
+  echo: false
+  message: false
 ---
 
+```{r load_packages}
 # Chargement des packages et des données
-
-```{r}
 library(tidyverse)
 library(bibliometrix)
 ```
 
-```{r}
+```{r load_data_bibliometrix,message=FALSE, warning=FALSE}
 file <- "data/savedrecs.bib"
 M <- convert2df(file = file, dbsource = "isi", format = "bibtex")
 results <- biblioAnalysis(M, sep = ";")
 ```
 
-# Premier aperçu de la base
-
-```{r}
-S <- summary(object = results, k = 10, pause = FALSE)
+```{r tib_doc}
+tib_doc=M %>%
+  rownames_to_column(var="id_doc") %>% 
+  as_tibble()
 ```
 
-# Analyse des citations 
-
-pb: il s'agit d'un champ souvent mal enregistré lors de l'export depuis les bases de données biblio...
-
-## Citations d'articles internes ou externes
-
-The function citations generates the frequency table of the most c
-
-```{r}
-CR <- citations(M, field = "article", sep = ";")
+```{r tib_auteur}
+tib_auteur=tib_doc %>% 
+  group_by(id_doc) %>% 
+  nest() %>% 
+  mutate(data=purrr::map(data,
+                         ~mutate(.x,
+                                 AU=str_split(AU,";")))) %>%
+  mutate(data=purrr::map(data,
+                         ~unnest(.x, cols=c("AU")))) %>% 
+  unnest(cols="data") %>% 
+  mutate(AU_rank=1:n()) %>% 
+  ungroup() 
 ```
 
-To obtain the most frequent cited first authors:
-
-```{r}
-CR <- citations(M, field = "author", sep = ";")
-cbind(CR$Cited[1:10])
+```{r tib_motscles}
+tib_motscles= tib_doc %>% 
+  group_by(id_doc) %>% 
+  nest() %>% 
+  mutate(data=purrr::map(data,
+                         ~mutate(.x,DE=str_split(DE,";")))) %>% 
+  mutate(data=purrr::map(data,
+                         ~unnest(.x, cols="DE"))) %>% 
+  unnest(cols="data") %>% 
+  ungroup() 
 ```
 
-## Citations d'articles de la base de données
+# Analyses simples, "à plat"
 
-The function localCitations generates the frequency table of the most local cited authors. Local citations measure how many times an author (or a document) included in this collection have been cited by other authors also in the collection.
+### Auteurs 
 
-To obtain the most frequent local cited authors:
+- ndoc nombre de documents (dans ce corpus):
+- ncit nombre de citations (globales)
+- ndoc_1st nombre de documents en tant que 1er auteur
+- ncit_1st nombre de citations en tant que 1er auteur
+- ncit_loc: nombre de citations locales (i.e. par les document de ce corpus)
 
-```{r}
-CR <- localCitations(M, sep = ";") 
-CR$Authors[1:10,]
-CR$Papers[1:10,]
-```
-# Analyse par auteur(s)
 
-## Authors' Dominance ranking
-
-The function dominance calculates the authors' dominance ranking as proposed by Kumar & Kumar, 2008.
-
-Kumar, S., & Kumar, S. (2008). Collaboration in research productivity in oil seed research institutes of India. In Proceedings of Fourth International Conference on Webometrics, Informetrics and Scientometrics.
-
-Function arguments are: results (object of class bibliometrix) obtained by biblioAnalysis; and k (the number of authors to consider in the analysis).
-
-```{r}
-DF <- dominance(results, k = 10)
-DF
+```{r locallyCitedAuthors}
+LCR=localCitations(M)
+#LCR$Authors$Author liste des auteurs cités dans le champ M$CR
+#Combien de fois chacun de ces auteurs apparaît dans M$CR?
+#Attention ce résultat ne correspond pas à celui renvoyé par localCitations() voir objet LCR
+aut_loc=LCR$Authors %>% 
+  as_tibble() %>% 
+  select(Author) %>% 
+  filter(!(Author %in% c("DE","LE","VAN","[ANONYMOUS] A"))) %>% 
+  mutate(ncit_loc=purrr::map_int(Author, ~length(which(str_detect(M$CR,.x)))))
 ```
 
-The Dominance Factor is a ratio indicating the fraction of multi-authored articles in which a scholar appears as the first author.
 
-## Authors' h-index
 
-The h-index is an author-level metric that attempts to measure both the productivity and citation impact of the publications of a scientist or scholar.
-
-The index is based on the set of the scientist's most cited papers and the number of citations that they have received in other publications.
-
-The function Hindex calculates the authors' H-index or the sources' H-index and its variants (g-index and m-index) in a bibliographic collection.
-
-Function arguments are: M a bibliographic data frame; field is character element that defines the unit of analysis in terms of authors (field = "auhtor") or sources (field = "source"); elements a character vector containing the authors' names (or the sources' names) for which you want to calculate the H-index. The argument has the form c("SURNAME1 N","SURNAME2 N",...).
-
-In other words, for each author: surname and initials are separated by one blank space. i.e for the authors ARIA MASSIMO and CUCCURULLO CORRADO, elements argument is elements = c("ARIA M", "CUCCURULLO C").
-
-To calculate the h-index of the first 10 most productive authors (in this collection):
-
-```{r}
-authors=gsub(","," ",names(results$Authors)[1:10])
-indices <- Hindex(M, field = "author", elements=authors, sep = ";", years = 50)
-indices$H
-
+```{r auteurs}
+auteurs=tib_auteur %>% 
+  group_by(AU) %>% 
+  mutate(ndoc=n(),
+         ncit=sum(TC)) %>%
+  filter(AU_rank==1) %>% 
+  summarise(ndoc=unique(ndoc),
+            ncit=unique(ncit),
+            ndoc_1st=n(),
+            ncit_1st=sum(TC)) %>%
+  ungroup() %>% 
+  left_join(aut_loc,by=c("AU"="Author")) %>% 
+  arrange(desc(ndoc)) 
+reactable::reactable(auteurs)
 ```
 
-## Top-Authors' Productivity over Time
 
-The function AuthorProdOverTime calculates and plots the authors' production (in terms of number of publications, and total citations per year) over the time.
+### Sources 
 
-Function arguments are: M a bibliographic data frame; k is the number of k Top Authors; graph is a logical. If graph=TRUE, the function plots the author production over time graph.
+- ndoc: nombre de documents
+- ncit: nombre de citations (totales)
 
-```{r}
-topAU <- authorProdOverTime(M, k = 10, graph = TRUE)
+```{r sources}
+sources=tib_doc %>% 
+  group_by(SO) %>% 
+  summarise(ndoc=n(),
+            ncit=sum(TC)) %>%
+  arrange(desc(ndoc))
+reactable::reactable(sources)
 ```
 
-# Bibliographic network matrices
+### Documents
 
-Manuscript's attributes are connected to each other through the manuscript itself: author(s) to journal, keywords to publication date, etc.
-
-These connections of different attributes generate bipartite networks that can be represented as rectangular matrices (Manuscripts x Attributes).
-
-Furthermore, scientific publications regularly contain references to other scientific works. This generates a further network, namely, co-citation or coupling network.
-
-These networks are analyzed in order to capture meaningful properties of the underlying research system, and in particular to determine the influence of bibliometric units such as scholars and journals. Bipartite networks
-
-cocMatrix is a general function to compute a bipartite network selecting one of the metadata attributes.
-
-For example, to create a network Manuscript x Publication Source you have to use the field tag "SO":
-
-```{r}
-A <- cocMatrix(M, Field = "SO", sep = ";")
+```{r top_10_articles}
+show_docs=tib_doc %>% 
+  arrange(desc(TC)) %>% 
+  select(AU,PY,TI,SO)
+reactable::reactable(show_docs)
 ```
 
-A is a rectangular binary matrix, representing a bipartite network where rows and columns are manuscripts and sources respectively.
+### Références
 
-The generic element aij is 1 if the manuscript i has been published in source j, 0 otherwise.
+Les articles du corpus font référence à des documents locaux (du corpus) ou externes. 
 
-The j−th column sum aj is the number of manuscripts published in source j.
+*Attention* Une partie (minime: ~0.7%) de ces références est mal renseignée par WOS. Celles qui sont correctement renseignées de manière correcte le sont de telle sorte qu'il est difficile de faire une jointure pour retrouver les références locales.
 
-Sorting, in decreasing order, the column sums of A, you can see the most relevant publication sources:
+```{r bad_citations}
+cit=citations(M)
+cit$Cited %>% as_tibble %>%
+  summarise(nref=sum(n),
+            nref_distinctes=n(),
+            nref_pb=length(which(str_detect(CR,"ANONYMOUS"))))
+```
+Top 20 des articles les plus cités:
 
 ```{r}
-sort(Matrix::colSums(A), decreasing = TRUE)[1:5]
+cit$Cited %>%
+  as_tibble() %>% 
+  filter(!str_detect(CR,"ANONYMOUS")) %>% 
+  head(n=20)
 ```
 
-Following this approach, you can compute several bipartite networks:
 
-Citation network
+### Affiliations
 
-```{r}
-A <- cocMatrix(M, Field = "CR", sep = ";")
+bibliometrix comprend des fonctions permettant d'extraire automatiquement les éléments d'affiliation distincts et les références mais ça fonctionne moyen (de fait il est déjà assez difficile d'en faire sens au niveau de l'export WOS...)
+
+```{r affiliations}
+aff=results$Affiliations %>%
+  as_tibble() %>% 
+  head(n=50)
+reactable::reactable(aff)
 ```
 
-Author network
+Il est ainsi assez difficile de travailler sur les affiliations de manière "non dirigée"... Par exemple pour les publis Hervé et en filtrant pour garder les publis récentes (>2005) on a déjà 34 affiliations formulées de manière différentes (tout est mélangé pour les différents auteurs des articles) et en fonction du champ l'info principale n'est pas toujours la même (ici pas de mention de EVS par ex.).   
 
-```{r}
-A <- cocMatrix(M, Field = "AU", sep = ";")
+<!-- ```{r aff_piegay} -->
+<!-- aff_piegay=tib_auteur %>%  -->
+<!--   filter(AU=="PIEGAY H" & PY>2005) %>%  -->
+<!--   select(affiliations) %>%  -->
+<!--   unique() -->
+<!-- reactable::reactable(aff_piegay) -->
+<!-- ``` -->
+
+Par contre on pourrait imaginer lister un certain nombre de structures (CNRS, EVS, LBBE, LEHNA, etc) et tenter de détecter à partir de cet ensemble quels auteurs/publis s'y rattachent...
+
+### Financement
+
+Des infos sont enregistrées dans la base de données WOS concernant les programmes de recherche et les sources de financement. On peut récupérer ces renseignements pour environ un tiers des documents. Si on veut s'en servir il y aura un peu de nettoyage à faire...
+
+```{r funding}
+bib=bibtex::read.bib("data/savedrecs.bib")
+bibtib=tibble(WOS_ID=names(bib),
+              funding_text=NA,
+              funding_acknowledgement=NA)
+for(i in 1:length(bib)){
+  biblist=unlist(bib[i])
+  var_text=paste0(bibtib$WOS_ID[i],".funding-text")
+  var_ackn=paste0(bibtib$WOS_ID[i],".funding-acknowledgement")
+  if(var_text %in% names(biblist)){
+    bibtib$funding_text[i]=biblist[[var_text]]
+  }else{
+    bibtib$funding_text[i]=NA
+  }
+  if(var_ackn %in% names(biblist)){
+    bibtib$funding_acknowledgement[i]=biblist[[var_ackn]]
+  }else{
+    bibtib$funding_acknowledgement[i]=NA
+  }
+}
 ```
 
-Author keyword network
-
-```{r}
-A <- cocMatrix(M, Field = "DE", sep = ";")
+```{r financeurs}
+financeurs=bibtib %>% 
+  filter(!is.na(funding_acknowledgement)) %>% 
+  group_by(funding_acknowledgement) %>% 
+  summarise(ndoc=n()) %>% 
+  arrange(desc(ndoc))
+reactable::reactable(financeurs)
 ```
 
-Keyword Plus network
 
-```{r}
-A <- cocMatrix(M, Field = "ID", sep = ";")
+
+## Nombre de publis par année (dans le corpus)
+
+```{r ndoc_per_year}
+ggplot(tib_doc,
+       aes(x=PY))+
+  geom_bar()+
+  xlab("année de publication")+ylab("nombre de publications")
 ```
 
-## Bibliographic coupling
+```{r aut_prod_over_time}
+topAU <- authorProdOverTime(M, k = 20, graph = TRUE)
+```
 
-Two articles are said to be bibliographically coupled if at least one cited source appears in the bibliographies or reference lists of both articles (Kessler, 1963).
-
-A coupling network can be obtained using the general formulation:
-
-B=A×AT
-
-where A is a bipartite network.
-
-Element bij indicates how many bibliographic couplings exist between manuscripts i and j. In other words, bij gives the number of paths of length 2, via which one moves from i along the arrow and then to j in the opposite direction.
-
-B is a symmetrical matrix B=BT.
-
-The strength of the coupling of two articles, i and j is defined simply by the number of references that the articles have in common, as given by the element bij of matrix B.
-
-The function biblioNetwork calculates, starting from a bibliographic data frame, the most frequently used coupling networks: Authors, Sources, and Countries.
+# Graphes biblio
 
 `biblioNetwork()` uses two arguments to define the network to compute:
 
 - **analysis** argument can be "co-citation", "coupling", "collaboration", or "co-occurrences".
 - **network** argument can be "authors", "references", "sources", "countries", "universities", "keywords", "author_keywords", "titles" and "abstracts".
 
-The following code calculates a classical article coupling network:
 
-```{r}
-NetMatrix <- biblioNetwork(M,
-                           analysis = "coupling",
-                           network = "references",
-                           sep = ";")
-```
 
-Articles with only a few references, therefore, would tend to be more weakly bibliographically coupled, if coupling strength is measured simply according to the number of references that articles contain in common.
+## Collaborations (auteurs)
 
-This suggests that it might be more practical to switch to a relative measure of bibliographic coupling.
 
-`normalizeSimilarity()` function calculates Association strength, Inclusion, Jaccard or Salton similarity among vertices of a network. `normalizeSimilarity()` can be recalled directly from networkPlot() function using the argument normalize.
-
-```{r, fig.width=10, fig.height=10}
-NetMatrix <- biblioNetwork(M, analysis = "coupling", network = "authors", sep = ";")
-
-net=networkPlot(NetMatrix,
-                normalize = "salton", 
-                weighted=NULL,
-                n = 100,
-                Title = "Authors' Coupling",
-                type = "fruchterman",
-                size=5,
-                size.cex=T,
-                remove.multiple=TRUE,
-                labelsize=0.8,
-                label.n=100,
-                label.cex=F)
-```
-
-## Bibliographic collaboration
-
-Scientific collaboration network is a network where nodes are authors and links are co-authorships as the latter is one of the most well-documented forms of scientific collaboration (Glanzel, 2004).
-
-```{r}
+```{r calc_collaboration_graph}
 NetMatrix <- biblioNetwork(M,
                            analysis = "collaboration",
                            network = "authors",
                            sep = ";")
 
+```
+
+```{r plot_collaboration_graph, fig.width=6,fig.height=6}
 net=networkPlot(NetMatrix,
+                normalize = "salton", 
                 weighted=NULL,
-                degree=5,
-                Title = "collaboration",
+                n = 100,
+                Title = "Collaboration",
                 type = "fruchterman",
                 size=5,
                 size.cex=T,
                 remove.multiple=TRUE,
                 labelsize=0.8,
-                label.n=10,
+                label.n=50,
                 label.cex=F)
+
 ```
 
 
-## Descriptive analysis of network graph characteristics
 
-The function networkStat calculates several summary statistics.
+## Co-Citation 
 
-In particular, starting from a bibliographic matrix (or an igraph object), two groups of descriptive measures are computed:
+```{r co_citation_network, fig.width=8, fig.height=8}
+M=M %>% 
+  mutate(CR=str_replace(CR,"ANONYMOUS.*;","")) %>% 
+  mutate(CR=str_replace(CR,"NO TITLE CAPTURED","")) 
+NetMatrix <- biblioNetwork(M,
+                           analysis = "co-citation",
+                           network = "references",
+                           sep = ";")
 
-- The summary statistics of the network;
-- The main indices of centrality and prestige of vertices.
+net=networkPlot(NetMatrix,
+                n = 150,
+                Title = "Co-Citation Network",
+                type = "fruchterman",
+                size=T,
+                remove.multiple=FALSE,
+                labelsize=0.7,edgesize = 5,
+                label.n=30)
+```
 
-## An example of a classical keyword co-occurrences network
+## Co-occurrences de mots-clés
 
-```{r}
+```{r calc_graph_keywords}
 NetMatrix <- biblioNetwork(M,
                            analysis = "co-occurrences",
                            network = "keywords",
@@ -257,106 +285,37 @@ NetMatrix <- biblioNetwork(M,
 netstat <- networkStat(NetMatrix)
 ```
 
-The summary statistics of the network
-
-This group of statistics allows to describe the structural properties of a network:
-
-- **Size** is the number of vertices composing the network;
-- **Density** is the proportion of present edges from all possible edges in the network;
-- **Transitivity** is the ratio of triangles to connected triples;
-- **Diameter** is the longest geodesic distance (length of the shortest path between two nodes) in the network;
-- **Degree** distribution is the cumulative distribution of vertex degrees;
-- **Degree** centralization is the normalized degree of the overall network;
--** Closeness centralization** is the normalized inverse of the vertex average geodesic distance to others in the network;
-- **Eigenvector centralization** is the first eigenvector of the graph matrix;
-- **Betweenness centralization** is the normalized number of geodesics that pass through the vertex;
-- **Average path length** is the mean of the shortest distance between each pair of vertices in the network.
-
-```{r}
-names(netstat$network)
-```
-
-### The main indices of centrality and prestige of vertices
-
-These measures help to identify the most important vertices in a network and the propensity of two vertices that are connected to be both connected to a third vertex.
-
-The statistics, at vertex level, returned by networkStat are:
-
-- Degree centrality
-- Closeness centrality measures how many steps are required to access every other vertex from a given vertex;
-- Eigenvector centrality is a measure of being well-connected connected to the well-connected;
-- Betweenness centrality measures brokerage or gatekeeping potential. It is (approximately) the number of shortest paths between vertices that pass through a particular vertex;
-- PageRank score approximates probability that any message will arrive to a particular vertex. This algorithm was developed by Google founders, and originally applied to website links;
-- Hub Score estimates the value of the links outgoing from the vertex. It was initially applied to the web pages;
-- Authority Score is another measure of centrality initially applied to the Web. A vertex has high authority when it is linked by many other vertices that are linking many other vertices;
-- Vertex Ranking is an overall vertex ranking obtained as a linear weighted combination of the centrality and prestige vertex measures. The weights are proportional to the loadings of the first component of the Principal Component Analysis.
-
-```{r}
-names(netstat$vertex)
-```
-
-To summarize the main results of the networkStat function, use the generic function summary. It displays the main information about the network and vertex description through several tables.
-
-summary accepts one additional argument. k is a formatting value that indicates the number of rows of each table. Choosing k=10, you decide to see the first 10 vertices.
-
-```{r}
-summary(netstat, k=10)
-```
-
-## Visualizing bibliographic networks
-
-All bibliographic networks can be graphically visualized or modeled.
-
-Here, we show how to visualize networks using function networkPlot and VOSviewer software by Nees Jan van Eck and Ludo Waltman (https://www.vosviewer.com).
-
-Using the function networkPlot, you can plot a network created by biblioNetwork using R routines or using VOSviewer.
-
-The main argument of networkPlot is type. It indicates the network map layout: circle, kamada-kawai, mds, etc. the function automatically:
-
-
-### Co-Citation Network
-
-
-```{r}
-NetMatrix <- biblioNetwork(M,
-                           analysis = "co-citation",
-                           network = "references",
-                           sep = ";")
-```
-
-
-```{r}
+```{r plot_graph_keywords, fig.width=6, fig.height=6}
 net=networkPlot(NetMatrix,
-                n = 30,
-                Title = "Co-Citation Network",
-                type = "fruchterman",
-                size=T,
-                remove.multiple=FALSE,
-                labelsize=0.7,edgesize = 5)
-```
-
-### Keyword co-occurrences network
-
-```{r}
-NetMatrix <- biblioNetwork(M,
-                           analysis = "co-occurrences",
-                           network = "keywords",
-                           sep = ";")
-```
-
-
-```{r}
-net=networkPlot(NetMatrix,
-                normalize="association",
-                weighted=T, n = 30,
+                weighted=T, n = 150,
                 Title = "Keyword Co-occurrences",
                 type = "fruchterman",
+                cluster="leading_eigen",
                 size=T,
                 edgesize = 5,
                 labelsize=0.7)
 ```
 
-Co-Word Analysis: The conceptual structure of a field
+
+## Historical Direct Citation Network
+
+The historiographic map is a graph proposed by E. Garfield (2004) to represent a chronological network map of most relevant direct citations resulting from a bibliographic collection.
+
+Garfield, E. (2004). Historiographic mapping of knowledge domains literature. Journal of Information Science, 30(2), 119-145.
+
+The function generates a chronological direct citation network matrix which can be plotted using histPlot:
+
+## Create a historical citation network
+
+```{r histnetwork,fig.height=10,fig.width=10}
+histResults <- histNetwork(M, min.citations = 1, sep = ";")
+
+net <- histPlot(histResults, n=150, size = 1, labelsize=5, verbose=FALSE)
+net$g+theme(legend.position="none")
+```
+
+
+## Co-Word Analysis: The conceptual structure of a field
 
 The aim of the co-word analysis is to map the conceptual structure of a framework using the word co-occurrences in a bibliographic collection.
 
@@ -368,7 +327,7 @@ conceptualStructure includes natural language processing (NLP) routines (see the
 
 ## Conceptual Structure using keywords (method="CA")
 
-```{r}
+```{r conceptual_structure}
 CS <- conceptualStructure(M,
                           field="ID",
                           method="CA",
@@ -379,31 +338,12 @@ CS <- conceptualStructure(M,
                           documents=10)
 ```
 
-# Historical Direct Citation Network
-
-The historiographic map is a graph proposed by E. Garfield (2004) to represent a chronological network map of most relevant direct citations resulting from a bibliographic collection.
-
-Garfield, E. (2004). Historiographic mapping of knowledge domains literature. Journal of Information Science, 30(2), 119-145.
-
-The function generates a chronological direct citation network matrix which can be plotted using histPlot:
-
-## Create a historical citation network
-
-```{r}
-options(width=130)
-histResults <- histNetwork(M, min.citations = 1, sep = ";")
-```
-
-## Plot a historical co-citation network
-
-```{r, fig.height=15,fig.width=8}
-net <- histPlot(histResults, n=150, size = 1, labelsize=5)
-```
-
 
 # Analyse textuelle des abstracts
 
-## Mise en forme de la base
+## Etapes méthodo
+
+### Mise en forme de la base
 
 ```{r tib_textes}
 library(tidytext)
@@ -413,7 +353,7 @@ tib_textes=as_tibble(M) %>%
 tib_meta=tib_textes %>% select(-AB)
 ```
 
-## Tokenisation, lemmatisation:
+### Tokenisation, lemmatisation:
 
 ```{r token_lemma}
 tib_lemma=tib_textes %>% 
@@ -424,7 +364,7 @@ tib_lemma_cl=left_join(tib_lemma, lex_en,by="word") %>%
   filter(type %in% c("nom","ver","adj"))
 ```
 
-## mise en forme pour STM
+### mise en forme pour STM
 
 ```{r cast_sparse}
 tib_sparse=tib_lemma_cl %>% 
@@ -443,17 +383,16 @@ set.seed(123)
 topic_model<-stm(tib_sparse,K=8, verbose=FALSE)
 ```
 
-## Explore thématiques 
+## Explore thématiques
 
 ```{r termes_thematiques}
 termes_thematiques=tidy(topic_model, matrix="beta") %>% 
   group_by(topic) %>% 
-  slice_max(beta,n=10) %>%  
+  slice_max(beta,n=20) %>%  
   mutate(rank=row_number()) %>% 
   arrange(topic,desc(beta)) %>% 
   ungroup()
 ```
-
 
 ```{r plot_termes_thematiques, fig.width=8, fig.height=8}
 ggplot(termes_thematiques  %>%
@@ -479,7 +418,6 @@ thematiques=termes_thematiques %>%
   unnest(cols=c(topic_terms))
 ```
 
-
 ```{r tib_meta_thematiques}
 tib_meta_thematiques=tib_meta  %>%
   left_join(tib_gamma) %>% 
@@ -489,9 +427,7 @@ tib_meta_thematiques=tib_meta  %>%
          ungroup() %>% 
          na.omit()
 ggplot(tib_meta_thematiques,
-       aes(x=PY,y=sgamma,col=topic))+
+       aes(x=PY,y=sgamma,col=factor(topic)))+
   geom_path()+
   facet_grid(rows=vars(topic_terms))
 ```
-
-
