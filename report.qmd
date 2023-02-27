@@ -7,7 +7,7 @@ format:
 editor: visual
 execute:
   cache: true
-  echo: false
+  echo: true
   message: false
 ---
 
@@ -19,68 +19,92 @@ library(bibliometrix)
 
 ```{r load_data_bibliometrix,message=FALSE, warning=FALSE}
 file <- "data/savedrecs.bib"
-M <- convert2df(file = file, dbsource = "isi", format = "bibtex")
-results <- biblioAnalysis(M, sep = ";")
+if(!file.exists("data/data_trans/M.RDS")){
+  M <- convert2df(file = file,
+                  dbsource = "isi",
+                  format = "bibtex")
+  saveRDS(M,"data/data_trans/M.RDS")
+}
+if(!file.exists("data/data_trans/results.RDS")){
+  results <- biblioAnalysis(M, sep = ";")
+  saveRDS(results,"data/data_trans/results.RDS")
+}
+M=readRDS("data/data_trans/M.RDS")
+results=readRDS("data/data_trans/results.RDS")
 ```
 
 ```{r tib_doc}
-tib_doc=M %>%
-  rownames_to_column(var="id_doc") %>% 
-  as_tibble()
+if(!file.exists("data/data_trans/tib_doc.RDS")){
+  tib_doc=M %>%
+    rownames_to_column(var="id_doc") %>% 
+    as_tibble()
+  saveRDS(tib_doc,"data/data_trans/tib_doc.RDS")
+}
+tib_doc=readRDS("data/data_trans/tib_doc.RDS")
 ```
 
 ```{r tib_auteur}
-tib_auteur=tib_doc %>% 
-  group_by(id_doc) %>% 
-  nest() %>% 
-  mutate(data=purrr::map(data,
-                         ~mutate(.x,
-                                 AU=str_split(AU,";")))) %>%
-  mutate(data=purrr::map(data,
-                         ~unnest(.x, cols=c("AU")))) %>% 
-  unnest(cols="data") %>% 
-  mutate(AU_rank=1:n()) %>% 
-  ungroup() 
+if(!file.exists("data/data_trans/tib_auteur.RDS")){
+  tib_auteur=tib_doc %>% 
+    group_by(id_doc) %>% 
+    nest() %>% 
+    mutate(data=purrr::map(data,
+                           ~mutate(.x,
+                                   AU=str_split(AU,";")))) %>%
+    mutate(data=purrr::map(data,
+                           ~unnest(.x, cols=c("AU")))) %>% 
+    unnest(cols="data") %>% 
+    mutate(AU_rank=1:n()) %>% 
+    ungroup() 
+  saveRDS(tib_auteur,"data/data_trans/tib_auteur.RDS")
+}
+tib_auteur=readRDS("data/data_trans/tib_auteur.RDS")
 ```
 
 ```{r tib_motscles}
-tib_motscles= tib_doc %>% 
-  group_by(id_doc) %>% 
-  nest() %>% 
-  mutate(data=purrr::map(data,
-                         ~mutate(.x,DE=str_split(DE,";")))) %>% 
-  mutate(data=purrr::map(data,
-                         ~unnest(.x, cols="DE"))) %>% 
-  unnest(cols="data") %>% 
-  ungroup() 
+if(!file.exists("data/data_trans/tib_motscles.RDS")){
+  tib_motscles= tib_doc %>% 
+    group_by(id_doc) %>% 
+    nest() %>% 
+    mutate(data=purrr::map(data,
+                           ~mutate(.x,DE=str_split(DE,";")))) %>% 
+    mutate(data=purrr::map(data,
+                           ~unnest(.x, cols="DE"))) %>% 
+    unnest(cols="data") %>% 
+    ungroup() 
+  saveRDS(tib_motscles,"data/data_trans/tib_motscles.RDS")
+}
+tib_motscles=readRDS("data/data_trans/tib_motscles.RDS")
 ```
 
 # Analyses simples, "à plat"
 
-### Auteurs 
+### Auteurs
 
-- ndoc nombre de documents (dans ce corpus):
-- ncit nombre de citations (globales)
-- ndoc_1st nombre de documents en tant que 1er auteur
-- ncit_1st nombre de citations en tant que 1er auteur
-- ncit_loc: nombre de citations locales (i.e. par les document de ce corpus)
-
+- **ndoc** nombre de documents (dans ce corpus):
+- **ncit** nombre de citations (globales)
+- **ndoc_1st** nombre de documents en tant que 1er auteur
+- **ncit_1st** nombre de citations en tant que 1er auteur
+- **ncit_loc**: nombre de citations locales (i.e. par les document de ce corpus)
 
 ```{r locallyCitedAuthors}
-LCR=localCitations(M)
-#LCR$Authors$Author liste des auteurs cités dans le champ M$CR
-#Combien de fois chacun de ces auteurs apparaît dans M$CR?
-#Attention ce résultat ne correspond pas à celui renvoyé par localCitations() voir objet LCR
-aut_loc=LCR$Authors %>% 
-  as_tibble() %>% 
-  select(Author) %>% 
-  filter(!(Author %in% c("DE","LE","VAN","[ANONYMOUS] A"))) %>% 
-  mutate(ncit_loc=purrr::map_int(Author, ~length(which(str_detect(M$CR,.x)))))
+if(!file.exists("data/data_trans/aut_loc.RDS")){
+    LCR=localCitations(M)
+    #LCR$Authors$Author liste des auteurs cités dans le champ M$CR
+    #Combien de fois chacun de ces auteurs apparaît dans M$CR?
+    #Attention ce résultat ne correspond pas à celui renvoyé par localCitations() voir objet LCR
+    aut_loc=LCR$Authors %>% 
+      as_tibble() %>% 
+      select(Author) %>% 
+      filter(!(Author %in% c("DE","LE","VAN","[ANONYMOUS] A"))) %>% 
+      mutate(ncit_loc=purrr::map_int(Author, ~length(which(str_detect(M$CR,.x)))))
+    saveRDS(aut_loc,"data/data_trans/aut_loc.RDS")
+}
 ```
 
-
-
 ```{r auteurs}
+if(!file.exists("data/data_trans/auteurs.csv")){
+aut_loc=readRDS("data/data_trans/aut_loc.RDS")
 auteurs=tib_auteur %>% 
   group_by(AU) %>% 
   mutate(ndoc=n(),
@@ -93,38 +117,48 @@ auteurs=tib_auteur %>%
   ungroup() %>% 
   left_join(aut_loc,by=c("AU"="Author")) %>% 
   arrange(desc(ndoc)) 
+  write_csv2(auteurs, "data/data_trans/auteurs.csv")
+}
+auteurs=read_csv2("data/data_trans/auteurs.csv")
 reactable::reactable(auteurs)
 ```
 
+### Sources
 
-### Sources 
-
-- ndoc: nombre de documents
-- ncit: nombre de citations (totales)
+-   ndoc: nombre de documents
+-   ncit: nombre de citations (totales)
 
 ```{r sources}
-sources=tib_doc %>% 
-  group_by(SO) %>% 
-  summarise(ndoc=n(),
-            ncit=sum(TC)) %>%
-  arrange(desc(ndoc))
+if(!file.exists("data/data_trans/sources.csv")){
+  sources=tib_doc %>% 
+    group_by(SO) %>% 
+    summarise(ndoc=n(),
+              ncit=sum(TC)) %>%
+    arrange(desc(ndoc))
+  write_csv2(sources,"data/data_trans/sources.csv")
+}
+sources=read_csv2("data/data_trans/sources.csv")
+
 reactable::reactable(sources)
 ```
 
 ### Documents
 
-```{r top_10_articles}
+(Top 100 basé sur le nombre de citations, TC)
+
+```{r top_100_articles}
 show_docs=tib_doc %>% 
   arrange(desc(TC)) %>% 
-  select(AU,PY,TI,SO)
+  select(AU,PY,TI,SO) %>% 
+  head(100)
 reactable::reactable(show_docs)
 ```
 
 ### Références
 
-Les articles du corpus font référence à des documents locaux (du corpus) ou externes. 
+Les articles du corpus font référence à des documents locaux (du corpus) ou externes.
 
-*Attention* Une partie (minime: ~0.7%) de ces références est mal renseignée par WOS. Celles qui sont correctement renseignées de manière correcte le sont de telle sorte qu'il est difficile de faire une jointure pour retrouver les références locales.
+*Attention* Une partie (minime: \~0.7%) de ces références est mal renseignée par WOS. Celles qui sont correctement renseignées de manière correcte le sont de telle sorte qu'il est difficile de faire une jointure pour retrouver les références locales.
 
 ```{r bad_citations}
 cit=citations(M)
@@ -133,7 +167,8 @@ cit$Cited %>% as_tibble %>%
             nref_distinctes=n(),
             nref_pb=length(which(str_detect(CR,"ANONYMOUS"))))
 ```
-Top 20 des articles les plus cités:
+
+Top 20 des articles les plus cités **par** le corpus:
 
 ```{r}
 cit$Cited %>%
@@ -141,7 +176,6 @@ cit$Cited %>%
   filter(!str_detect(CR,"ANONYMOUS")) %>% 
   head(n=20)
 ```
-
 
 ### Affiliations
 
@@ -154,14 +188,20 @@ aff=results$Affiliations %>%
 reactable::reactable(aff)
 ```
 
-Il est ainsi assez difficile de travailler sur les affiliations de manière "non dirigée"... Par exemple pour les publis Hervé et en filtrant pour garder les publis récentes (>2005) on a déjà 34 affiliations formulées de manière différentes (tout est mélangé pour les différents auteurs des articles) et en fonction du champ l'info principale n'est pas toujours la même (ici pas de mention de EVS par ex.).   
+Il est ainsi assez difficile de travailler sur les affiliations de manière "non dirigée"... Par exemple pour les publis Hervé et en filtrant pour garder les publis récentes (\>2005) on a déjà 34 affiliations formulées de manière différentes (tout est mélangé pour les différents auteurs des articles) et en fonction du champ l'info principale n'est pas toujours la même (ici pas de mention de EVS par ex.).
 
 <!-- ```{r aff_piegay} -->
+
 <!-- aff_piegay=tib_auteur %>%  -->
+
 <!--   filter(AU=="PIEGAY H" & PY>2005) %>%  -->
+
 <!--   select(affiliations) %>%  -->
+
 <!--   unique() -->
+
 <!-- reactable::reactable(aff_piegay) -->
+
 <!-- ``` -->
 
 Par contre on pourrait imaginer lister un certain nombre de structures (CNRS, EVS, LBBE, LEHNA, etc) et tenter de détecter à partir de cet ensemble quels auteurs/publis s'y rattachent...
@@ -171,25 +211,36 @@ Par contre on pourrait imaginer lister un certain nombre de structures (CNRS, EV
 Des infos sont enregistrées dans la base de données WOS concernant les programmes de recherche et les sources de financement. On peut récupérer ces renseignements pour environ un tiers des documents. Si on veut s'en servir il y aura un peu de nettoyage à faire...
 
 ```{r funding}
-bib=bibtex::read.bib("data/savedrecs.bib")
-bibtib=tibble(WOS_ID=names(bib),
-              funding_text=NA,
-              funding_acknowledgement=NA)
-for(i in 1:length(bib)){
-  biblist=unlist(bib[i])
-  var_text=paste0(bibtib$WOS_ID[i],".funding-text")
-  var_ackn=paste0(bibtib$WOS_ID[i],".funding-acknowledgement")
-  if(var_text %in% names(biblist)){
-    bibtib$funding_text[i]=biblist[[var_text]]
-  }else{
-    bibtib$funding_text[i]=NA
-  }
-  if(var_ackn %in% names(biblist)){
-    bibtib$funding_acknowledgement[i]=biblist[[var_ackn]]
-  }else{
-    bibtib$funding_acknowledgement[i]=NA
-  }
+if(!file.exists("data/data_trans/bibtib.RDS")){
+    bib=bibtex::read.bib("data/savedrecs.bib")
+    bibtib=tibble(WOS_ID=names(bib),
+                  funding_text=NA,
+                  funding_acknowledgement=NA)
+    for(i in 1:length(bib)){
+      biblist=unlist(bib[i])
+      var_text=paste0(bibtib$WOS_ID[i],".funding-text")
+      var_ackn=paste0(bibtib$WOS_ID[i],".funding-acknowledgement")
+      if(var_text %in% names(biblist)){
+        bibtib$funding_text[i]=biblist[[var_text]]
+      }else{
+        bibtib$funding_text[i]=NA
+      }
+      if(var_ackn %in% names(biblist)){
+        bibtib$funding_acknowledgement[i]=biblist[[var_ackn]]
+      }else{
+        bibtib$funding_acknowledgement[i]=NA
+      }
+    }
+    bibtib =bibtib %>% 
+      mutate(funding_text=str_replace_all(funding_text,"\\{\\[\\}","[")) %>% 
+      mutate(funding_acknowledgement=str_replace_all(funding_acknowledgement,"\\{\\[\\}","["))%>% 
+      mutate(funding_text=str_replace_all(funding_text,"``|\\{''\\}|\\n","")) %>% 
+      mutate(funding_acknowledgement=str_replace_all(funding_acknowledgement,"``|\\{''\\}|\\n",""))%>% 
+      mutate(funding_text=str_replace_all(funding_text,"\\s+"," ")) %>% 
+      mutate(funding_acknowledgement=str_replace_all(funding_acknowledgement,"\\s+"," "))
+  saveRDS(bibtib,"data/data_trans/bibtib.RDS")
 }
+bibtib=readRDS("data/data_trans/bibtib.RDS")
 ```
 
 ```{r financeurs}
@@ -200,8 +251,6 @@ financeurs=bibtib %>%
   arrange(desc(ndoc))
 reactable::reactable(financeurs)
 ```
-
-
 
 ## Nombre de publis par année (dans le corpus)
 
@@ -218,15 +267,12 @@ topAU <- authorProdOverTime(M, k = 20, graph = TRUE)
 
 # Graphes biblio
 
-`biblioNetwork()` uses two arguments to define the network to compute:
+`biblioNetwork()` a deux arguments principaux
 
-- **analysis** argument can be "co-citation", "coupling", "collaboration", or "co-occurrences".
-- **network** argument can be "authors", "references", "sources", "countries", "universities", "keywords", "author_keywords", "titles" and "abstracts".
-
-
+- L'argument **analysis** peut prendre les valeurs "co-citation", "coupling", "collaboration", or "co-occurrences". (co-citation=ils sont cités par un même article, coupling=ils citent un même article)
+- L'argument **network** peut prendre les valeurs "authors", "references", "sources", "countries", "universities", "keywords", "author_keywords", "titles" and "abstracts".
 
 ## Collaborations (auteurs)
-
 
 ```{r calc_collaboration_graph}
 NetMatrix <- biblioNetwork(M,
@@ -236,27 +282,24 @@ NetMatrix <- biblioNetwork(M,
 
 ```
 
-```{r plot_collaboration_graph, fig.width=6,fig.height=6}
+```{r plot_collaboration_graph, fig.width=10,fig.height=10}
 net=networkPlot(NetMatrix,
-                normalize = "salton", 
                 weighted=NULL,
-                n = 100,
-                Title = "Collaboration",
+                n = 150,
+                Title = "Collaborations",
                 type = "fruchterman",
                 size=5,
                 size.cex=T,
                 remove.multiple=TRUE,
                 labelsize=0.8,
-                label.n=50,
+                label.n=80,
                 label.cex=F)
 
 ```
 
+## Co-Citation
 
-
-## Co-Citation 
-
-```{r co_citation_network, fig.width=8, fig.height=8}
+```{r co_citation_network, fig.width=10, fig.height=10}
 M=M %>% 
   mutate(CR=str_replace(CR,"ANONYMOUS.*;","")) %>% 
   mutate(CR=str_replace(CR,"NO TITLE CAPTURED","")) 
@@ -275,7 +318,7 @@ net=networkPlot(NetMatrix,
                 label.n=30)
 ```
 
-## Co-occurrences de mots-clés
+## Co-occurrence des mots-clés
 
 ```{r calc_graph_keywords}
 NetMatrix <- biblioNetwork(M,
@@ -285,10 +328,10 @@ NetMatrix <- biblioNetwork(M,
 netstat <- networkStat(NetMatrix)
 ```
 
-```{r plot_graph_keywords, fig.width=6, fig.height=6}
+```{r plot_graph_keywords, fig.width=10, fig.height=10}
 net=networkPlot(NetMatrix,
                 weighted=T, n = 150,
-                Title = "Keyword Co-occurrences",
+                Title = "Co-occurence des mots-clés",
                 type = "fruchterman",
                 cluster="leading_eigen",
                 size=T,
@@ -296,48 +339,38 @@ net=networkPlot(NetMatrix,
                 labelsize=0.7)
 ```
 
+<!-- ## Historical Direct Citation Network -->
 
-## Historical Direct Citation Network
+<!-- The historiographic map is a graph proposed by E. Garfield (2004) to represent a chronological network map of most relevant direct citations resulting from a bibliographic collection. -->
 
-The historiographic map is a graph proposed by E. Garfield (2004) to represent a chronological network map of most relevant direct citations resulting from a bibliographic collection.
+<!-- Garfield, E. (2004). Historiographic mapping of knowledge domains literature. Journal of Information Science, 30(2), 119-145. -->
 
-Garfield, E. (2004). Historiographic mapping of knowledge domains literature. Journal of Information Science, 30(2), 119-145.
+<!-- The function generates a chronological direct citation network matrix which can be plotted using histPlot: -->
 
-The function generates a chronological direct citation network matrix which can be plotted using histPlot:
+<!-- ## Create a historical citation network -->
 
-## Create a historical citation network
+<!-- ```{r histnetwork,fig.height=10,fig.width=10} -->
 
-```{r histnetwork,fig.height=10,fig.width=10}
-histResults <- histNetwork(M, min.citations = 1, sep = ";")
+<!-- histResults <- histNetwork(M, min.citations = 1, sep = ";") -->
 
-net <- histPlot(histResults, n=150, size = 1, labelsize=5, verbose=FALSE)
-net$g+theme(legend.position="none")
-```
+<!-- net <- histPlot(histResults, n=150, size = 1, labelsize=5, verbose=FALSE) -->
 
+<!-- net$g+theme(legend.position="none") -->
 
-## Co-Word Analysis: The conceptual structure of a field
+<!-- ``` -->
 
-The aim of the co-word analysis is to map the conceptual structure of a framework using the word co-occurrences in a bibliographic collection.
+## Structure conceptuelle basée sur les mots-clés
 
-The analysis can be performed through dimensionality reduction techniques such as Multidimensional Scaling (MDS), Correspondence Analysis (CA) or Multiple Correspondence Analysis (MCA).
-
-Here, we show an example using the function conceptualStructure that performs a CA or MCA to draw a conceptual structure of the field and K-means clustering to identify clusters of documents which express common concepts. Results are plotted on a two-dimensional map.
-
-conceptualStructure includes natural language processing (NLP) routines (see the function termExtraction) to extract terms from titles and abstracts. In addition, it implements the Porter's stemming algorithm to reduce inflected (or sometimes derived) words to their word stem, base or root form.
-
-## Conceptual Structure using keywords (method="CA")
-
-```{r conceptual_structure}
+```{r conceptual_structure,fig.width=8, fig.height=8}
 CS <- conceptualStructure(M,
                           field="ID",
                           method="CA",
-                          minDegree=4,
+                          minDegree=20,
                           clust=8,
                           stemming=FALSE,
                           labelsize=10,
                           documents=10)
 ```
-
 
 # Analyse textuelle des abstracts
 
