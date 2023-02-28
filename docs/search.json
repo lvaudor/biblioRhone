@@ -179,14 +179,14 @@
     "href": "report.html#collaborations-auteurs",
     "title": "BiblioRhone",
     "section": "Collaborations (auteurs)",
-    "text": "Collaborations (auteurs)\n\n\nCode\nnw_coll_auth <- biblioNetwork(M,\n                           analysis = \"collaboration\",\n                           network = \"authors\",\n                           sep = \";\")\n\n\n\n\nCode\np=networkPlot(nw_coll_auth,\n            normalize=\"association\",\n            n = 250,\n            Title = \"Collaborations\",\n            type = \"fruchterman\",\n            size=5,\n            size.cex=T,\n            labelsize=0.5,\n            label.n=50,\n            label.cex=F,\n            alpha=0.5,\n            remove.isolates=TRUE,\n            edges.min=1,\n            verbose=FALSE)"
+    "text": "Collaborations (auteurs)\n\n\nCode\nnw_coll_auth <- biblioNetwork(M,\n                           analysis = \"collaboration\",\n                           network = \"authors\",\n                           sep = \";\")\n\n\n\n\nCode\np=networkPlot(nw_coll_auth,\n            normalize=\"association\",\n            n = 250,\n            Title = \"Collaborations\",\n            type = \"fruchterman\",\n            size=5,\n            size.cex=T,\n            labelsize=0.5,\n            label.n=50,\n            label.cex=F,\n            alpha=0.5,\n            remove.isolates=TRUE,\n            edges.min=1)"
   },
   {
     "objectID": "report.html#co-citation",
     "href": "report.html#co-citation",
     "title": "BiblioRhone",
     "section": "Co-Citation",
-    "text": "Co-Citation\n\n\nCode\nM=M %>% \n  mutate(CR=str_replace(CR,\"ANONYMOUS.*;\",\"\")) %>% \n  mutate(CR=str_replace(CR,\"NO TITLE CAPTURED\",\"\")) \nnw_cocit_doc <- biblioNetwork(M,\n                           analysis = \"co-citation\",\n                           network = \"references\",\n                           sep = \";\")\n\np=networkPlot(nw_cocit_doc,\n                n = 150,\n                Title = \"Co-Citation Network\",\n                type = \"auto\",\n                size=T,\n                cluster=\"louvain\",\n                remove.multiple=FALSE,\n                labelsize=0.7,\n                edgesize = 5,\n                label.n=30,\n                verbose=FALSE)"
+    "text": "Co-Citation\n\n\nCode\nM=M %>% \n  mutate(CR=str_replace(CR,\"ANONYMOUS.*;\",\"\")) %>% \n  mutate(CR=str_replace(CR,\"NO TITLE CAPTURED\",\"\")) \nnw_cocit_doc <- biblioNetwork(M,\n                           analysis = \"co-citation\",\n                           network = \"references\",\n                           sep = \";\")\n\np=networkPlot(nw_cocit_doc,\n                n = 150,\n                Title = \"Co-Citation Network\",\n                type = \"auto\",\n                size=T,\n                cluster=\"louvain\",\n                remove.multiple=FALSE,\n                labelsize=0.7,\n                edgesize = 5,\n                label.n=30)"
   },
   {
     "objectID": "report.html#co-occurrences-de-mots-clés",
@@ -207,7 +207,7 @@
     "href": "report.html#co-occurrence-des-mots-clés",
     "title": "BiblioRhone",
     "section": "Co-occurrence des mots-clés",
-    "text": "Co-occurrence des mots-clés\n\n\nCode\nnw_cooc_kw <- biblioNetwork(M,\n                           analysis = \"co-occurrences\",\n                           network = \"keywords\",\n                           sep = \";\")\nnetstat <- networkStat(nw_cooc_kw)\n\n\n\n\nCode\np=networkPlot(nw_cooc_kw,\n                weighted=T, n = 150,\n                Title = \"Co-occurence des mots-clés\",\n                type = \"fruchterman\",\n                cluster=\"louvain\",\n                size=T,\n                edgesize = 5,\n                labelsize=0.7,\n              verbose=FALSE)"
+    "text": "Co-occurrence des mots-clés\n\n\nCode\nnw_cooc_kw <- biblioNetwork(M,\n                           analysis = \"co-occurrences\",\n                           network = \"keywords\",\n                           sep = \";\")\nnetstat <- networkStat(nw_cooc_kw)\n\n\n\n\nCode\np=networkPlot(nw_cooc_kw,\n                weighted=T, n = 150,\n                Title = \"Co-occurence des mots-clés\",\n                type = \"fruchterman\",\n                cluster=\"louvain\",\n                size=T,\n                edgesize = 5,\n                labelsize=0.7)"
   },
   {
     "objectID": "report.html#structure-conceptuelle-basée-sur-les-mots-clés",

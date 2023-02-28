@@ -151,7 +151,7 @@ reactable::reactable(sources,
 ```{r top_100_articles}
 show_docs=tib_doc %>% 
   arrange(desc(TC)) %>% 
-  select(AU,PY,TI,SO) %>% 
+  select(AU,TC,PY,TI,SO) %>% 
   head(100)
 reactable::reactable(show_docs,
                      filterable=TRUE)
@@ -309,8 +309,7 @@ p=networkPlot(nw_coll_auth,
             label.cex=F,
             alpha=0.5,
             remove.isolates=TRUE,
-            edges.min=1,
-            verbose=FALSE)
+            edges.min=1)
 
 ```
 
@@ -334,8 +333,7 @@ p=networkPlot(nw_cocit_doc,
                 remove.multiple=FALSE,
                 labelsize=0.7,
                 edgesize = 5,
-                label.n=30,
-                verbose=FALSE)
+                label.n=30)
 ```
 
 ## Co-occurrence des mots-clés
@@ -356,8 +354,7 @@ p=networkPlot(nw_cooc_kw,
                 cluster="louvain",
                 size=T,
                 edgesize = 5,
-                labelsize=0.7,
-              verbose=FALSE)
+                labelsize=0.7)
 ```
 
 
