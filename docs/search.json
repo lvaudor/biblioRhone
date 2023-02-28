@@ -4,7 +4,7 @@
     "href": "report.html",
     "title": "BiblioRhone",
     "section": "",
-    "text": "# Chargement des packages et des données\nlibrary(tidyverse)\nlibrary(bibliometrix)"
+    "text": "Code\n# Chargement des packages et des données\nlibrary(tidyverse)\nlibrary(bibliometrix)"
   },
   {
     "objectID": "report.html#citations-darticles-internes-ou-externes",
@@ -123,14 +123,14 @@
     "href": "report.html#stm",
     "title": "BiblioRhone",
     "section": "STM",
-    "text": "STM\n\nlibrary(stm)\nset.seed(123)\ntopic_model<-stm(tib_sparse,K=8, verbose=FALSE)"
+    "text": "STM\n\n\nCode\nlibrary(stm)\nif(!file.exists(\"data/data_trans/topic_model.RDS\")){\n  set.seed(123)\n  topic_model<-stm(tib_sparse,K=8, verbose=FALSE)\n  saveRDS(topic_model,\"data/data_trans/topic_model.RDS\")\n}\ntopic_model=readRDS(\"data/data_trans/topic_model.RDS\")"
   },
   {
     "objectID": "report.html#explore-thématiques",
     "href": "report.html#explore-thématiques",
     "title": "BiblioRhone",
     "section": "Explore thématiques",
-    "text": "Explore thématiques\n\ntermes_thematiques=tidy(topic_model, matrix=\"beta\") %>% \n  group_by(topic) %>% \n  slice_max(beta,n=20) %>%  \n  mutate(rank=row_number()) %>% \n  arrange(topic,desc(beta)) %>% \n  ungroup()\n\n\nggplot(termes_thematiques  %>%\n         mutate(topic=as.factor(topic)) %>%\n         mutate(term=reorder_within(term,by=beta,within=topic)),\n       aes(x=beta,y=term, fill=topic))+\n  geom_bar(stat=\"identity\")+\n    facet_wrap(facets=vars(topic), scales=\"free\")+\n    theme(legend.position=\"none\")+\n  scale_y_reordered()\n\n\n\n\n\ntib_gamma <- tidy(topic_model, matrix = \"gamma\") %>% \n  arrange(document,desc(gamma))\n\n\nthematiques=termes_thematiques %>% \n  group_by(topic) %>% \n  nest()%>%  \n  summarise(topic_terms=map(data, ~paste(.$term,collapse=\", \"))) %>% \n  unnest(cols=c(topic_terms))\n\n\ntib_meta_thematiques=tib_meta  %>%\n  left_join(tib_gamma) %>% \n  left_join(thematiques,by=\"topic\") %>% \n         group_by(PY,topic,topic_terms) %>% \n         summarise(sgamma=sum(gamma)) %>% \n         ungroup() %>% \n         na.omit()\n\nJoining, by = \"document\"\n`summarise()` has grouped output by 'PY', 'topic'. You can override using the\n`.groups` argument.\n\nggplot(tib_meta_thematiques,\n       aes(x=PY,y=sgamma,col=factor(topic)))+\n  geom_path()+\n  facet_grid(rows=vars(topic_terms))"
+    "text": "Explore thématiques\n\n\nCode\nthematiques=tidytext::tidy(topic_model, matrix=\"beta\") %>% \n  group_by(topic) %>% \n  slice_max(beta,n=20) %>%  \n  mutate(rank=row_number()) %>% \n  arrange(topic,desc(beta)) %>% \n  ungroup()\n\n\n\n\nCode\nggplot(thematiques  %>%\n         mutate(topic=as.factor(topic)) %>%\n         mutate(term=tidytext::reorder_within(term,by=beta,within=topic)),\n       aes(x=beta,y=term, fill=topic))+\n  geom_bar(stat=\"identity\")+\n    facet_wrap(facets=vars(topic), scales=\"free\")+\n    theme(legend.position=\"none\")+\n  tidytext::scale_y_reordered()\n\n\n\n\n\n\n\nCode\nthematiques=thematiques %>% \n  group_by(topic) %>% \n  nest()%>%  \n  summarise(topic_terms=map(data, ~paste(.$term,collapse=\", \"))) %>% \n  unnest(cols=c(topic_terms)) %>% \n  mutate(topic_short=case_when(topic==1~\"hydrologie\",\n                               topic==2~\"transport sédimentaire\",\n                               topic==3~\"modélisation\",\n                               topic==4~\"écologie\",\n                               topic==5~\"biochimie\",\n                               topic==6~\"quantification\",\n                               topic==7~\"changements,risques\",\n                               topic==8~\"étude régionale\"))\n\n\n\n\nCode\ntib_gamma <- tidy(topic_model, matrix = \"gamma\") %>% \n  arrange(document,desc(gamma))\n\ntib_doc_th=tib_doc_light  %>%\n  mutate(document=1:n()) %>% \n  left_join(tib_gamma,by=\"document\") %>% \n  left_join(thematiques,by=\"topic\") \n\n\nggplot(tib_doc_th%>% \n         group_by(PY,topic,topic_short) %>% \n         summarise(sgamma=sum(gamma),\n                   n=n()) %>% \n         ungroup() %>% \n         mutate(sgamma=sgamma/n) %>% \n         na.omit(),\n       aes(x=PY,y=sgamma,col=topic_short))+\n  geom_smooth()\n\n\n\n\n\n\n\nCode\ntib_auteur_th=tib_auteur %>% \n  left_join(tib_doc_th %>% select(id_doc,topic,gamma,topic_terms,topic_short),\n            by=\"id_doc\") %>% \n  group_by(AU) %>% \n  mutate(ndoc=n()) %>%\n  ungroup() %>% \n  group_by(AU,topic,topic_short) %>% \n  summarise(s=sum(gamma),\n            ndoc=unique(ndoc)) %>% \n  mutate(s=s/ndoc) %>% \n  arrange(desc(ndoc)) %>% \n  ungroup() %>% \n  na.omit()\ntop_auteurs=tib_auteur_th %>% group_by(AU) %>% summarise(n=unique(ndoc)) %>% top_n(10) %>% pull(AU)\nggplot(tib_auteur_th %>% filter(AU %in% top_auteurs),\n       aes(x=topic_short,y=s,fill=factor(topic_short)))+\n  geom_col()+\n  facet_wrap(facets=vars(AU))+\n  coord_flip()"
   },
   {
     "objectID": "biblioRhone.html",
@@ -165,7 +165,7 @@
     "href": "report.html#nombre-de-publis-par-année-dans-le-corpus",
     "title": "BiblioRhone",
     "section": "Nombre de publis par année (dans le corpus)",
-    "text": "Nombre de publis par année (dans le corpus)\n\nggplot(tib_doc,\n       aes(x=PY))+\n  geom_bar()+\n  xlab(\"année de publication\")+ylab(\"nombre de publications\")\n\nWarning: Removed 6 rows containing non-finite values (`stat_count()`).\n\n\n\n\n\n\ntopAU <- authorProdOverTime(M, k = 20, graph = TRUE)"
+    "text": "Nombre de publis par année (dans le corpus)\n\n\nCode\nggplot(tib_doc,\n       aes(x=PY))+\n  geom_bar()+\n  xlab(\"année de publication\")+ylab(\"nombre de publications\")\n\n\n\n\n\n\n\nCode\ntopAU <- authorProdOverTime(M, k = 20, graph = TRUE)"
   },
   {
     "objectID": "report.html#analyses-simples-à-plat",
@@ -179,14 +179,14 @@
     "href": "report.html#collaborations-auteurs",
     "title": "BiblioRhone",
     "section": "Collaborations (auteurs)",
-    "text": "Collaborations (auteurs)\n\nNetMatrix <- biblioNetwork(M,\n                           analysis = \"collaboration\",\n                           network = \"authors\",\n                           sep = \";\")\n\n\nnet=networkPlot(NetMatrix,\n                weighted=NULL,\n                n = 150,\n                Title = \"Collaborations\",\n                type = \"fruchterman\",\n                size=5,\n                size.cex=T,\n                remove.multiple=TRUE,\n                labelsize=0.8,\n                label.n=80,\n                label.cex=F)"
+    "text": "Collaborations (auteurs)\n\n\nCode\nnw_coll_auth <- biblioNetwork(M,\n                           analysis = \"collaboration\",\n                           network = \"authors\",\n                           sep = \";\")\n\n\n\n\nCode\np=networkPlot(nw_coll_auth,\n            normalize=\"association\",\n            n = 250,\n            Title = \"Collaborations\",\n            type = \"fruchterman\",\n            size=5,\n            size.cex=T,\n            labelsize=0.5,\n            label.n=50,\n            label.cex=F,\n            alpha=0.5,\n            remove.isolates=TRUE,\n            edges.min=1,\n            verbose=FALSE)"
   },
   {
     "objectID": "report.html#co-citation",
     "href": "report.html#co-citation",
     "title": "BiblioRhone",
     "section": "Co-Citation",
-    "text": "Co-Citation\n\nM=M %>% \n  mutate(CR=str_replace(CR,\"ANONYMOUS.*;\",\"\")) %>% \n  mutate(CR=str_replace(CR,\"NO TITLE CAPTURED\",\"\")) \nNetMatrix <- biblioNetwork(M,\n                           analysis = \"co-citation\",\n                           network = \"references\",\n                           sep = \";\")\n\nnet=networkPlot(NetMatrix,\n                n = 150,\n                Title = \"Co-Citation Network\",\n                type = \"fruchterman\",\n                size=T,\n                remove.multiple=FALSE,\n                labelsize=0.7,edgesize = 5,\n                label.n=30)"
+    "text": "Co-Citation\n\n\nCode\nM=M %>% \n  mutate(CR=str_replace(CR,\"ANONYMOUS.*;\",\"\")) %>% \n  mutate(CR=str_replace(CR,\"NO TITLE CAPTURED\",\"\")) \nnw_cocit_doc <- biblioNetwork(M,\n                           analysis = \"co-citation\",\n                           network = \"references\",\n                           sep = \";\")\n\np=networkPlot(nw_cocit_doc,\n                n = 150,\n                Title = \"Co-Citation Network\",\n                type = \"auto\",\n                size=T,\n                cluster=\"louvain\",\n                remove.multiple=FALSE,\n                labelsize=0.7,\n                edgesize = 5,\n                label.n=30,\n                verbose=FALSE)"
   },
   {
     "objectID": "report.html#co-occurrences-de-mots-clés",
@@ -207,13 +207,13 @@
     "href": "report.html#co-occurrence-des-mots-clés",
     "title": "BiblioRhone",
     "section": "Co-occurrence des mots-clés",
-    "text": "Co-occurrence des mots-clés\n\nNetMatrix <- biblioNetwork(M,\n                           analysis = \"co-occurrences\",\n                           network = \"keywords\",\n                           sep = \";\")\nnetstat <- networkStat(NetMatrix)\n\n\nnet=networkPlot(NetMatrix,\n                weighted=T, n = 150,\n                Title = \"Co-occurence des mots-clés\",\n                type = \"fruchterman\",\n                cluster=\"leading_eigen\",\n                size=T,\n                edgesize = 5,\n                labelsize=0.7)"
+    "text": "Co-occurrence des mots-clés\n\n\nCode\nnw_cooc_kw <- biblioNetwork(M,\n                           analysis = \"co-occurrences\",\n                           network = \"keywords\",\n                           sep = \";\")\nnetstat <- networkStat(nw_cooc_kw)\n\n\n\n\nCode\np=networkPlot(nw_cooc_kw,\n                weighted=T, n = 150,\n                Title = \"Co-occurence des mots-clés\",\n                type = \"fruchterman\",\n                cluster=\"louvain\",\n                size=T,\n                edgesize = 5,\n                labelsize=0.7,\n              verbose=FALSE)"
   },
   {
     "objectID": "report.html#structure-conceptuelle-basée-sur-les-mots-clés",
     "href": "report.html#structure-conceptuelle-basée-sur-les-mots-clés",
     "title": "BiblioRhone",
     "section": "Structure conceptuelle basée sur les mots-clés",
-    "text": "Structure conceptuelle basée sur les mots-clés\n\nCS <- conceptualStructure(M,\n                          field=\"ID\",\n                          method=\"CA\",\n                          minDegree=20,\n                          clust=8,\n                          stemming=FALSE,\n                          labelsize=10,\n                          documents=10)\n\nWarning: ggrepel: 8 unlabeled data points (too many overlaps). Consider\nincreasing max.overlaps\n\n\nWarning: The `<scale>` argument of `guides()` cannot be `FALSE`. Use \"none\" instead as\nof ggplot2 3.3.4.\nℹ The deprecated feature was likely used in the factoextra package.\n  Please report the issue at <\u001b]8;;https://github.com/kassambara/factoextra/issues\u0007https://github.com/kassambara/factoextra/issues\u001b]8;;\u0007>.\n\n\n\n\n\n\n\n\nWarning: ggrepel: 30 unlabeled data points (too many overlaps). Consider\nincreasing max.overlaps\n\n\n\n\n\nWarning: ggrepel: 24 unlabeled data points (too many overlaps). Consider\nincreasing max.overlaps"
+    "text": "Structure conceptuelle basée sur les mots-clés\n\n\nCode\nCS <- conceptualStructure(M,\n                          field=\"ID\",\n                          method=\"MCA\",\n                          minDegree=10,\n                          clust=8,\n                          stemming=FALSE,\n                          labelsize=10,\n                          documents=3,\n                          graph=FALSE)\nCS$graph_terms\n\n\n\n\n\nCode\nCS$graph_dendrogram\n\n\nNULL"
   }
 ]
