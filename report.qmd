@@ -153,16 +153,16 @@ reactable::reactable(sources,
 
 ### Documents
 
-(Top 100 basé sur le nombre de citations, TC)
+<!-- (Top 100 basé sur le nombre de citations, TC) -->
 
-```{r top_100_articles}
-show_docs=tib_doc %>% 
-  arrange(desc(TC)) %>% 
-  select(AU,TC,PY,TI,SO) %>% 
-  head(100)
-reactable::reactable(show_docs,
-                     filterable=TRUE)
-```
+<!-- ```{r top_100_articles} -->
+<!-- show_docs=tib_doc %>%  -->
+<!--   arrange(desc(TC)) %>%  -->
+<!--   select(AU,TC,PY,TI,SO) %>%  -->
+<!--   head(100) -->
+<!-- reactable::reactable(show_docs, -->
+<!--                      filterable=TRUE) -->
+<!-- ``` -->
 
 ### Références
 
@@ -444,9 +444,22 @@ docs_comm %>%
   group_by(community) %>% 
   summarise(n=n())
 ```
-```{r}
+
+```{r show_tib_doc_comm}
 tib_doc=tib_doc %>% 
   left_join(docs_comm,by="id_doc")
+show_tib_doc = tib_doc %>%
+  arrange(desc(TC)) %>% 
+  select(community,id_doc,AU,TC,PY,TI,SO) 
+reactable::reactable(show_tib_doc,
+                     filterable=TRUE)
+  
+```
+
+
+
+
+```{r}
 tib_doc_PY=tib_doc %>%
   group_by(PY) %>% 
   mutate(ntot=n()) %>% 
@@ -476,6 +489,29 @@ plot_specificities(spec_com,kw,community)
 ```
 
 
+## Co-occurrence des mots-clés
+
+```{r calc_graph_keywords}
+nw_cooc_kw <- biblioNetwork(M,
+                           analysis = "co-occurrences",
+                           network = "keywords",
+                           sep = ";")
+netstat <- networkStat(nw_cooc_kw)
+```
+
+```{r plot_graph_keywords, fig.width=8, fig.height=8}
+p=networkPlot(nw_cooc_kw,
+                weighted=T, n = 150,
+                Title = "Co-occurence des mots-clés",
+                type = "fruchterman",
+                cluster="louvain",
+                size=T,
+                edgesize = 5,
+                labelsize=0.7)
+```
+
+
+
 
 ## Co-Citation
 
@@ -499,29 +535,6 @@ p=networkPlot(nw_cocit_doc,
                 edgesize = 5,
                 label.n=30)
 ```
-
-## Co-occurrence des mots-clés
-
-```{r calc_graph_keywords}
-nw_cooc_kw <- biblioNetwork(M,
-                           analysis = "co-occurrences",
-                           network = "keywords",
-                           sep = ";")
-netstat <- networkStat(nw_cooc_kw)
-```
-
-```{r plot_graph_keywords, fig.width=8, fig.height=8}
-p=networkPlot(nw_cooc_kw,
-                weighted=T, n = 150,
-                Title = "Co-occurence des mots-clés",
-                type = "fruchterman",
-                cluster="louvain",
-                size=T,
-                edgesize = 5,
-                labelsize=0.7)
-```
-
-
 
 <!-- ## Historical Direct Citation Network -->
 
