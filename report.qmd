@@ -5,6 +5,9 @@ format:
     code-fold: true
     toc: true
     toc_float: true
+    out-width: "100%"
+    fig-width: 6
+    fig-height: 5
 editor: visual
 execute:
   message: false
@@ -15,6 +18,11 @@ execute:
 # Chargement des packages et des données
 library(tidyverse)
 library(bibliometrix)
+library(ggraph)
+library(tidygraph)
+library(tidytext)
+library(mixr)
+set.seed(123)
 ```
 
 ```{r load_data_bibliometrix,message=FALSE, warning=FALSE}
@@ -108,12 +116,11 @@ aut_loc=readRDS("data/data_trans/aut_loc.RDS")
 auteurs=tib_auteur %>% 
   group_by(AU) %>% 
   mutate(ndoc=n(),
-         ncit=sum(TC)) %>%
-  filter(AU_rank==1) %>% 
+         ncit=sum(TC))  %>% 
   summarise(ndoc=unique(ndoc),
             ncit=unique(ncit),
-            ndoc_1st=n(),
-            ncit_1st=sum(TC)) %>%
+            ndoc_1st=sum(AU_rank==1),
+            ncit_1st=sum(TC[which(AU_rank==1)])) %>%
   ungroup() %>% 
   left_join(aut_loc,by=c("AU"="Author")) %>% 
   arrange(desc(ndoc)) 
@@ -126,8 +133,8 @@ reactable::reactable(auteurs,
 
 ### Sources
 
--   ndoc: nombre de documents
--   ncit: nombre de citations (totales)
+-   **ndoc**: nombre de documents (pour l'ensemble du corpus)
+-   **ncit**: nombre de citations (sommées pour l'ensemble du corpus)
 
 ```{r sources}
 if(!file.exists("data/data_trans/sources.csv")){
@@ -279,6 +286,27 @@ ggplot(tib_doc,
 topAU <- authorProdOverTime(M, k = 20, graph = TRUE)
 ```
 
+## Focus sur les SHS
+
+Quels sont les documents qui font mention des termes SOCIAL/SOCIETY/SOCIO-quelque-chose dans leur abstract?
+
+```{r focus_SHS}
+tib_doc_SHS=tib_doc %>% 
+  mutate(mention_SHS=str_detect(AB,"SOCIAL|SOCIETY|SOCIO"))
+
+id_SHS=tib_doc_SHS %>% 
+  filter(mention_SHS) %>% 
+  pull(id_doc)
+
+prop_SHS=tib_doc_SHS %>% 
+  group_by(mention_SHS) %>% 
+  summarise(n=n())
+prop_SHS
+
+```
+
+=> **Peu de documents étiquetés "SHS" a priori** (`r round(prop_SHS$n[2]/(prop_SHS$n[1]+prop_SHS$n[2])*100,2)`% des documents pour lesquels on dispose de l'abstract) mais ce premier ensemble va nous permettre de rechercher les **termes spécifiques aux SHS** et d'identifier un "courant SHS" plus important et transverse (cf partie @sec-spec_SHS)
+
 # Graphes biblio
 
 `biblioNetwork()` a deux arguments principaux
@@ -288,30 +316,166 @@ topAU <- authorProdOverTime(M, k = 20, graph = TRUE)
 
 ## Collaborations (auteurs)
 
+On définit des **communautés d'auteurs** en se basant sur les collaborations (co-signature de documents). 
+
+
 ```{r calc_collaboration_graph}
 nw_coll_auth <- biblioNetwork(M,
                            analysis = "collaboration",
                            network = "authors",
                            sep = ";")
-
+auteurs_5docmin=auteurs %>%
+  filter(ndoc>=5) %>%
+  pull(AU)
+ind=which(colnames(nw_coll_auth) %in% auteurs_5docmin)
+nw_coll_auth=nw_coll_auth[ind,ind]
 ```
 
-```{r plot_collaboration_graph, fig.width=8,fig.height=8}
+```{r plot_collaboration_graph, fig.width=7,fig.height=6}
+set.seed(1234)
 p=networkPlot(nw_coll_auth,
-            normalize="association",
-            n = 250,
             Title = "Collaborations",
             type = "fruchterman",
+            cluster="louvain",
             size=5,
             size.cex=T,
             labelsize=0.5,
-            label.n=50,
+            label.n=30,
             label.cex=F,
             alpha=0.5,
             remove.isolates=TRUE,
-            edges.min=1)
-
+            edges.min=1,
+            verbose=FALSE)
+auteurs=auteurs %>% mutate(au=tolower(AU))
+tidyg=as_tbl_graph(p$graph) %>% 
+  activate(nodes) %>% 
+  left_join(auteurs,
+            by=c("name"="au")) %>% 
+  mutate(keep=ndoc>15) %>% 
+  mutate(showname=case_when(keep~name,
+                            !keep~NA_character_)) %>% 
+  mutate(community=paste0("cl",str_pad(community,2,pad="0")))
+ggraph(tidyg,layout="fr")+
+  geom_edge_link(color="light grey")+
+  geom_node_point(aes(color=community,size=ndoc))+
+  geom_node_text(aes(label=showname))
+# 
+# p=ggraph(tidyg,layout="auto")+
+#   geom_edge_link(color="light grey")+
+#   geom_node_point(aes(color=factor(community),size=deg,label=name))
+# plotly::ggplotly(p)
 ```
+
+```{r auteurs_graph}
+auteurs_graph=tidyg %>% activate(nodes) %>% as_tibble() %>%
+  select(au=name,AU,deg,community,ndoc,ncit,ndoc_1st,ncit_1st,ncit_loc) %>% 
+  left_join(p$cluster_res,by=c("au"="vertex"))
+ndoc_auteurs_graph=tib_auteur %>%
+  filter(AU %in% auteurs_graph$AU) %>% 
+  select(id_doc) %>% 
+  unique() %>% 
+  nrow()
+```
+
+Ce graphe représente les collaborations des `r nrow(auteurs_graph)` auteurs qui en comptent le plus dans le corpus (et qui sont chacun k-ième auteur de 5 documents minimum, ce filtre servant à écarter les auteurs de documents  comptant de très nombreux auteurs -ce qui augmente artificiellement le degré du noeud-auteur dans le graphe).
+
+Ces `r nrow(auteurs_graph)` auteurs représentent `r round(nrow(auteurs_graph)/nrow(auteurs)*100,2)`% des auteurs du corpus, mais `r round(ndoc_auteurs_graph/nrow(tib_doc),2)*100`% des documents du corpus ont au moins un de ces auteurs comme n-ième auteur.
+
+
+```{r show_auteurs_graph}
+reactable::reactable(auteurs_graph,groupBy="community",sortable=TRUE,filterable=TRUE)
+```
+
+
+## Rattachement des articles à une communauté
+
+Quand cela est possible et en se basant sur la communauté dont fait partie ses auteurs, chaque document du corpus est lui-même rattaché à une communauté.
+
+On utilise pour cela la communauté dont les auteurs du document font majoritairement partie, en appliquant une pondération selon le rang de l'auteur.
+
+On attribue au $k$-ième auteur d'un document qui en compte $n$ en tout un poids $w$ de 
+
+$$w=(n-k+1)\frac{2}{n(n+1)}$$
+soit par exemple pour un document qui compte 4 auteurs des poids de 0.4,0.3,0.2 et 0.1 pour le premier, deuxième, troisième et quatrième auteur respectivement.
+
+Dans le cas où la majorité des auteurs ne fait pas partie d'une communauté définie, on assigne le document à la communauté majoritaire (par exemple si 30% des auteurs font partie de la communauté Cl01 et 70% ne font pas partie d'une communauté définie on assigne le document à la communauté Cl01).
+
+```{r docs_comm}
+get_comm=function(dat){
+  res=dat %>% 
+    na.omit()
+  if(nrow(res)>=1){
+    res=res %>% 
+    filter(!is.na(community)) %>% 
+    filter(weight==max(weight)) %>% 
+    pull(community) %>% 
+    .[1]
+  }else{res=NA}
+  return(res)
+}
+get_comm_mix=function(dat){
+  res=dat %>% 
+    na.omit()
+  if(nrow(res)>=1){
+  res=res %>% 
+    na.omit() %>%
+    pull(community) %>% 
+    str_c(collapse="-")
+  }else{res=NA}
+  return(res)
+}
+docs_comm=tib_auteur %>% 
+  select(id_doc,AU,AU_rank) %>%
+  group_by(id_doc) %>% 
+  mutate(n=n()) %>% 
+  mutate(weight=2*(n-AU_rank+1)/(n*(n+1))) %>%
+  ungroup() %>%  
+  left_join(auteurs_graph %>% select(AU,deg,community)) %>%
+  group_by(id_doc,community) %>% 
+  summarise(weight=sum(weight,na.rm=TRUE)) %>% 
+  ungroup() %>% 
+  group_by(id_doc) %>% 
+  nest() %>% 
+  mutate(community=purrr::map_chr(data,get_comm) ,
+         community_mix=purrr::map_chr(data,get_comm_mix)) %>% 
+  select(community,community_mix)
+  
+docs_comm %>% 
+  group_by(community) %>% 
+  summarise(n=n())
+```
+```{r}
+tib_doc=tib_doc %>% 
+  left_join(docs_comm,by="id_doc")
+tib_doc_PY=tib_doc %>%
+  group_by(PY) %>% 
+  mutate(ntot=n()) %>% 
+  ungroup() %>% 
+  filter(!is.na(community),PY>1988) %>% 
+  group_by(community,PY,ntot) %>% 
+  summarise(n=n()) %>%
+  ungroup() %>% 
+  mutate(prop=n/ntot)
+
+ggplot(tib_doc_PY,aes(x=PY,y=n))+
+  geom_col(aes(fill=community))+
+  facet_grid(rows=vars(community))
+```
+
+
+## Spécificités des mots-clés par communauté d'auteurs
+
+```{r spec_kw_com,fig.height=8,fig.width=6}
+kw_communities=tib_doc%>% 
+  #unnest_tokens(output="kw",input="DE",token=stringr::str_split, pattern = "; ") %>% 
+  unnest_tokens(output="kw",input="AB",token="words") %>% 
+  mutate(community=as.factor(community))
+spec_com=tidy_specificities(kw_communities,cat1=kw,cat2=community,top_spec=10) %>% 
+  arrange(community,desc(spec))
+plot_specificities(spec_com,kw,community)
+```
+
+
 
 ## Co-Citation
 
@@ -395,11 +559,11 @@ CS$graph_terms
 CS$graph_dendrogram
 ```
 
+
 # Analyse textuelle des abstracts
 
 
 ```{r tib_textes}
-library(tidytext)
 ### Mise en forme de la base
 tib_doc_light=tib_doc %>% 
    select(id_doc,TI,AU,SO,DT,DE,TC,PY,AB)
@@ -428,6 +592,48 @@ if(!file.exists("data/data_trans/tib_sparse.RDS")){
 }
 tib_sparse=readRDS("data/data_trans/tib_sparse.RDS")
 ```
+
+## Spécificités du sous-corpus SHS {#sec-spec_SHS}
+
+Voici les termes les plus spécifiques des abstracts contenant "SOCIETY/SOCIAL/SOCIO":
+
+```{r spec_SHS}
+library(mixr)
+tib_lemma_cl=tib_lemma_cl %>%
+  mutate(mention_SHS=as.factor(id_doc %in% id_SHS))
+spec=tidy_specificities(tib_lemma_cl,
+                   cat1=lemma,
+                   cat2=mention_SHS,min_spec=5) %>% 
+  filter(mention_SHS=="TRUE") %>% 
+  select(-mention_SHS)
+reactable::reactable(spec)
+```
+
+On va retenir les termes qui permettent d'identifier une dimension SHS et qui n'ont pas a priori un sens autre dans un autre contexte (par ex. on écarte "MANAGEMENT"):
+
+"RESTORATION","STAKEHOLDER","DISCOURSE","ONTOLOGY","PRACTITIONER","ACTOR"
+
+Combien de documents mentionnent au moins un de ces termes dans leur abstract?
+
+```{r SHS_large}
+termes_SHS=c("RESTORATION","STAKEHOLDER","DISCOURSE","ONTOLOGY","PRACTITIONER","ACTOR")
+tib_doc %>%
+  mutate(mention_restoration=str_detect(AB,str_c(termes_SHS,collapse="|"))) %>%
+  group_by(mention_restoration) %>%
+  summarise(n=n())
+```
+
+Quelles sont les communautés d'auteur dans lesquelles ces termes sont les plus pregnants?
+
+```{r shs_communities}
+termes_shs=tolower(termes_SHS)
+kw_communities %>% mutate(shs=str_count(kw,str_c(termes_shs,collapse="|"))) %>% 
+  group_by(community) %>% 
+  summarise(ntot=n(),
+            nshs=sum(shs,na.rm=TRUE)) %>% 
+  mutate(prop=nshs/ntot*100)
+```
+
 
 ## STM
 
@@ -502,7 +708,7 @@ ggplot(tib_doc_th%>%
 ```
 
 
-```{r}
+```{r thematiques_par_auteur}
 tib_auteur_th=tib_auteur %>% 
   left_join(tib_doc_th %>% select(id_doc,topic,gamma,topic_terms,topic_short),
             by="id_doc") %>% 
