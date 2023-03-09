@@ -14,16 +14,27 @@ execute:
   warning: false
 ---
 
+Chapitre introductif d'un ouvrage sur la recherche sur le Rhône (20 ans de ZABR-OHM).
+Création de:
+
+- ZABR 2000 
+- OHM 2011
+
+
 ```{r load_packages}
 # Chargement des packages et des données
 library(tidyverse)
 library(bibliometrix)
 library(ggraph)
-library(tidygraph)
+#library(tidygraph)
 library(tidytext)
 library(mixr)
 set.seed(123)
 ```
+Import et nettoyage de la base .bib (exporté depuis Web of Science).
+
+Dans titre ou topic: "Rhone" & "river|basin|catchment".
+Filtre ultérieur pour retirer les mentions de Rhone présentes seulement dans les "Keywords +" (issus d'un algorithme de Web of Science reposant en partie sur les références biblio des documents)
 
 ```{r load_data_bibliometrix,message=FALSE, warning=FALSE}
 file <- "data/savedrecs.bib"
@@ -31,13 +42,19 @@ if(!file.exists("data/data_trans/M.RDS")){
   M <- convert2df(file = file,
                   dbsource = "isi",
                   format = "bibtex")
+  ind=which(M$PY>2018 & str_detect(M$AU,"ARNAUD F"))
+  M$AU[ind]=str_replace_all(M$AU[ind], "ARNAUD F","ARNAUD Fa")
+  ind=which(str_detect(rownames(M),"ARNAUD F, 2021"))
+  rownames(M)[ind]="ARNAUD Fa, 2021, EARTH SYST SCI DATA"
+  M=M %>% 
+    mutate(DE=str_replace_all(DE,";;",";"))
   saveRDS(M,"data/data_trans/M.RDS")
 }
 if(!file.exists("data/data_trans/results.RDS")){
   results <- biblioAnalysis(M, sep = ";")
   saveRDS(results,"data/data_trans/results.RDS")
 }
-M=readRDS("data/data_trans/M.RDS")
+M=readRDS("data/data_trans/M.RDS") 
 results=readRDS("data/data_trans/results.RDS")
 ```
 
@@ -45,10 +62,17 @@ results=readRDS("data/data_trans/results.RDS")
 if(!file.exists("data/data_trans/tib_doc.RDS")){
   tib_doc=M %>%
     rownames_to_column(var="id_doc") %>% 
-    as_tibble()
+    as_tibble() %>% 
+  tidyr::unite(texts,TI,AB,DE,sep="; ",remove=FALSE) %>% 
+  mutate(Rhone=str_detect(texts,"RHONE")) %>% 
+  filter(Rhone) %>% 
+  select(-Rhone,-texts)
   saveRDS(tib_doc,"data/data_trans/tib_doc.RDS")
 }
-tib_doc=readRDS("data/data_trans/tib_doc.RDS")
+tib_doc=readRDS("data/data_trans/tib_doc.RDS") %>%  
+  mutate(period=cut(PY,breaks=c(1940,2000,2011,2023),dig.lab=4)) %>% 
+  mutate(period=as.factor(period))
+
 ```
 
 ```{r tib_auteur}
@@ -89,12 +113,6 @@ tib_motscles=readRDS("data/data_trans/tib_motscles.RDS")
 
 ### Auteurs
 
-- **ndoc** nombre de documents (dans ce corpus):
-- **ncit** nombre de citations (globales)
-- **ndoc_1st** nombre de documents en tant que 1er auteur
-- **ncit_1st** nombre de citations en tant que 1er auteur
-- **ncit_loc**: nombre de citations locales (i.e. par les document de ce corpus)
-
 ```{r locallyCitedAuthors}
 if(!file.exists("data/data_trans/aut_loc.RDS")){
     LCR=localCitations(M)
@@ -127,48 +145,60 @@ auteurs=tib_auteur %>%
   write_csv2(auteurs, "data/data_trans/auteurs.csv")
 }
 auteurs=read_csv2("data/data_trans/auteurs.csv")
-reactable::reactable(auteurs,
-                     filterable=TRUE)
+```
+
+Le corpus compte `r nrow(auteurs)` auteurs distincts. Un auteur est associé à en moyenne `r mean(auteurs$ndoc)` documents du corpus. `r auteurs %>% filter(ndoc>=2) %>% nrow()` sont associés à au moins 2 documents, `r auteurs %>% filter(ndoc>=5) %>% nrow()` sont associés à au moins 5 documents.
+
+-   **ndoc** nombre de documents (dans ce corpus):
+-   **ncit** nombre de citations (globales)
+-   **ndoc_1st** nombre de documents en tant que 1er auteur
+-   **ncit_1st** nombre de citations en tant que 1er auteur
+-   **ncit_loc**: nombre de citations locales (i.e. par les document de ce corpus)
+
+
+```{r barplot_ndocs_aut, fig.height=3,fig.width=4}
+ggplot(auteurs, aes(x=ndoc)) +
+  geom_bar()
 ```
 
 ### Sources
 
--   **ndoc**: nombre de documents (pour l'ensemble du corpus)
--   **ncit**: nombre de citations (sommées pour l'ensemble du corpus)
-
 ```{r sources}
 if(!file.exists("data/data_trans/sources.csv")){
-  sources=tib_doc %>% 
-    group_by(SO) %>% 
+  sources=tib_doc %>%
+    mutate(n_tot=n(),
+           ncit_tot=sum(TC)) %>% 
+    group_by(SO,n_tot,ncit_tot) %>% 
     summarise(ndoc=n(),
               ncit=sum(TC)) %>%
-    arrange(desc(ndoc))
+    mutate(pct_doc=round(ndoc/n_tot*100,1),
+           pct_cit=round(ncit/ncit_tot*100,1)) %>% 
+    arrange(desc(ndoc)) %>% 
+    select(-n_tot,-ncit_tot)
   write_csv2(sources,"data/data_trans/sources.csv")
 }
 sources=read_csv2("data/data_trans/sources.csv")
+```
 
+-   **ndoc**: nombre de documents (pour l'ensemble du corpus)
+-   **ncit**: nombre de citations (sommées pour l'ensemble du corpus)
+-   **pct_doc**: 100\*ndoc/{nombre total de documents dans le corpus =`r nrow(tib_doc)`}
+-   **pct_cit**: 100\*ncit/{nombre total de citations des documents du corpus =`r sum(tib_doc$TC)`}
+
+```{r show_sources}
 reactable::reactable(sources,
                      filterable=TRUE)
 ```
 
 ### Documents
 
-<!-- (Top 100 basé sur le nombre de citations, TC) -->
-
-<!-- ```{r top_100_articles} -->
-<!-- show_docs=tib_doc %>%  -->
-<!--   arrange(desc(TC)) %>%  -->
-<!--   select(AU,TC,PY,TI,SO) %>%  -->
-<!--   head(100) -->
-<!-- reactable::reactable(show_docs, -->
-<!--                      filterable=TRUE) -->
-<!-- ``` -->
+Voir section @sec-docs_commu
 
 ### Références
 
 Les articles du corpus font référence à des documents locaux (du corpus) ou externes.
 
-*Attention* Une partie (minime: \~0.7%) de ces références est mal renseignée par WOS. Celles qui sont correctement renseignées de manière correcte le sont de telle sorte qu'il est difficile de faire une jointure pour retrouver les références locales.
+*Attention* Une partie (minime: \~0.7%) de ces références est mal renseignée par WOS. Celles qui sont correctement renseignées le sont de telle sorte qu'il est difficile de faire une jointure pour retrouver les références locales.
 
 ```{r bad_citations}
 cit=citations(M)
@@ -187,6 +217,601 @@ citations=cit$Cited %>%
 reactable::reactable(citations %>% head(100),
                      filterable=TRUE)
 ```
+
+## Nombre de documents par année (dans le corpus)
+
+```{r ndoc_per_year, fig.width=5, fig.height=4}
+ggplot(tib_doc,
+       aes(x=PY))+
+  geom_bar()+
+  xlab("année de publication")+ylab("nombre de publications")
+```
+
+## Focus sur les SHS
+
+Quels sont les documents qui font mention des termes SOCIAL/SOCIETY/SOCIO-quelque-chose dans leur abstract?
+
+```{r focus_SHS}
+tib_doc_SHS=tib_doc %>% 
+  mutate(mention_SHS=str_detect(AB,"SOCIAL|SOCIETY|SOCIO"))
+
+id_SHS=tib_doc_SHS %>% 
+  filter(mention_SHS) %>% 
+  pull(id_doc)
+
+prop_SHS=tib_doc_SHS %>% 
+  group_by(mention_SHS) %>% 
+  summarise(n=n())
+prop_SHS
+
+```
+
+=\> **Peu de documents étiquetés "SHS" a priori** (`r round(prop_SHS$n[2]/(prop_SHS$n[1]+prop_SHS$n[2])*100,2)`% des documents pour lesquels on dispose de l'abstract) mais ce premier ensemble va nous permettre de rechercher les **termes spécifiques aux SHS** et d'identifier un "courant SHS" plus important et transverse (cf partie @sec-spec_SHS)
+
+# Graphes biblio
+
+## Réseaux d'auteurs
+
+On définit des **communautés d'auteurs** en se basant sur les collaborations (co-signature de documents).
+
+```{r calc_collaboration_graph}
+nw_coll_auth <- biblioNetwork(M,
+                           analysis = "collaboration",
+                           network = "authors",
+                           sep = ";")
+```
+
+```{r plot_collaboration_graph, fig.width=7,fig.height=6}
+set.seed(12345)
+p=networkPlot(nw_coll_auth,
+            Title = "Collaborations",
+            type = "fruchterman",
+            cluster="louvain",
+            size=5,
+            size.cex=T,
+            labelsize=0.5,
+            label.n=30,
+            label.cex=F,
+            alpha=0.5,
+            #remove.isolates=TRUE,
+            #edges.min=1,
+            verbose=FALSE,
+            community.repulsion=0)
+auteurs=read_csv2("data/data_trans/auteurs.csv")
+auteurs=auteurs %>%
+  mutate(au=tolower(AU)) %>% 
+  left_join(p$cluster_res,by=c("au"="vertex")) %>% 
+  mutate(cluster=paste0("cluster",str_pad(cluster,4)))
+```
+
+A ce stade, de nombreuses communautés  (`auteurs$cluster %>% unique() %>% length()`) sont définies. Pour la suite de l'analyse on ne conservera que les communautés à l'origine d'un nombre minimal de documents du corpus.
+
+
+## Rattachement des articles à une communauté {#sec-docs_commu}
+
+Quand cela est possible et en se basant sur la communauté dont fait partie ses auteurs, chaque document du corpus est lui-même rattaché à une communauté.
+
+On utilise pour cela la communauté dont les auteurs du document font majoritairement partie, en appliquant une pondération selon le rang de l'auteur.
+
+On attribue au $k$-ième auteur d'un document qui en compte $n$ en tout un poids $w$ de
+
+$$w=(n-k+1)\frac{2}{n(n+1)}$$ soit par exemple pour un document qui compte 4 auteurs des poids de 0.4,0.3,0.2 et 0.1 pour le premier, deuxième, troisième et quatrième auteur respectivement.
+
+Dans le cas où la majorité des auteurs ne fait pas partie d'une communauté définie, on assigne le document à la communauté majoritaire (par exemple si 30% des auteurs font partie de la communauté Cl01 et 70% ne font pas partie d'une communauté définie on assigne le document à la communauté Cl01).
+
+```{r docs_comm}
+get_commu=function(dat){
+  res=dat %>% 
+    na.omit()
+  if(nrow(res)>=1){
+    res=res %>% 
+    filter(!is.na(cluster)) %>% 
+    group_by(cluster) %>% 
+    summarise(weight=sum(weight)) %>% 
+    filter(weight==max(weight))
+  }else{res=NA}
+  return(res)
+}
+
+tib_commus=tib_auteur %>% 
+  select(id_doc,AU,AU_rank) %>%
+  group_by(id_doc) %>% 
+  mutate(n=n()) %>% 
+  mutate(weight=2*(n-AU_rank+1)/(n*(n+1))) %>%
+  ungroup() %>%  
+  left_join(auteurs%>% select(AU,cluster)) %>%
+  group_by(id_doc,cluster) %>% 
+  summarise(weight=sum(weight,na.rm=TRUE))
+tib_1doc_1commu=tib_commus%>% 
+  ungroup() %>% 
+  group_by(id_doc) %>% 
+  nest() %>% 
+  mutate(data=purrr::map(data,get_commu)) %>% 
+  unnest(data)
+tib_commus_period_prod=
+  tib_commus %>% 
+  left_join(tib_doc %>% select(id_doc,period))%>%
+  group_by(cluster,period) %>% 
+  summarise(neqdoc=sum(weight),
+            ndoc=n())
+```
+Pour la suite des analyses on va sélectionner un nombre limité de communautés (toutes celles comptant au moins 50 documents dans le corpus - en équivalent auteur-).
+
+```{r tib_commus_prod}
+tib_commus_prod=tib_commus_period_prod %>% 
+  group_by(cluster) %>% 
+  summarise(neqdoc=sum(neqdoc),
+            ndoc=sum(ndoc)) %>% 
+  left_join(auteurs %>% group_by(cluster) %>% summarise(naut=n()),
+            by="cluster") %>% 
+  ungroup() %>% 
+  mutate(ndoc_tot=sum(ndoc),
+         naut_tot=sum(naut)) %>% 
+  mutate(pct_doc=round(ndoc/ndoc_tot*100,1),
+         pct_aut=round(naut/naut_tot*100,1)) %>% 
+  select(-ndoc_tot,-naut_tot) %>% 
+  arrange(desc(neqdoc)) %>%
+  mutate(community=case_when(neqdoc>50~paste0("c",1:n()),
+                             neqdoc<=50~NA_character_)) %>% 
+  group_by(community)
+
+tib_clusters_commus=tib_commus_prod %>%  
+  select(cluster,community)
+
+tib_commus_prod=tib_commus_prod %>% 
+  select(-cluster) %>% 
+  group_by(community) %>% 
+  summarise_all("sum")
+  
+reactable::reactable(tib_commus_prod)
+```
+
+```{r join_commu_to_doc}
+tib_doc=tib_doc %>% 
+  left_join(tib_1doc_1commu %>% 
+              left_join(tib_clusters_commus,by="cluster") %>% 
+              select(-cluster),
+            by="id_doc") 
+tib_doc_save=tib_doc %>%
+  arrange(desc(TC)) %>%
+  select(id_doc,community,weight, AU, PY, TI, SO, DE)
+readr::write_csv2(tib_doc_save, "datashare/documents.csv")
+```
+
+### Table des auteurs
+
+```{r show_auteurs_graph}
+auteurs=auteurs %>% 
+  left_join(tib_clusters_commus,by="cluster") %>% 
+  select(-cluster) 
+readr::write_csv2(auteurs,"datashare/auteurs.csv")
+reactable::reactable(auteurs %>% arrange(community),
+                     groupBy="community",
+                     sortable=TRUE,
+                     filterable=TRUE,
+                     paginateSubRows=TRUE)
+```
+
+
+### Table des documents
+
+```{r show_tib_doc_comm}
+reactable::reactable(tib_doc_save %>% select(-id_doc),
+                     filterable=TRUE,
+                     resizable=TRUE)
+  
+```
+
+## Productivité des communautés d'auteurs au cours du temps
+
+```{r tib_doc_PY}
+tib_doc_period=tib_doc %>%
+  group_by(community,period) %>% 
+  summarise(neqdoc=sum(weight)) %>%
+  ungroup() %>% 
+  na.omit()
+
+ggplot(tib_doc_period,aes(x=period,y=neqdoc))+
+  geom_col(aes(fill=community),col="black",position="dodge")
+```
+
+## Graphe des communautés d'auteurs
+
+```{r auteurs_graph}
+liste_auteurs_graph=auteurs %>% 
+  filter(!is.na(community)) %>% 
+  pull(AU)
+
+ndoc_auteurs_graph=tib_auteur %>% 
+  filter(AU %in% liste_auteurs_graph) %>% 
+  pull(id_doc) %>% unique() %>% 
+  length()
+```
+
+
+Le graphe ci-après représente les collaborations des `r length(liste_auteurs_graph)` auteurs qui ont été rattachés à une communauté que l'on a conservé pour la suite des analyses.
+
+Ces `r length(liste_auteurs_graph)` auteurs représentent `r round(length(liste_auteurs_graph)/nrow(auteurs)*100,2)`% des auteurs du corpus, mais `r round(ndoc_auteurs_graph/nrow(tib_doc),2)*100`% des documents du corpus ont au moins un de ces auteurs comme n-ième auteur.
+
+
+```{r graph_auteurs_show,fig.height=8,fig.width=7}
+auteurs_keep=auteurs %>%
+  select(au,community,ndoc) %>% 
+  mutate(keep=ndoc>15) %>% 
+  group_by(community) %>%
+  arrange(desc(ndoc)) %>% 
+  mutate(rank=1:n()) %>% 
+  mutate(keep=rank<=3) %>% 
+  mutate(showname=case_when(keep~au,
+                            !keep~NA_character_))
+
+tidyg=tidygraph::as_tbl_graph(p$graph) %>% 
+  tidygraph::activate(nodes) %>%
+  select(-community) %>% 
+  filter(name %in% tolower(liste_auteurs_graph)) %>% 
+  left_join(auteurs_keep,by=c("name"="au"))
+ggraph(tidyg,layout="fr")+
+  geom_edge_link(color="light grey")+
+  geom_node_point(aes(color=community,size=ndoc))+
+  geom_node_text(aes(label=showname))
+```
+
+## Spécificités des mots-clés par communauté d'auteurs
+
+```{r spec_kw_com,fig.height=8,fig.width=6}
+kw_communities=tib_doc%>% 
+  unnest_tokens(output="kw",input="DE",token=stringr::str_split, pattern = "; ") 
+spec_com=tidy_specificities(kw_communities,cat1=kw,cat2=community,top_spec=20) %>% 
+  arrange(community,desc(spec))
+plot_specificities(spec_com,kw,community)
+```
+Les journaux associés aux différentes communautés permettent également de les caractériser. Ci-dessous, les publications scientifiques spécifiques (significatif au seuil de 1% i.e. score de spécificité >2). 
+
+```{r spec_SO_com}
+spec_SO=tidy_specificities(tib_doc,cat1=SO,cat2=community,min_spec=2) %>% 
+  arrange(community,desc(spec)) %>% 
+  select(community, SO, spec, n)
+reactable::reactable(spec_SO)
+```
+
+## Citation intra et inter-communautés
+
+```{r citation_intra}
+# community during period has cited ref *n* times
+cites=tib_doc %>%
+  filter(!is.na(PY)) %>% 
+  select(id_doc,PY,community, CR,period) %>% 
+    unnest_tokens(output="ref",input="CR",
+                  to_lower=FALSE,
+                  token=stringr::str_split, pattern="; ") %>% 
+  mutate(ref=str_extract(ref,"^[^,]*,[^,]*,[^,]*,")) %>% 
+  mutate(ref=str_replace(ref,",$",""))%>% 
+  group_by(community,period, ref) %>% 
+  summarise(n=n()) %>%
+  ungroup()
+
+# community at the end of period had authored 
+# a cumulated number of docs *ndoc*
+ndoc=tib_doc %>% group_by(community,period) %>% summarise(ndoc=n()) %>% 
+  mutate(ndoc=cumsum(ndoc)) %>% 
+  ungroup()
+
+# community during period has cited *nref* documents
+# community at the end of period had authored 
+# a cumulated number of docs *ndoc*
+nodes=cites %>% 
+  group_by(community,period) %>% 
+  summarise(nref=sum(n)) %>% 
+  ungroup() %>% 
+  left_join(ndoc) %>% 
+  na.omit() %>% 
+  tidyr::unite(col=name,community,period,sep="-",remove=FALSE)
+
+# community during period has cited: 
+#        - a total of *ntotref* documents
+#        - documents authored by community_cited *n* times
+# The proportion of references authored by community_cited
+# among all references is *prop*
+edges=cites %>% 
+  left_join(tib_doc %>% select(id_doc,community_cited=community),
+            by=c("ref"="id_doc")) %>% 
+  group_by(period,community) %>% 
+  mutate(ntotref=n()) %>% 
+  ungroup() %>% 
+  group_by(period,community,community_cited,ntotref)%>%
+  summarise(n=sum(n)) %>%
+  mutate(prop=n/ntotref*100) %>% 
+  na.omit() %>% 
+  ungroup() %>% 
+  tidyr::unite(col=from,community,period,sep="-",remove=FALSE) %>% 
+  tidyr::unite(col=to,community_cited,period,sep="-",remove=FALSE)
+
+# The graph layout is calculated according to all citation links,
+# regardless of period
+edges_tot=edges %>% 
+  group_by(community_cited,community) %>% 
+  summarise(ntot=sum(n))
+set.seed(1234)
+coords=igraph::layout_with_fr(igraph::graph_from_data_frame(edges_tot)) %>% 
+  as_tibble() %>% 
+  setNames(c("x","y")) %>% 
+  mutate(community=paste0("c",1:n()))
+
+
+edges=edges %>% 
+  mutate(loop=community==community_cited) %>% 
+  mutate(from=case_when(loop~paste0(from,"-copy"),
+                        !loop~from))
+
+nodes=nodes %>% 
+  left_join(coords) 
+nodes=nodes %>%
+  mutate(loop=FALSE) %>% 
+  bind_rows(nodes %>%
+              mutate(loop=TRUE,
+                     name=paste0(name,"-copy"),
+                     y=y-0.6)) 
+
+# create graph
+pcit=tidygraph::tbl_graph(nodes=nodes,
+                           edges=edges)
+
+
+```
+
+
+```{r show_citation_intra,fig.height=8,fig.width=7}
+#| label: Citation entre les communautés au cours du temps
+#| fig-cap: "citations"
+#plot graph
+ggraph(pcit,nodes)+
+geom_edge_fan(aes(edge_width=prop,color=community_cited,alpha=prop),
+                arrow=arrow(length=unit(0.15,"inches"),
+                            angle=15),
+                end_cap = circle(4, 'mm'),
+                start_cap = circle(4, 'mm'))+
+  geom_node_point(data=nodes %>% filter(!loop),
+                  aes(fill=community,size=ndoc), alpha=0.5,shape=22)+
+  geom_node_text(data=nodes %>% filter(!loop),
+                 aes(label=community))+
+  facet_wrap(facets=vars(period),nrow=3)+
+  scale_size_continuous(range=c(1,20))+
+  scale_x_continuous()+
+  scale_y_continuous()+
+  guides(color=FALSE)
+```
+
+Les **noeuds** de ce graphe représentent les **documents du corpus écrits par la communauté d'auteurs ClX** au cours d'une période. La **taille** des noeuds correspond au **nombre total de documents écrits entre 1947 et la fin de la période considérée**. Ces documents s'appuient sur des références bibliographiques dont une partie *prop* correspond à des **documents écrits par des membres de la communauté elle-même** (flèches verticales) ou **d'autres communautés** (flèches pointant vers ces autres communautés). Remarque: on prend en compte le nombre d'occurrence des documents et non le nombre de documents distincts. La proportion est représentée par l'épaisseur et l'opacité des flèches.
+
+## Co-occurrence des mots-clés
+
+```{r calc_graph_keywords}
+nw_cooc_kw <- biblioNetwork(M,
+                           analysis = "co-occurrences",
+                           network = "keywords",
+                           sep = ";")
+netstat <- networkStat(nw_cooc_kw)
+```
+
+```{r plot_graph_keywords, fig.width=8, fig.height=8}
+p=networkPlot(nw_cooc_kw,
+                weighted=T, n = 150,
+                Title = "Co-occurence des mots-clés",
+                type = "fruchterman",
+                cluster="louvain",
+                size=T,
+                edgesize = 5,
+                labelsize=0.7)
+```
+
+## Co-Citation
+
+```{r co_citation_network, fig.width=8, fig.height=8}
+M=M %>% 
+  mutate(CR=str_replace(CR,"ANONYMOUS.*;","")) %>% 
+  mutate(CR=str_replace(CR,"NO TITLE CAPTURED","")) 
+nw_cocit_doc <- biblioNetwork(M,
+                           analysis = "co-citation",
+                           network = "references",
+                           sep = ";")
+
+p=networkPlot(nw_cocit_doc,
+                n = 150,
+                Title = "Co-Citation Network",
+                type = "auto",
+                size=T,
+                cluster="louvain",
+                remove.multiple=FALSE,
+                labelsize=0.7,
+                edgesize = 5,
+                label.n=30)
+```
+
+## Structure conceptuelle basée sur les mots-clés
+
+```{r conceptual_structure,fig.width=8, fig.height=8}
+CS <- conceptualStructure(M,
+                          field="ID",
+                          method="MCA",
+                          minDegree=10,
+                          clust=8,
+                          stemming=FALSE,
+                          labelsize=10,
+                          documents=3,
+                          graph=FALSE)
+CS$graph_terms
+CS$graph_dendrogram
+```
+
+# Analyse textuelle des abstracts
+
+```{r tib_textes}
+### Mise en forme de la base
+tib_doc_light=tib_doc %>% 
+   select(id_doc,TI,AU,SO,DT,DE,TC,PY,AB)
+if(!file.exists("data/data_trans/tib_lemma_cl.RDS")){
+  ### Tokenisation, lemmatisation:
+  tib_lemma=tib_doc_light %>% 
+    unnest_tokens(word,AB,token="words")
+  
+  lex_en=mixr::get_lexicon("en")
+  tib_lemma_cl=left_join(tib_lemma, lex_en,by="word") %>% 
+    filter(type %in% c("nom","ver","adj"))
+  saveRDS(tib_lemma_cl,"data/data_trans/tib_lemma_cl.RDS")
+}
+tib_lemma_cl=readRDS("data/data_trans/tib_lemma_cl.RDS")
+
+
+if(!file.exists("data/data_trans/tib_sparse.RDS")){
+  ### mise en forme pour STM
+  tib_sparse=tib_lemma_cl %>% 
+    group_by(lemma) %>% # compte pour chaque lemme...
+    mutate(n=n()) %>% # ...son nombre d'occurrences puis
+    filter(n>20) %>%  # retire ceux représentés moins de 20 fois dans le corpus
+    ungroup() %>% 
+    cast_sparse(row=TI, column=lemma, value=n)
+  saveRDS(tib_sparse,"data/data_trans/tib_sparse.RDS")
+}
+tib_sparse=readRDS("data/data_trans/tib_sparse.RDS")
+```
+
+## Spécificités du sous-corpus SHS {#sec-spec_SHS}
+
+Voici les termes les plus spécifiques des abstracts contenant "SOCIETY/SOCIAL/SOCIO":
+
+```{r spec_SHS}
+library(mixr)
+tib_lemma_cl=tib_lemma_cl %>%
+  mutate(mention_SHS=as.factor(id_doc %in% id_SHS))
+spec=tidy_specificities(tib_lemma_cl,
+                   cat1=lemma,
+                   cat2=mention_SHS,min_spec=5) %>% 
+  filter(mention_SHS=="TRUE") %>% 
+  select(-mention_SHS)
+reactable::reactable(spec)
+```
+
+On va retenir les termes qui permettent d'identifier une dimension SHS et qui n'ont pas a priori un sens autre dans un autre contexte (par ex. on écarte "MANAGEMENT"):
+
+"RESTORATION","STAKEHOLDER","DISCOURSE","ONTOLOGY","PRACTITIONER","ACTOR"
+
+Combien de documents mentionnent au moins un de ces termes dans leur abstract?
+
+```{r SHS_large}
+termes_SHS=c("RESTORATION","STAKEHOLDER","DISCOURSE","ONTOLOGY","PRACTITIONER","ACTOR")
+tib_doc %>%
+  mutate(mention_restoration=str_detect(AB,str_c(termes_SHS,collapse="|"))) %>%
+  group_by(mention_restoration) %>%
+  summarise(n=n())
+```
+
+Quelles sont les communautés d'auteur dans lesquelles ces termes sont les plus pregnants?
+
+```{r shs_communities}
+termes_shs=tolower(termes_SHS)
+kw_communities %>% mutate(shs=str_count(kw,str_c(termes_shs,collapse="|"))) %>% 
+  group_by(community) %>% 
+  summarise(ntot=n(),
+            nshs=sum(shs,na.rm=TRUE)) %>% 
+  mutate(prop=nshs/ntot*100)
+```
+
+## STM
+
+```{r stm}
+library(stm)
+if(!file.exists("data/data_trans/topic_model.RDS")){
+  set.seed(123)
+  topic_model<-stm(tib_sparse,K=8, verbose=FALSE)
+  saveRDS(topic_model,"data/data_trans/topic_model.RDS")
+}
+topic_model=readRDS("data/data_trans/topic_model.RDS")
+```
+
+## Explore thématiques
+
+```{r thematiques}
+thematiques=tidytext::tidy(topic_model, matrix="beta") %>% 
+  group_by(topic) %>% 
+  slice_max(beta,n=20) %>%  
+  mutate(rank=row_number()) %>% 
+  arrange(topic,desc(beta)) %>% 
+  ungroup()
+```
+
+```{r plot_thematiques, fig.width=8, fig.height=8}
+ggplot(thematiques  %>%
+         mutate(topic=as.factor(topic)) %>%
+         mutate(term=tidytext::reorder_within(term,by=beta,within=topic)),
+       aes(x=beta,y=term, fill=topic))+
+  geom_bar(stat="identity")+
+    facet_wrap(facets=vars(topic), scales="free")+
+    theme(legend.position="none")+
+  tidytext::scale_y_reordered()
+```
+
+```{r thematiques_resumees}
+thematiques=thematiques %>% 
+  group_by(topic) %>% 
+  nest()%>%  
+  summarise(topic_terms=map(data, ~paste(.$term,collapse=", "))) %>% 
+  unnest(cols=c(topic_terms)) %>% 
+  mutate(topic_short=case_when(topic==1~"hydrologie",
+                               topic==2~"transport sédimentaire",
+                               topic==3~"modélisation",
+                               topic==4~"écologie",
+                               topic==5~"biochimie",
+                               topic==6~"quantification",
+                               topic==7~"changements,risques",
+                               topic==8~"étude régionale"))
+```
+
+```{r tib_meta_thematiques}
+
+tib_gamma <- tidy(topic_model, matrix = "gamma") %>% 
+  arrange(document,desc(gamma))
+
+tib_doc_th=tib_doc_light  %>%
+  mutate(document=1:n()) %>% 
+  left_join(tib_gamma,by="document") %>% 
+  left_join(thematiques,by="topic") 
+
+
+ggplot(tib_doc_th%>% 
+         group_by(PY,topic,topic_short) %>% 
+         summarise(sgamma=sum(gamma),
+                   n=n()) %>% 
+         ungroup() %>% 
+         mutate(sgamma=sgamma/n) %>% 
+         na.omit(),
+       aes(x=PY,y=sgamma,col=topic_short))+
+  geom_smooth()
+```
+
+```{r thematiques_par_auteur}
+tib_auteur_th=tib_auteur %>% 
+  left_join(tib_doc_th %>% select(id_doc,topic,gamma,topic_terms,topic_short),
+            by="id_doc") %>% 
+  group_by(AU) %>% 
+  mutate(ndoc=n()) %>%
+  ungroup() %>% 
+  group_by(AU,topic,topic_short) %>% 
+  summarise(s=sum(gamma),
+            ndoc=unique(ndoc)) %>% 
+  mutate(s=s/ndoc) %>% 
+  arrange(desc(ndoc)) %>% 
+  ungroup() %>% 
+  na.omit()
+top_auteurs=tib_auteur_th %>% group_by(AU) %>% summarise(n=unique(ndoc)) %>% top_n(10) %>% pull(AU)
+ggplot(tib_auteur_th %>% filter(AU %in% top_auteurs),
+       aes(x=topic_short,y=s,fill=factor(topic_short)))+
+  geom_col()+
+  facet_wrap(facets=vars(AU))+
+  coord_flip()
+```
+
+# A TRIER
+
 
 ### Affiliations
 
@@ -270,476 +895,5 @@ financeurs %>%
                          "ZABR|Zone Atelier Bassin du Rh.ne|GRAIE|OHM|OSR")) %>% 
   group_by(ZABR) %>% 
   summarise(n=n())
-```
-
-
-## Nombre de publis par année (dans le corpus)
-
-```{r ndoc_per_year}
-ggplot(tib_doc,
-       aes(x=PY))+
-  geom_bar()+
-  xlab("année de publication")+ylab("nombre de publications")
-```
-
-```{r aut_prod_over_time}
-topAU <- authorProdOverTime(M, k = 20, graph = TRUE)
-```
-
-## Focus sur les SHS
-
-Quels sont les documents qui font mention des termes SOCIAL/SOCIETY/SOCIO-quelque-chose dans leur abstract?
-
-```{r focus_SHS}
-tib_doc_SHS=tib_doc %>% 
-  mutate(mention_SHS=str_detect(AB,"SOCIAL|SOCIETY|SOCIO"))
-
-id_SHS=tib_doc_SHS %>% 
-  filter(mention_SHS) %>% 
-  pull(id_doc)
-
-prop_SHS=tib_doc_SHS %>% 
-  group_by(mention_SHS) %>% 
-  summarise(n=n())
-prop_SHS
-
-```
-
-=> **Peu de documents étiquetés "SHS" a priori** (`r round(prop_SHS$n[2]/(prop_SHS$n[1]+prop_SHS$n[2])*100,2)`% des documents pour lesquels on dispose de l'abstract) mais ce premier ensemble va nous permettre de rechercher les **termes spécifiques aux SHS** et d'identifier un "courant SHS" plus important et transverse (cf partie @sec-spec_SHS)
-
-# Graphes biblio
-
-`biblioNetwork()` a deux arguments principaux
-
-- L'argument **analysis** peut prendre les valeurs "co-citation", "coupling", "collaboration", or "co-occurrences". (co-citation=ils sont cités par un même article, coupling=ils citent un même article)
-- L'argument **network** peut prendre les valeurs "authors", "references", "sources", "countries", "universities", "keywords", "author_keywords", "titles" and "abstracts".
-
-## Collaborations (auteurs)
-
-On définit des **communautés d'auteurs** en se basant sur les collaborations (co-signature de documents). 
-
-
-```{r calc_collaboration_graph}
-nw_coll_auth <- biblioNetwork(M,
-                           analysis = "collaboration",
-                           network = "authors",
-                           sep = ";")
-auteurs_5docmin=auteurs %>%
-  filter(ndoc>=5) %>%
-  pull(AU)
-ind=which(colnames(nw_coll_auth) %in% auteurs_5docmin)
-nw_coll_auth=nw_coll_auth[ind,ind]
-```
-
-```{r plot_collaboration_graph, fig.width=7,fig.height=6}
-set.seed(1234)
-p=networkPlot(nw_coll_auth,
-            Title = "Collaborations",
-            type = "fruchterman",
-            cluster="louvain",
-            size=5,
-            size.cex=T,
-            labelsize=0.5,
-            label.n=30,
-            label.cex=F,
-            alpha=0.5,
-            remove.isolates=TRUE,
-            edges.min=1,
-            verbose=FALSE)
-auteurs=auteurs %>% mutate(au=tolower(AU))
-tidyg=as_tbl_graph(p$graph) %>% 
-  activate(nodes) %>% 
-  left_join(auteurs,
-            by=c("name"="au")) %>% 
-  mutate(keep=ndoc>15) %>% 
-  mutate(showname=case_when(keep~name,
-                            !keep~NA_character_)) %>% 
-  mutate(community=paste0("cl",str_pad(community,2,pad="0")))
-ggraph(tidyg,layout="fr")+
-  geom_edge_link(color="light grey")+
-  geom_node_point(aes(color=community,size=ndoc))+
-  geom_node_text(aes(label=showname))
-# 
-# p=ggraph(tidyg,layout="auto")+
-#   geom_edge_link(color="light grey")+
-#   geom_node_point(aes(color=factor(community),size=deg,label=name))
-# plotly::ggplotly(p)
-```
-
-```{r auteurs_graph}
-auteurs_graph=tidyg %>% activate(nodes) %>% as_tibble() %>%
-  select(au=name,AU,deg,community,ndoc,ncit,ndoc_1st,ncit_1st,ncit_loc) %>% 
-  left_join(p$cluster_res,by=c("au"="vertex"))
-ndoc_auteurs_graph=tib_auteur %>%
-  filter(AU %in% auteurs_graph$AU) %>% 
-  select(id_doc) %>% 
-  unique() %>% 
-  nrow()
-```
-
-Ce graphe représente les collaborations des `r nrow(auteurs_graph)` auteurs qui en comptent le plus dans le corpus (et qui sont chacun k-ième auteur de 5 documents minimum, ce filtre servant à écarter les auteurs de documents  comptant de très nombreux auteurs -ce qui augmente artificiellement le degré du noeud-auteur dans le graphe).
-
-Ces `r nrow(auteurs_graph)` auteurs représentent `r round(nrow(auteurs_graph)/nrow(auteurs)*100,2)`% des auteurs du corpus, mais `r round(ndoc_auteurs_graph/nrow(tib_doc),2)*100`% des documents du corpus ont au moins un de ces auteurs comme n-ième auteur.
-
-
-```{r show_auteurs_graph}
-reactable::reactable(auteurs_graph,groupBy="community",sortable=TRUE,filterable=TRUE)
-```
-
-
-## Rattachement des articles à une communauté
-
-Quand cela est possible et en se basant sur la communauté dont fait partie ses auteurs, chaque document du corpus est lui-même rattaché à une communauté.
-
-On utilise pour cela la communauté dont les auteurs du document font majoritairement partie, en appliquant une pondération selon le rang de l'auteur.
-
-On attribue au $k$-ième auteur d'un document qui en compte $n$ en tout un poids $w$ de 
-
-$$w=(n-k+1)\frac{2}{n(n+1)}$$
-soit par exemple pour un document qui compte 4 auteurs des poids de 0.4,0.3,0.2 et 0.1 pour le premier, deuxième, troisième et quatrième auteur respectivement.
-
-Dans le cas où la majorité des auteurs ne fait pas partie d'une communauté définie, on assigne le document à la communauté majoritaire (par exemple si 30% des auteurs font partie de la communauté Cl01 et 70% ne font pas partie d'une communauté définie on assigne le document à la communauté Cl01).
-
-```{r docs_comm}
-get_comm=function(dat){
-  res=dat %>% 
-    na.omit()
-  if(nrow(res)>=1){
-    res=res %>% 
-    filter(!is.na(community)) %>% 
-    filter(weight==max(weight)) %>% 
-    pull(community) %>% 
-    .[1]
-  }else{res=NA}
-  return(res)
-}
-get_comm_mix=function(dat){
-  res=dat %>% 
-    na.omit()
-  if(nrow(res)>=1){
-  res=res %>% 
-    na.omit() %>%
-    pull(community) %>% 
-    str_c(collapse="-")
-  }else{res=NA}
-  return(res)
-}
-docs_comm=tib_auteur %>% 
-  select(id_doc,AU,AU_rank) %>%
-  group_by(id_doc) %>% 
-  mutate(n=n()) %>% 
-  mutate(weight=2*(n-AU_rank+1)/(n*(n+1))) %>%
-  ungroup() %>%  
-  left_join(auteurs_graph %>% select(AU,deg,community)) %>%
-  group_by(id_doc,community) %>% 
-  summarise(weight=sum(weight,na.rm=TRUE)) %>% 
-  ungroup() %>% 
-  group_by(id_doc) %>% 
-  nest() %>% 
-  mutate(community=purrr::map_chr(data,get_comm) ,
-         community_mix=purrr::map_chr(data,get_comm_mix)) %>% 
-  select(community,community_mix)
-  
-docs_comm %>% 
-  group_by(community) %>% 
-  summarise(n=n())
-```
-
-```{r show_tib_doc_comm}
-tib_doc=tib_doc %>% 
-  left_join(docs_comm,by="id_doc")
-show_tib_doc = tib_doc %>%
-  arrange(desc(TC)) %>% 
-  select(community,id_doc,AU,TC,PY,TI,SO) 
-reactable::reactable(show_tib_doc,
-                     filterable=TRUE)
-  
-```
-
-
-
-
-```{r}
-tib_doc_PY=tib_doc %>%
-  group_by(PY) %>% 
-  mutate(ntot=n()) %>% 
-  ungroup() %>% 
-  filter(!is.na(community),PY>1988) %>% 
-  group_by(community,PY,ntot) %>% 
-  summarise(n=n()) %>%
-  ungroup() %>% 
-  mutate(prop=n/ntot)
-
-ggplot(tib_doc_PY,aes(x=PY,y=n))+
-  geom_col(aes(fill=community))+
-  facet_grid(rows=vars(community))
-```
-
-
-## Spécificités des mots-clés par communauté d'auteurs
-
-```{r spec_kw_com,fig.height=8,fig.width=6}
-kw_communities=tib_doc%>% 
-  #unnest_tokens(output="kw",input="DE",token=stringr::str_split, pattern = "; ") %>% 
-  unnest_tokens(output="kw",input="AB",token="words") %>% 
-  mutate(community=as.factor(community))
-spec_com=tidy_specificities(kw_communities,cat1=kw,cat2=community,top_spec=10) %>% 
-  arrange(community,desc(spec))
-plot_specificities(spec_com,kw,community)
-```
-
-
-## Co-occurrence des mots-clés
-
-```{r calc_graph_keywords}
-nw_cooc_kw <- biblioNetwork(M,
-                           analysis = "co-occurrences",
-                           network = "keywords",
-                           sep = ";")
-netstat <- networkStat(nw_cooc_kw)
-```
-
-```{r plot_graph_keywords, fig.width=8, fig.height=8}
-p=networkPlot(nw_cooc_kw,
-                weighted=T, n = 150,
-                Title = "Co-occurence des mots-clés",
-                type = "fruchterman",
-                cluster="louvain",
-                size=T,
-                edgesize = 5,
-                labelsize=0.7)
-```
-
-
-
-
-## Co-Citation
-
-```{r co_citation_network, fig.width=8, fig.height=8}
-M=M %>% 
-  mutate(CR=str_replace(CR,"ANONYMOUS.*;","")) %>% 
-  mutate(CR=str_replace(CR,"NO TITLE CAPTURED","")) 
-nw_cocit_doc <- biblioNetwork(M,
-                           analysis = "co-citation",
-                           network = "references",
-                           sep = ";")
-
-p=networkPlot(nw_cocit_doc,
-                n = 150,
-                Title = "Co-Citation Network",
-                type = "auto",
-                size=T,
-                cluster="louvain",
-                remove.multiple=FALSE,
-                labelsize=0.7,
-                edgesize = 5,
-                label.n=30)
-```
-
-<!-- ## Historical Direct Citation Network -->
-
-<!-- The historiographic map is a graph proposed by E. Garfield (2004) to represent a chronological network map of most relevant direct citations resulting from a bibliographic collection. -->
-
-<!-- Garfield, E. (2004). Historiographic mapping of knowledge domains literature. Journal of Information Science, 30(2), 119-145. -->
-
-<!-- The function generates a chronological direct citation network matrix which can be plotted using histPlot: -->
-
-<!-- ## Create a historical citation network -->
-
-<!-- ```{r histnetwork,fig.height=10,fig.width=10} -->
-
-<!-- histResults <- histNetwork(M, min.citations = 1, sep = ";") -->
-
-<!-- net <- histPlot(histResults, n=150, size = 1, labelsize=5, verbose=FALSE) -->
-
-<!-- net$g+theme(legend.position="none") -->
-
-<!-- ``` -->
-
-## Structure conceptuelle basée sur les mots-clés
-
-```{r conceptual_structure,fig.width=8, fig.height=8}
-CS <- conceptualStructure(M,
-                          field="ID",
-                          method="MCA",
-                          minDegree=10,
-                          clust=8,
-                          stemming=FALSE,
-                          labelsize=10,
-                          documents=3,
-                          graph=FALSE)
-CS$graph_terms
-CS$graph_dendrogram
-```
-
-
-# Analyse textuelle des abstracts
-
-
-```{r tib_textes}
-### Mise en forme de la base
-tib_doc_light=tib_doc %>% 
-   select(id_doc,TI,AU,SO,DT,DE,TC,PY,AB)
-if(!file.exists("data/data_trans/tib_lemma_cl.RDS")){
-  ### Tokenisation, lemmatisation:
-  tib_lemma=tib_doc_light %>% 
-    unnest_tokens(word,AB,token="words")
-  
-  lex_en=mixr::get_lexicon("en")
-  tib_lemma_cl=left_join(tib_lemma, lex_en,by="word") %>% 
-    filter(type %in% c("nom","ver","adj"))
-  saveRDS(tib_lemma_cl,"data/data_trans/tib_lemma_cl.RDS")
-}
-tib_lemma_cl=readRDS("data/data_trans/tib_lemma_cl.RDS")
-
-
-if(!file.exists("data/data_trans/tib_sparse.RDS")){
-  ### mise en forme pour STM
-  tib_sparse=tib_lemma_cl %>% 
-    group_by(lemma) %>% # compte pour chaque lemme...
-    mutate(n=n()) %>% # ...son nombre d'occurrences puis
-    filter(n>20) %>%  # retire ceux représentés moins de 20 fois dans le corpus
-    ungroup() %>% 
-    cast_sparse(row=TI, column=lemma, value=n)
-  saveRDS(tib_sparse,"data/data_trans/tib_sparse.RDS")
-}
-tib_sparse=readRDS("data/data_trans/tib_sparse.RDS")
-```
-
-## Spécificités du sous-corpus SHS {#sec-spec_SHS}
-
-Voici les termes les plus spécifiques des abstracts contenant "SOCIETY/SOCIAL/SOCIO":
-
-```{r spec_SHS}
-library(mixr)
-tib_lemma_cl=tib_lemma_cl %>%
-  mutate(mention_SHS=as.factor(id_doc %in% id_SHS))
-spec=tidy_specificities(tib_lemma_cl,
-                   cat1=lemma,
-                   cat2=mention_SHS,min_spec=5) %>% 
-  filter(mention_SHS=="TRUE") %>% 
-  select(-mention_SHS)
-reactable::reactable(spec)
-```
-
-On va retenir les termes qui permettent d'identifier une dimension SHS et qui n'ont pas a priori un sens autre dans un autre contexte (par ex. on écarte "MANAGEMENT"):
-
-"RESTORATION","STAKEHOLDER","DISCOURSE","ONTOLOGY","PRACTITIONER","ACTOR"
-
-Combien de documents mentionnent au moins un de ces termes dans leur abstract?
-
-```{r SHS_large}
-termes_SHS=c("RESTORATION","STAKEHOLDER","DISCOURSE","ONTOLOGY","PRACTITIONER","ACTOR")
-tib_doc %>%
-  mutate(mention_restoration=str_detect(AB,str_c(termes_SHS,collapse="|"))) %>%
-  group_by(mention_restoration) %>%
-  summarise(n=n())
-```
-
-Quelles sont les communautés d'auteur dans lesquelles ces termes sont les plus pregnants?
-
-```{r shs_communities}
-termes_shs=tolower(termes_SHS)
-kw_communities %>% mutate(shs=str_count(kw,str_c(termes_shs,collapse="|"))) %>% 
-  group_by(community) %>% 
-  summarise(ntot=n(),
-            nshs=sum(shs,na.rm=TRUE)) %>% 
-  mutate(prop=nshs/ntot*100)
-```
-
-
-## STM
-
-```{r stm}
-library(stm)
-if(!file.exists("data/data_trans/topic_model.RDS")){
-  set.seed(123)
-  topic_model<-stm(tib_sparse,K=8, verbose=FALSE)
-  saveRDS(topic_model,"data/data_trans/topic_model.RDS")
-}
-topic_model=readRDS("data/data_trans/topic_model.RDS")
-```
-
-## Explore thématiques
-
-```{r thematiques}
-thematiques=tidytext::tidy(topic_model, matrix="beta") %>% 
-  group_by(topic) %>% 
-  slice_max(beta,n=20) %>%  
-  mutate(rank=row_number()) %>% 
-  arrange(topic,desc(beta)) %>% 
-  ungroup()
-```
-
-```{r plot_thematiques, fig.width=8, fig.height=8}
-ggplot(thematiques  %>%
-         mutate(topic=as.factor(topic)) %>%
-         mutate(term=tidytext::reorder_within(term,by=beta,within=topic)),
-       aes(x=beta,y=term, fill=topic))+
-  geom_bar(stat="identity")+
-    facet_wrap(facets=vars(topic), scales="free")+
-    theme(legend.position="none")+
-  tidytext::scale_y_reordered()
-```
-
-```{r thematiques_resumees}
-thematiques=thematiques %>% 
-  group_by(topic) %>% 
-  nest()%>%  
-  summarise(topic_terms=map(data, ~paste(.$term,collapse=", "))) %>% 
-  unnest(cols=c(topic_terms)) %>% 
-  mutate(topic_short=case_when(topic==1~"hydrologie",
-                               topic==2~"transport sédimentaire",
-                               topic==3~"modélisation",
-                               topic==4~"écologie",
-                               topic==5~"biochimie",
-                               topic==6~"quantification",
-                               topic==7~"changements,risques",
-                               topic==8~"étude régionale"))
-```
-
-```{r tib_meta_thematiques}
-
-tib_gamma <- tidy(topic_model, matrix = "gamma") %>% 
-  arrange(document,desc(gamma))
-
-tib_doc_th=tib_doc_light  %>%
-  mutate(document=1:n()) %>% 
-  left_join(tib_gamma,by="document") %>% 
-  left_join(thematiques,by="topic") 
-
-
-ggplot(tib_doc_th%>% 
-         group_by(PY,topic,topic_short) %>% 
-         summarise(sgamma=sum(gamma),
-                   n=n()) %>% 
-         ungroup() %>% 
-         mutate(sgamma=sgamma/n) %>% 
-         na.omit(),
-       aes(x=PY,y=sgamma,col=topic_short))+
-  geom_smooth()
-```
-
-
-```{r thematiques_par_auteur}
-tib_auteur_th=tib_auteur %>% 
-  left_join(tib_doc_th %>% select(id_doc,topic,gamma,topic_terms,topic_short),
-            by="id_doc") %>% 
-  group_by(AU) %>% 
-  mutate(ndoc=n()) %>%
-  ungroup() %>% 
-  group_by(AU,topic,topic_short) %>% 
-  summarise(s=sum(gamma),
-            ndoc=unique(ndoc)) %>% 
-  mutate(s=s/ndoc) %>% 
-  arrange(desc(ndoc)) %>% 
-  ungroup() %>% 
-  na.omit()
-top_auteurs=tib_auteur_th %>% group_by(AU) %>% summarise(n=unique(ndoc)) %>% top_n(10) %>% pull(AU)
-ggplot(tib_auteur_th %>% filter(AU %in% top_auteurs),
-       aes(x=topic_short,y=s,fill=factor(topic_short)))+
-  geom_col()+
-  facet_wrap(facets=vars(AU))+
-  coord_flip()
 ```
 
