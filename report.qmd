@@ -335,7 +335,7 @@ tib_commus_period_prod=
   summarise(neqdoc=sum(weight),
             ndoc=n())
 ```
-Pour la suite des analyses on va sélectionner un nombre limité de communautés (toutes celles comptant au moins 50 documents dans le corpus - en équivalent auteur-).
+Pour la suite des analyses on va sélectionner un nombre limité de communautés (toutes celles comptant au moins 50 documents dans le corpus et au moins 80 auteurs).
 
 ```{r tib_commus_prod}
 tib_commus_prod=tib_commus_period_prod %>% 
@@ -350,9 +350,9 @@ tib_commus_prod=tib_commus_period_prod %>%
   mutate(pct_doc=round(ndoc/ndoc_tot*100,1),
          pct_aut=round(naut/naut_tot*100,1)) %>% 
   select(-ndoc_tot,-naut_tot) %>% 
-  arrange(desc(neqdoc)) %>%
-  mutate(community=case_when(neqdoc>50~paste0("c",1:n()),
-                             neqdoc<=50~NA_character_)) %>% 
+  arrange(desc(ndoc)) %>%
+  mutate(community=case_when(ndoc>=50 & naut>80~paste0("c",str_pad(1:n(),pad="0",width=2)),
+                             TRUE~NA_character_)) %>% 
   group_by(community)
 
 tib_clusters_commus=tib_commus_prod %>%  
@@ -363,7 +363,7 @@ tib_commus_prod=tib_commus_prod %>%
   group_by(community) %>% 
   summarise_all("sum")
   
-reactable::reactable(tib_commus_prod)
+reactable::reactable(tib_commus_prod,pagination=FALSE)
 ```
 
 ```{r join_commu_to_doc}
@@ -389,6 +389,7 @@ reactable::reactable(auteurs %>% arrange(community),
                      groupBy="community",
                      sortable=TRUE,
                      filterable=TRUE,
+                     pagination=FALSE,
                      paginateSubRows=TRUE)
 ```
 
@@ -411,8 +412,8 @@ tib_doc_period=tib_doc %>%
   ungroup() %>% 
   na.omit()
 
-ggplot(tib_doc_period,aes(x=period,y=neqdoc))+
-  geom_col(aes(fill=community),col="black",position="dodge")
+ggplot(tib_doc_period,aes(x=community,y=neqdoc))+
+  geom_col(aes(fill=community,position=period),col="black",position="dodge")
 ```
 
 ## Graphe des communautés d'auteurs
@@ -444,7 +445,7 @@ auteurs_keep=auteurs %>%
   mutate(keep=rank<=3) %>% 
   mutate(showname=case_when(keep~au,
                             !keep~NA_character_))
-
+set.seed(1234)
 tidyg=tidygraph::as_tbl_graph(p$graph) %>% 
   tidygraph::activate(nodes) %>%
   select(-community) %>% 
@@ -467,11 +468,17 @@ plot_specificities(spec_com,kw,community)
 ```
 Les journaux associés aux différentes communautés permettent également de les caractériser. Ci-dessous, les publications scientifiques spécifiques (significatif au seuil de 1% i.e. score de spécificité >2). 
 
-```{r spec_SO_com}
+```{r spec_SO_com,fig.height=8,fig.width=5}
 spec_SO=tidy_specificities(tib_doc,cat1=SO,cat2=community,min_spec=2) %>% 
   arrange(community,desc(spec)) %>% 
-  select(community, SO, spec, n)
-reactable::reactable(spec_SO)
+  mutate(rank=n():1) %>% 
+  select(community, SO, spec, n,rank)
+
+ggplot(spec_SO %>% filter(spec>2),aes(x=fct_reorder(SO,rank), y=spec))+
+  geom_col(aes(fill=community))+
+  geom_text(aes(y=0,label=SO),hjust=0)+
+  coord_flip()+
+  theme(axis.text.y=element_blank())
 ```
 
 ## Citation intra et inter-communautés
@@ -535,7 +542,7 @@ set.seed(1234)
 coords=igraph::layout_with_fr(igraph::graph_from_data_frame(edges_tot)) %>% 
   as_tibble() %>% 
   setNames(c("x","y")) %>% 
-  mutate(community=paste0("c",1:n()))
+  mutate(community=paste0("c",str_pad(1:n(),pad="0",width=2)))
 
 
 edges=edges %>% 
