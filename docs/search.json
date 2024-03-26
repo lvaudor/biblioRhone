@@ -4,286 +4,104 @@
     "href": "report.html",
     "title": "BiblioRhone",
     "section": "",
-    "text": "Chapitre introductif d’un ouvrage sur la recherche sur le Rhône (20 ans de ZABR-OHM). Création de:\nImport et nettoyage de la base .bib (exporté depuis Web of Science).\nDans titre ou topic: “Rhone” & “river|basin|catchment”. Filtre ultérieur pour retirer les mentions de Rhone présentes seulement dans les “Keywords +” (issus d’un algorithme de Web of Science reposant en partie sur les références biblio des documents)"
-  },
-  {
-    "objectID": "report.html#citations-darticles-internes-ou-externes",
-    "href": "report.html#citations-darticles-internes-ou-externes",
-    "title": "BiblioRhone",
-    "section": "Citations d’articles internes ou externes",
-    "text": "Citations d’articles internes ou externes\nThe function citations generates the frequency table of the most c\n\n\n                                                                                      [,1]\nPONT D, 2002, ESTUAR COAST SHELF S, V54, P1, DOI 10.1006/ECSS.2001.0829                136\nSEMPERE R, 2000, GLOBAL BIOGEOCHEM CY, V14, P669, DOI 10.1029/1999GB900069             105\nTOWNSEND CR, 1994, FRESHWATER BIOL, V31, P265, DOI 10.1111/J.1365-2427.1994.TB01740.X  101\nMILLOT C, 1990, CONT SHELF RES, V10, P885, DOI 10.1016/0278-4343(90)90065-T             98\nCHEVENET F, 1994, FRESHWATER BIOL, V31, P295, DOI 10.1111/J.1365-2427.1994.TB01742.X    74\nSTATZNER B, 1994, FRESHWATER BIOL, V31, P253, DOI 10.1111/J.1365-2427.1994.TB01739.X    71\nDE MADRON XD, 2000, OCEANOL ACTA, V23, P717                                             70\nANONYMOUS, NO TITLE CAPTURED                                                            69\nSOUTHWOOD TRE, 1977, J ANIM ECOL, V46, P337                                             65\nBRAVARD JP, 1986, OIKOS, V47, P92, DOI 10.2307/3565924                                  63\n\n\nTo obtain the most frequent cited first authors:\n\n\n                  [,1]\nANONYMOUS         1051\nNO TITLE CAPTURED  354\nSTATZNER B         335\n3 0 CO             291\nDOLEDEC S          273\nPONT D             256\nTOWNSEND CR        249\nBRAVARD JP         243\nMILLOT C           229\nPOFF NL            217"
-  },
-  {
-    "objectID": "report.html#citations-darticles-de-la-base-de-données",
-    "href": "report.html#citations-darticles-de-la-base-de-données",
-    "title": "BiblioRhone",
-    "section": "Citations d’articles de la base de données",
-    "text": "Citations d’articles de la base de données\nThe function localCitations generates the frequency table of the most local cited authors. Local citations measure how many times an author (or a document) included in this collection have been cited by other authors also in the collection.\nTo obtain the most frequent local cited authors:\n\n\n            Author LocalCitations\n1090  DE MADRON XD            274\n74        AMOROS C            256\n3357 RADAKOVITCH O            252\n1389   ESTOURNEL C            190\n1997    HEUSSNER S            174\n502     BORNETTE G            163\n4199       VELLA C            161\n3345   RABOUILLE C            150\n668      BUSCAIL R            148\n2810      MONACO A            146\n\n\n                                 Paper                            DOI Year LCS GCS\n445   DE MADRON XD, 2000, OCEANOL ACTA                                2000  70 142\n19             BRAVARD JP, 1986, OIKOS                10.2307/3565924 1986  63 184\n873   ANTONELLI C, 2008, GEOMORPHOLOGY 10.1016/j.geomorph.2007.06.007 2008  55  68\n268  ESTOURNEL C, 1997, CONT SHELF RES  10.1016/S0278-4343(96)00064-7 1997  54 100\n36      CAUWET G, 1990, CONT SHELF RES   10.1016/0278-4343(90)90073-U 1990  50 111\n722         MIRALLES J, 2005, MAR GEOL   10.1016/j.margeo.2005.02.020 2005  49  88\n319      CHARMASSON S, 1998, ESTUARIES                10.2307/1352836 1998  43  64\n329       BROCHE P, 1998, OCEANOL ACTA  10.1016/S0399-1784(99)80002-4 1998  41  69\n1002  CATHALOT C, 2010, BIOGEOSCIENCES         10.5194/bg-7-1187-2010 2010  38  54\n889      ULSES C, 2008, CONT SHELF RES      10.1016/j.csr.2008.01.015 2008  37 104"
-  },
-  {
-    "objectID": "report.html#authors-dominance-ranking",
-    "href": "report.html#authors-dominance-ranking",
-    "title": "BiblioRhone",
-    "section": "Authors’ Dominance ranking",
-    "text": "Authors’ Dominance ranking\nThe function dominance calculates the authors’ dominance ranking as proposed by Kumar & Kumar, 2008.\nKumar, S., & Kumar, S. (2008). Collaboration in research productivity in oil seed research institutes of India. In Proceedings of Fourth International Conference on Webometrics, Informetrics and Scientometrics.\nFunction arguments are: results (object of class bibliometrix) obtained by biblioAnalysis; and k (the number of authors to consider in the analysis).\n\n\n          Author Dominance Factor Tot Articles Single-Authored Multi-Authored\n1     BORNETTE G       0.44444444           27               0             27\n2      EYROLLE F       0.42307692           26               0             26\n3    LAMOUROUX N       0.36363636           22               0             22\n4      DOLEDEC S       0.33333333           24               0             24\n5         PONT D       0.24000000           25               0             25\n6    MARMONIER P       0.16216216           37               0             37\n7       PIEGAY H       0.14285714           51               2             49\n8  RADAKOVITCH O       0.11111111           27               0             27\n9       AMOROS C       0.07692308           27               1             26\n10   RABOUILLE C       0.04347826           23               0             23\n   First-Authored Rank by Articles Rank by DF\n1              12                3          1\n2              11                6          2\n3               8               10          3\n4               8                8          4\n5               6                7          5\n6               6                2          6\n7               7                1          7\n8               3                3          8\n9               2                3          9\n10              1                9         10\n\n\nThe Dominance Factor is a ratio indicating the fraction of multi-authored articles in which a scholar appears as the first author."
-  },
-  {
-    "objectID": "report.html#authors-h-index",
-    "href": "report.html#authors-h-index",
-    "title": "BiblioRhone",
-    "section": "Authors’ h-index",
-    "text": "Authors’ h-index\nThe h-index is an author-level metric that attempts to measure both the productivity and citation impact of the publications of a scientist or scholar.\nThe index is based on the set of the scientist’s most cited papers and the number of citations that they have received in other publications.\nThe function Hindex calculates the authors’ H-index or the sources’ H-index and its variants (g-index and m-index) in a bibliographic collection.\nFunction arguments are: M a bibliographic data frame; field is character element that defines the unit of analysis in terms of authors (field = “auhtor”) or sources (field = “source”); elements a character vector containing the authors’ names (or the sources’ names) for which you want to calculate the H-index. The argument has the form c(“SURNAME1 N”,“SURNAME2 N”,…).\nIn other words, for each author: surname and initials are separated by one blank space. i.e for the authors ARIA MASSIMO and CUCCURULLO CORRADO, elements argument is elements = c(“ARIA M”, “CUCCURULLO C”).\nTo calculate the h-index of the first 10 most productive authors (in this collection):\n\n\n         Element h_index g_index   m_index   TC NP PY_start\n1       AMOROS C      22      27 0.5789474 2087 27     1986\n2     BORNETTE G      21      27 0.6363636 2055 27     1991\n3      DOLEDEC S      20      24 0.6666667 2953 24     1994\n4      EYROLLE F      13      21 0.5416667  447 26     2000\n5    LAMOUROUX N      17      21 0.6538462 1349 21     1998\n6    MARMONIER P      19      37 0.5757576 1387 37     1991\n7       PIEGAY H      23      38 0.7931034 1480 51     1995\n8         PONT D      14      25 0.4666667  991 25     1994\n9    RABOUILLE C      13      22 0.8125000  744 22     2008\n10 RADAKOVITCH O      17      27 0.6538462  974 27     1998"
-  },
-  {
-    "objectID": "report.html#top-authors-productivity-over-time",
-    "href": "report.html#top-authors-productivity-over-time",
-    "title": "BiblioRhone",
-    "section": "Top-Authors’ Productivity over Time",
-    "text": "Top-Authors’ Productivity over Time"
-  },
-  {
-    "objectID": "report.html#bibliographic-coupling",
-    "href": "report.html#bibliographic-coupling",
-    "title": "BiblioRhone",
-    "section": "Bibliographic coupling",
-    "text": "Bibliographic coupling\nTwo articles are said to be bibliographically coupled if at least one cited source appears in the bibliographies or reference lists of both articles (Kessler, 1963).\nA coupling network can be obtained using the general formulation:\nB=A×AT\nwhere A is a bipartite network.\nElement bij indicates how many bibliographic couplings exist between manuscripts i and j. In other words, bij gives the number of paths of length 2, via which one moves from i along the arrow and then to j in the opposite direction.\nB is a symmetrical matrix B=BT.\nThe strength of the coupling of two articles, i and j is defined simply by the number of references that the articles have in common, as given by the element bij of matrix B.\nThe function biblioNetwork calculates, starting from a bibliographic data frame, the most frequently used coupling networks: Authors, Sources, and Countries.\nbiblioNetwork() uses two arguments to define the network to compute:\n\nanalysis argument can be “co-citation”, “coupling”, “collaboration”, or “co-occurrences”.\nnetwork argument can be “authors”, “references”, “sources”, “countries”, “universities”, “keywords”, “author_keywords”, “titles” and “abstracts”.\n\nThe following code calculates a classical article coupling network:\n\n\n\nArticles with only a few references, therefore, would tend to be more weakly bibliographically coupled, if coupling strength is measured simply according to the number of references that articles contain in common.\nThis suggests that it might be more practical to switch to a relative measure of bibliographic coupling.\nnormalizeSimilarity() function calculates Association strength, Inclusion, Jaccard or Salton similarity among vertices of a network. normalizeSimilarity() can be recalled directly from networkPlot() function using the argument normalize."
-  },
-  {
-    "objectID": "report.html#bibliographic-collaboration",
-    "href": "report.html#bibliographic-collaboration",
-    "title": "BiblioRhone",
-    "section": "Bibliographic collaboration",
-    "text": "Bibliographic collaboration"
-  },
-  {
-    "objectID": "report.html#descriptive-analysis-of-network-graph-characteristics",
-    "href": "report.html#descriptive-analysis-of-network-graph-characteristics",
-    "title": "BiblioRhone",
-    "section": "Descriptive analysis of network graph characteristics",
-    "text": "Descriptive analysis of network graph characteristics\nThe function networkStat calculates several summary statistics.\nIn particular, starting from a bibliographic matrix (or an igraph object), two groups of descriptive measures are computed:\n\nThe summary statistics of the network;\nThe main indices of centrality and prestige of vertices."
-  },
-  {
-    "objectID": "report.html#an-example-of-a-classical-keyword-co-occurrences-network",
-    "href": "report.html#an-example-of-a-classical-keyword-co-occurrences-network",
-    "title": "BiblioRhone",
-    "section": "An example of a classical keyword co-occurrences network",
-    "text": "An example of a classical keyword co-occurrences network\n\n\n\nThe summary statistics of the network\nThis group of statistics allows to describe the structural properties of a network:\n\nSize is the number of vertices composing the network;\nDensity is the proportion of present edges from all possible edges in the network;\nTransitivity is the ratio of triangles to connected triples;\nDiameter is the longest geodesic distance (length of the shortest path between two nodes) in the network;\nDegree distribution is the cumulative distribution of vertex degrees;\nDegree centralization is the normalized degree of the overall network; -** Closeness centralization** is the normalized inverse of the vertex average geodesic distance to others in the network;\nEigenvector centralization is the first eigenvector of the graph matrix;\nBetweenness centralization is the normalized number of geodesics that pass through the vertex;\nAverage path length is the mean of the shortest distance between each pair of vertices in the network.\n\n\n\n [1] \"networkSize\"             \"networkDensity\"         \n [3] \"networkTransitivity\"     \"networkDiameter\"        \n [5] \"networkDegreeDist\"       \"networkCentrDegree\"     \n [7] \"networkCentrCloseness\"   \"networkCentrEigen\"      \n [9] \"networkCentrbetweenness\" \"NetworkAverPathLeng\"    \n\n\n\nThe main indices of centrality and prestige of vertices\nThese measures help to identify the most important vertices in a network and the propensity of two vertices that are connected to be both connected to a third vertex.\nThe statistics, at vertex level, returned by networkStat are:\n\nDegree centrality\nCloseness centrality measures how many steps are required to access every other vertex from a given vertex;\nEigenvector centrality is a measure of being well-connected connected to the well-connected;\nBetweenness centrality measures brokerage or gatekeeping potential. It is (approximately) the number of shortest paths between vertices that pass through a particular vertex;\nPageRank score approximates probability that any message will arrive to a particular vertex. This algorithm was developed by Google founders, and originally applied to website links;\nHub Score estimates the value of the links outgoing from the vertex. It was initially applied to the web pages;\nAuthority Score is another measure of centrality initially applied to the Web. A vertex has high authority when it is linked by many other vertices that are linking many other vertices;\nVertex Ranking is an overall vertex ranking obtained as a linear weighted combination of the centrality and prestige vertex measures. The weights are proportional to the loadings of the first component of the Principal Component Analysis.\n\n\n\nNULL\n\n\nTo summarize the main results of the networkStat function, use the generic function summary. It displays the main information about the network and vertex description through several tables.\nsummary accepts one additional argument. k is a formatting value that indicates the number of rows of each table. Choosing k=10, you decide to see the first 10 vertices.\n\n\n\n\nMain statistics about the network\n\n Size                                  4762 \n Density                               0.004 \n Transitivity                          0.138 \n Diameter                              6 \n Degree Centralization                 0.242 \n Average path length                   2.879"
-  },
-  {
-    "objectID": "report.html#visualizing-bibliographic-networks",
-    "href": "report.html#visualizing-bibliographic-networks",
-    "title": "BiblioRhone",
-    "section": "Visualizing bibliographic networks",
-    "text": "Visualizing bibliographic networks\nAll bibliographic networks can be graphically visualized or modeled.\nHere, we show how to visualize networks using function networkPlot and VOSviewer software by Nees Jan van Eck and Ludo Waltman (https://www.vosviewer.com).\nUsing the function networkPlot, you can plot a network created by biblioNetwork using R routines or using VOSviewer.\nThe main argument of networkPlot is type. It indicates the network map layout: circle, kamada-kawai, mds, etc. the function automatically:\n\nCo-Citation Network\n\n\n\n\n\n\n\nKeyword co-occurrences network\n\n\n\n\n\nWarning in cluster_edge_betweenness(bsk.network): At\ncore/community/edge_betweenness.c:492 : Membership vector will be selected based\non the highest modularity score.\n\n\nWarning in cluster_edge_betweenness(bsk.network): At\ncore/community/edge_betweenness.c:497 : Modularity calculation with weighted\nedge betweenness community detection might not make sense -- modularity treats\nedge weights as similarities while edge betwenness treats them as distances."
-  },
-  {
-    "objectID": "report.html#conceptual-structure-using-keywords-methodca",
-    "href": "report.html#conceptual-structure-using-keywords-methodca",
-    "title": "BiblioRhone",
-    "section": "Conceptual Structure using keywords (method=“CA”)",
-    "text": "Conceptual Structure using keywords (method=“CA”)\n\nCS <- conceptualStructure(M,\n                          field=\"ID\",\n                          method=\"CA\",\n                          minDegree=20,\n                          clust=8,\n                          stemming=FALSE,\n                          labelsize=10,\n                          documents=10)\n\nWarning: ggrepel: 8 unlabeled data points (too many overlaps). Consider\nincreasing max.overlaps\n\n\nWarning: The `<scale>` argument of `guides()` cannot be `FALSE`. Use \"none\" instead as\nof ggplot2 3.3.4.\nℹ The deprecated feature was likely used in the factoextra package.\n  Please report the issue at <\u001b]8;;https://github.com/kassambara/factoextra/issues\u0007https://github.com/kassambara/factoextra/issues\u001b]8;;\u0007>.\n\n\n\n\n\n\n\n\nWarning: ggrepel: 30 unlabeled data points (too many overlaps). Consider\nincreasing max.overlaps\n\n\n\n\n\nWarning: ggrepel: 24 unlabeled data points (too many overlaps). Consider\nincreasing max.overlaps"
-  },
-  {
-    "objectID": "report.html#create-a-historical-citation-network",
-    "href": "report.html#create-a-historical-citation-network",
-    "title": "BiblioRhone",
-    "section": "Create a historical citation network",
-    "text": "Create a historical citation network\n\n\n\nWOS DB:\nSearching local citations (LCS) by reference items (SR) and DOIs...\n\nAnalyzing 66174 reference items...\n\nFound 640 documents with no empty Local Citations (LCS)"
-  },
-  {
-    "objectID": "report.html#plot-a-historical-co-citation-network",
-    "href": "report.html#plot-a-historical-co-citation-network",
-    "title": "BiblioRhone",
-    "section": "Plot a historical co-citation network",
-    "text": "Plot a historical co-citation network"
-  },
-  {
-    "objectID": "report.html#mise-en-forme-de-la-base",
-    "href": "report.html#mise-en-forme-de-la-base",
-    "title": "BiblioRhone",
-    "section": "Mise en forme de la base",
-    "text": "Mise en forme de la base\n\nlibrary(tidytext)\ntib_textes=as_tibble(M) %>% \n  select(TI,AU,SO,DT,DE,TC,PY,AB) %>% \n  mutate(document=1:n())\ntib_meta=tib_textes %>% select(-AB)"
-  },
-  {
-    "objectID": "report.html#tokenisation-lemmatisation",
-    "href": "report.html#tokenisation-lemmatisation",
-    "title": "BiblioRhone",
-    "section": "Tokenisation, lemmatisation:",
-    "text": "Tokenisation, lemmatisation:\n\ntib_lemma=tib_textes %>% \n  unnest_tokens(word,AB,token=\"words\")\n\nlex_en=mixr::get_lexicon(\"en\")\ntib_lemma_cl=left_join(tib_lemma, lex_en,by=\"word\") %>% \n  filter(type %in% c(\"nom\",\"ver\",\"adj\"))"
-  },
-  {
-    "objectID": "report.html#mise-en-forme-pour-stm",
-    "href": "report.html#mise-en-forme-pour-stm",
-    "title": "BiblioRhone",
-    "section": "mise en forme pour STM",
-    "text": "mise en forme pour STM\n\ntib_sparse=tib_lemma_cl %>% \n  group_by(lemma) %>% # compte pour chaque lemme...\n  mutate(n=n()) %>% # ...son nombre d'occurrences puis\n  filter(n>20) %>%  # retire ceux représentés moins de 20 fois dans le corpus\n  ungroup() %>% \n  cast_sparse(row=TI, column=lemma, value=n)"
-  },
-  {
-    "objectID": "report.html#stm",
-    "href": "report.html#stm",
-    "title": "BiblioRhone",
-    "section": "STM",
-    "text": "STM\n\n\nCode\nlibrary(stm)\nif(!file.exists(\"data/data_trans/topic_model.RDS\")){\n  set.seed(123)\n  topic_model<-stm(tib_sparse,K=8, verbose=FALSE)\n  saveRDS(topic_model,\"data/data_trans/topic_model.RDS\")\n}\ntopic_model=readRDS(\"data/data_trans/topic_model.RDS\")"
-  },
-  {
-    "objectID": "report.html#explore-thématiques",
-    "href": "report.html#explore-thématiques",
-    "title": "BiblioRhone",
-    "section": "Explore thématiques",
-    "text": "Explore thématiques\n\n\nCode\nthematiques=tidytext::tidy(topic_model, matrix=\"beta\") %>% \n  group_by(topic) %>% \n  slice_max(beta,n=20) %>%  \n  mutate(rank=row_number()) %>% \n  arrange(topic,desc(beta)) %>% \n  ungroup()\n\n\n\n\nCode\nggplot(thematiques  %>%\n         mutate(topic=as.factor(topic)) %>%\n         mutate(term=tidytext::reorder_within(term,by=beta,within=topic)),\n       aes(x=beta,y=term, fill=topic))+\n  geom_bar(stat=\"identity\")+\n    facet_wrap(facets=vars(topic), scales=\"free\")+\n    theme(legend.position=\"none\")+\n  tidytext::scale_y_reordered()\n\n\n\n\n\n\n\nCode\nthematiques=thematiques %>% \n  group_by(topic) %>% \n  nest()%>%  \n  summarise(topic_terms=map(data, ~paste(.$term,collapse=\", \"))) %>% \n  unnest(cols=c(topic_terms)) %>% \n  mutate(topic_short=case_when(topic==1~\"hydrologie\",\n                               topic==2~\"transport sédimentaire\",\n                               topic==3~\"modélisation\",\n                               topic==4~\"écologie\",\n                               topic==5~\"biochimie\",\n                               topic==6~\"quantification\",\n                               topic==7~\"changements,risques\",\n                               topic==8~\"étude régionale\"))\n\n\n\n\nCode\ntib_gamma <- tidy(topic_model, matrix = \"gamma\") %>% \n  arrange(document,desc(gamma))\n\ntib_doc_th=tib_doc_light  %>%\n  mutate(document=1:n()) %>% \n  left_join(tib_gamma,by=\"document\") %>% \n  left_join(thematiques,by=\"topic\") \n\n\nggplot(tib_doc_th%>% \n         group_by(PY,topic,topic_short) %>% \n         summarise(sgamma=sum(gamma),\n                   n=n()) %>% \n         ungroup() %>% \n         mutate(sgamma=sgamma/n) %>% \n         na.omit(),\n       aes(x=PY,y=sgamma,col=topic_short))+\n  geom_smooth()\n\n\n\n\n\n\n\nCode\ntib_auteur_th=tib_auteur %>% \n  left_join(tib_doc_th %>% select(id_doc,topic,gamma,topic_terms,topic_short),\n            by=\"id_doc\") %>% \n  group_by(AU) %>% \n  mutate(ndoc=n()) %>%\n  ungroup() %>% \n  group_by(AU,topic,topic_short) %>% \n  summarise(s=sum(gamma),\n            ndoc=unique(ndoc)) %>% \n  mutate(s=s/ndoc) %>% \n  arrange(desc(ndoc)) %>% \n  ungroup() %>% \n  na.omit()\ntop_auteurs=tib_auteur_th %>% group_by(AU) %>% summarise(n=unique(ndoc)) %>% top_n(10) %>% pull(AU)\nggplot(tib_auteur_th %>% filter(AU %in% top_auteurs),\n       aes(x=topic_short,y=s,fill=factor(topic_short)))+\n  geom_col()+\n  facet_wrap(facets=vars(AU))+\n  coord_flip()"
-  },
-  {
-    "objectID": "biblioRhone.html",
-    "href": "biblioRhone.html",
-    "title": "biblioRhone",
-    "section": "",
-    "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org.\n\n1 + 1\n\n[1] 2"
-  },
-  {
-    "objectID": "report.html#co-word-analysis-the-conceptual-structure-of-a-field",
-    "href": "report.html#co-word-analysis-the-conceptual-structure-of-a-field",
-    "title": "BiblioRhone",
-    "section": "Co-Word Analysis: The conceptual structure of a field",
-    "text": "Co-Word Analysis: The conceptual structure of a field\nThe aim of the co-word analysis is to map the conceptual structure of a framework using the word co-occurrences in a bibliographic collection.\nThe analysis can be performed through dimensionality reduction techniques such as Multidimensional Scaling (MDS), Correspondence Analysis (CA) or Multiple Correspondence Analysis (MCA).\nHere, we show an example using the function conceptualStructure that performs a CA or MCA to draw a conceptual structure of the field and K-means clustering to identify clusters of documents which express common concepts. Results are plotted on a two-dimensional map.\nconceptualStructure includes natural language processing (NLP) routines (see the function termExtraction) to extract terms from titles and abstracts. In addition, it implements the Porter’s stemming algorithm to reduce inflected (or sometimes derived) words to their word stem, base or root form."
-  },
-  {
-    "objectID": "report.html#etapes-méthodo",
-    "href": "report.html#etapes-méthodo",
-    "title": "BiblioRhone",
-    "section": "Etapes méthodo",
-    "text": "Etapes méthodo\n\nMise en forme de la base\n\nlibrary(tidytext)\ntib_textes=as_tibble(M) %>% \n  select(TI,AU,SO,DT,DE,TC,PY,AB) %>% \n  mutate(document=1:n())\ntib_meta=tib_textes %>% select(-AB)\n\n\n\nTokenisation, lemmatisation:\n\ntib_lemma=tib_textes %>% \n  unnest_tokens(word,AB,token=\"words\")\n\nlex_en=mixr::get_lexicon(\"en\")\ntib_lemma_cl=left_join(tib_lemma, lex_en,by=\"word\") %>% \n  filter(type %in% c(\"nom\",\"ver\",\"adj\"))\n\n\n\nmise en forme pour STM\n\ntib_sparse=tib_lemma_cl %>% \n  group_by(lemma) %>% # compte pour chaque lemme...\n  mutate(n=n()) %>% # ...son nombre d'occurrences puis\n  filter(n>20) %>%  # retire ceux représentés moins de 20 fois dans le corpus\n  ungroup() %>% \n  cast_sparse(row=TI, column=lemma, value=n)"
-  },
-  {
-    "objectID": "report.html#analyses-simples",
-    "href": "report.html#analyses-simples",
-    "title": "BiblioRhone",
-    "section": "Analyses simples",
-    "text": "Analyses simples\n\nTop 50 auteurs (nbre d’articles)\nAuteurs du plus grand nombre de documents (dans ce corpus):\n\n\n\n\n\n\n\n\n\nTop 10 sources (nbre d’articles)\nSources (journaux) représentant le plus de documents (dans ce corpus):\n\n\n\n\n\n\n\n\n\nTop 10 articles (citations globales)\n\n\n\n\n\n\n\nThe function localCitations generates the frequency table of the most local cited authors. Local citations measure how many times an author (or a document) included in this collection have been cited by other authors also in the collection.\nTo obtain the most frequent locally cited authors:\n\n\n\n\n\nTop 10 articles (citations locales)\n\n\n\n\n\n\n\n\n\nTop 10 auteurs (citations locales)"
-  },
-  {
-    "objectID": "report.html#nombre-de-publis-par-année-dans-le-corpus",
-    "href": "report.html#nombre-de-publis-par-année-dans-le-corpus",
-    "title": "BiblioRhone",
-    "section": "Nombre de publis par année (dans le corpus)",
-    "text": "Nombre de publis par année (dans le corpus)\n\n\nCode\nggplot(tib_doc,\n       aes(x=PY))+\n  geom_bar()+\n  xlab(\"année de publication\")+ylab(\"nombre de publications\")"
-  },
-  {
-    "objectID": "report.html#analyses-simples-à-plat",
-    "href": "report.html#analyses-simples-à-plat",
-    "title": "BiblioRhone",
-    "section": "Analyses simples, “à plat”",
-    "text": "Analyses simples, “à plat”\n\nAuteurs\n\nndoc nombre de documents (dans ce corpus):\nncit nombre de citations (globales)\nndoc_1st nombre de documents en tant que 1er auteur\nncit_1st nombre de citations en tant que 1er auteur\nncit_loc: nombre de citations locales (i.e. par les document de ce corpus)\nncit_1st_loc: nombre de citations locales en tant que premier auteur\n\n\n\n\n\n\n\n\n\n\n\n\n\nTop 10 sources\n\nbasé sur nbre d’articles\n\nndoc: nombre de documents\nncit: nombre de citations (totales)\n\n\n\n\n\n\n\n\n\n\n\ndocuments\n\n\n\n\n\n\n\n\n\nAffiliations\nbibliometrix comprend des fonctions permettant d’extraire automatiquement les éléments d’affiliation distincts et les références mais ça fonctionne moyen (de fait il est déjà assez difficile d’en faire sens au niveau de l’export WOS…)\n\n\n\n\n\n\n\nIl est ainsi assez difficile de travailler sur les affiliations de manière “non dirigée”… Par exemple pour les publis Hervé et en filtrant pour garder les publis récentes (>2005) on a déjà 34 affiliations formulées de manière différentes (tout est mélangé pour les différents auteurs des articles) et en fonction du champ l’info principale n’est pas toujours la même (ici pas de mention de EVS par ex.).\n\n\n\n\n\n\n\nPar contre on pourrait imaginer lister un certain nombre de structures (CNRS, EVS, LBBE, LEHNA, etc) et tenter de détecter à partir de cet ensemble quels auteurs/publis s’y rattachent…\n\n\nNombre de publis par année (dans le corpus)\n\n\nWarning: Removed 6 rows containing non-finite values (`stat_count()`)."
-  },
-  {
-    "objectID": "report.html#collaborations-auteurs",
-    "href": "report.html#collaborations-auteurs",
-    "title": "BiblioRhone",
-    "section": "Collaborations (auteurs)",
-    "text": "Collaborations (auteurs)\nOn définit des communautés d’auteurs en se basant sur les collaborations (co-signature de documents).\n\n\nCode\nnw_coll_auth <- biblioNetwork(M,\n                           analysis = \"collaboration\",\n                           network = \"authors\",\n                           sep = \";\")\n\n\n\n\nCode\nset.seed(123456)\np=networkPlot(nw_coll_auth,\n            Title = \"Collaborations\",\n            type = \"fruchterman\",\n            cluster=\"louvain\",\n            size=5,\n            size.cex=T,\n            labelsize=0.5,\n            label.n=30,\n            label.cex=F,\n            alpha=0.5,\n            #remove.isolates=TRUE,\n            #edges.min=1,\n            verbose=FALSE,\n            community.repulsion=0)\nauteurs=read_csv2(\"data/data_trans/auteurs.csv\")\nauteurs=auteurs %>%\n  mutate(au=tolower(AU)) %>% \n  left_join(p$cluster_res,by=c(\"au\"=\"vertex\")) \ncommus_to_keep=auteurs %>%\n  group_by(cluster) %>%\n  summarise(ndoc=sum(ndoc)) %>%\n  filter(ndoc>=120) %>%\n  select(-ndoc) %>% \n  mutate(community=1:n()) %>% \n  mutate(community=paste0(\"cl\",str_pad(community,2,pad=\"0\")))\nauteurs = auteurs %>% \n  left_join(commus_to_keep,by=\"cluster\")\ntidyg=tidygraph::as_tbl_graph(p$graph) %>% \n  tidygraph::activate(nodes) %>%\n  tidygraph::select(name) %>% \n  tidygraph::left_join(auteurs %>% select(au, ndoc,community),\n            by=c(\"name\"=\"au\")) %>% \n  tidygraph::filter(!is.na(community)) %>% \n  tidygraph::mutate(keep=ndoc>10) %>% \n  tidygraph::mutate(showname=case_when(keep~name,\n                            !keep~NA_character_)) \nggraph(tidyg,layout=\"fr\")+\n  geom_edge_link(color=\"light grey\")+\n  geom_node_point(aes(color=community,size=ndoc))+\n  geom_node_text(aes(label=showname))#+\n\n\n\n\n\nCode\n  #theme(legend.position=\"none\")\n\n\n\n\nCode\nauteurs_graph=auteurs %>% \n  filter(!is.na(community)) %>% \n  pull(AU)\nndoc_auteurs_graph=tib_auteur %>% \n  filter(AU %in% auteurs_graph) %>% \n  pull(id_doc) %>% unique() %>% \n  length()\n\n\nCe graphe représente les collaborations des 1892 auteurs qui ont été rattachés à une communauté comportant au moins 100 auteurs.\nCes 1892 auteurs représentent 55.13% des auteurs du corpus, mais 66% des documents du corpus ont au moins un de ces auteurs comme n-ième auteur.\n\n\nCode\nreadr::write_csv2(auteurs,\"datashare/auteurs.csv\")\nreactable::reactable(auteurs,groupBy=\"community\",sortable=TRUE,filterable=TRUE)"
-  },
-  {
-    "objectID": "report.html#co-citation",
-    "href": "report.html#co-citation",
-    "title": "BiblioRhone",
-    "section": "Co-Citation",
-    "text": "Co-Citation\n\n\nCode\nM=M %>% \n  mutate(CR=str_replace(CR,\"ANONYMOUS.*;\",\"\")) %>% \n  mutate(CR=str_replace(CR,\"NO TITLE CAPTURED\",\"\")) \nnw_cocit_doc <- biblioNetwork(M,\n                           analysis = \"co-citation\",\n                           network = \"references\",\n                           sep = \";\")\n\np=networkPlot(nw_cocit_doc,\n                n = 150,\n                Title = \"Co-Citation Network\",\n                type = \"auto\",\n                size=T,\n                cluster=\"louvain\",\n                remove.multiple=FALSE,\n                labelsize=0.7,\n                edgesize = 5,\n                label.n=30)"
-  },
-  {
-    "objectID": "report.html#co-occurrences-de-mots-clés",
-    "href": "report.html#co-occurrences-de-mots-clés",
-    "title": "BiblioRhone",
-    "section": "Co-occurrences de mots-clés",
-    "text": "Co-occurrences de mots-clés"
-  },
-  {
-    "objectID": "report.html#historical-direct-citation-network",
-    "href": "report.html#historical-direct-citation-network",
-    "title": "BiblioRhone",
-    "section": "Historical Direct Citation Network",
-    "text": "Historical Direct Citation Network\nThe historiographic map is a graph proposed by E. Garfield (2004) to represent a chronological network map of most relevant direct citations resulting from a bibliographic collection.\nGarfield, E. (2004). Historiographic mapping of knowledge domains literature. Journal of Information Science, 30(2), 119-145.\nThe function generates a chronological direct citation network matrix which can be plotted using histPlot:"
-  },
-  {
-    "objectID": "report.html#co-occurrence-des-mots-clés",
-    "href": "report.html#co-occurrence-des-mots-clés",
-    "title": "BiblioRhone",
-    "section": "Co-occurrence des mots-clés",
-    "text": "Co-occurrence des mots-clés\n\n\nCode\nnw_cooc_kw <- biblioNetwork(M,\n                           analysis = \"co-occurrences\",\n                           network = \"keywords\",\n                           sep = \";\")\nnetstat <- networkStat(nw_cooc_kw)\n\n\n\n\nCode\np=networkPlot(nw_cooc_kw,\n                weighted=T, n = 150,\n                Title = \"Co-occurence des mots-clés\",\n                type = \"fruchterman\",\n                cluster=\"louvain\",\n                size=T,\n                edgesize = 5,\n                labelsize=0.7)"
-  },
-  {
-    "objectID": "report.html#structure-conceptuelle-basée-sur-les-mots-clés",
-    "href": "report.html#structure-conceptuelle-basée-sur-les-mots-clés",
-    "title": "BiblioRhone",
-    "section": "Structure conceptuelle basée sur les mots-clés",
-    "text": "Structure conceptuelle basée sur les mots-clés\n\n\nCode\nCS <- conceptualStructure(M,\n                          field=\"ID\",\n                          method=\"MCA\",\n                          minDegree=10,\n                          clust=8,\n                          stemming=FALSE,\n                          labelsize=10,\n                          documents=3,\n                          graph=FALSE)\nCS$graph_terms\n\n\n\n\n\nCode\nCS$graph_dendrogram\n\n\nNULL"
-  },
-  {
-    "objectID": "report.html#focus-sur-les-shs",
-    "href": "report.html#focus-sur-les-shs",
-    "title": "BiblioRhone",
-    "section": "Focus sur les SHS",
-    "text": "Focus sur les SHS\nQuels sont les documents qui font mention des termes SOCIAL/SOCIETY/SOCIO-quelque-chose dans leur abstract?\n\n\nCode\ntib_doc_SHS=tib_doc %>% \n  mutate(mention_SHS=str_detect(AB,\"SOCIAL|SOCIETY|SOCIO\"))\n\nid_SHS=tib_doc_SHS %>% \n  filter(mention_SHS) %>% \n  pull(id_doc)\n\nprop_SHS=tib_doc_SHS %>% \n  group_by(mention_SHS) %>% \n  summarise(n=n())\nprop_SHS\n\n\n# A tibble: 3 × 2\n  mention_SHS     n\n  <lgl>       <int>\n1 FALSE        1313\n2 TRUE           53\n3 NA             76\n\n\n=> Peu de documents étiquetés “SHS” a priori (3.88% des documents pour lesquels on dispose de l’abstract) mais ce premier ensemble va nous permettre de rechercher les termes spécifiques aux SHS et d’identifier un “courant SHS” plus important et transverse (cf partie Section 3.1)"
-  },
-  {
-    "objectID": "report.html#sec-spec_SHS",
-    "href": "report.html#sec-spec_SHS",
-    "title": "BiblioRhone",
-    "section": "Spécificités du sous-corpus SHS",
-    "text": "Spécificités du sous-corpus SHS\nVoici les termes les plus spécifiques des abstracts contenant “SOCIETY/SOCIAL/SOCIO”:\n\n\nCode\nlibrary(mixr)\ntib_lemma_cl=tib_lemma_cl %>%\n  mutate(mention_SHS=as.factor(id_doc %in% id_SHS))\nspec=tidy_specificities(tib_lemma_cl,\n                   cat1=lemma,\n                   cat2=mention_SHS,min_spec=5) %>% \n  filter(mention_SHS==\"TRUE\") %>% \n  select(-mention_SHS)\nreactable::reactable(spec)\n\n\n\n\n\n\n\nOn va retenir les termes qui permettent d’identifier une dimension SHS et qui n’ont pas a priori un sens autre dans un autre contexte (par ex. on écarte “MANAGEMENT”):\n“RESTORATION”,“STAKEHOLDER”,“DISCOURSE”,“ONTOLOGY”,“PRACTITIONER”,“ACTOR”\nCombien de documents mentionnent au moins un de ces termes dans leur abstract?\n\n\nCode\ntermes_SHS=c(\"RESTORATION\",\"STAKEHOLDER\",\"DISCOURSE\",\"ONTOLOGY\",\"PRACTITIONER\",\"ACTOR\")\ntib_doc %>%\n  mutate(mention_restoration=str_detect(AB,str_c(termes_SHS,collapse=\"|\"))) %>%\n  group_by(mention_restoration) %>%\n  summarise(n=n())\n\n\n# A tibble: 3 × 2\n  mention_restoration     n\n  <lgl>               <int>\n1 FALSE                1062\n2 TRUE                  314\n3 NA                     77\n\n\nQuelles sont les communautés d’auteur dans lesquelles ces termes sont les plus pregnants?\n\n\nCode\ntermes_shs=tolower(termes_SHS)\nkw_communities %>% mutate(shs=str_count(kw,str_c(termes_shs,collapse=\"|\"))) %>% \n  group_by(community) %>% \n  summarise(ntot=n(),\n            nshs=sum(shs,na.rm=TRUE)) %>% \n  mutate(prop=nshs/ntot*100)\n\n\n# A tibble: 12 × 4\n   community  ntot  nshs  prop\n   <chr>     <int> <int> <dbl>\n 1 c01        1088    19 1.75 \n 2 c02         328     0 0    \n 3 c03         320     1 0.312\n 4 c04         376     1 0.266\n 5 c05         380     1 0.263\n 6 c06         279     0 0    \n 7 c07         234     1 0.427\n 8 c08         274     3 1.09 \n 9 c09         242     0 0    \n10 c10         262     5 1.91 \n11 c11         180     2 1.11 \n12 <NA>       2527     8 0.317"
-  },
-  {
-    "objectID": "report.html#spécificités-des-mots-clés-par-communauté-dauteurs",
-    "href": "report.html#spécificités-des-mots-clés-par-communauté-dauteurs",
-    "title": "BiblioRhone",
-    "section": "Spécificités des mots-clés par communauté d’auteurs",
-    "text": "Spécificités des mots-clés par communauté d’auteurs\n\n\nCode\nkw_communities=tib_doc%>% \n  unnest_tokens(output=\"kw\",input=\"DE\",token=stringr::str_split, pattern = \"; \") \nspec_com=tidy_specificities(kw_communities,cat1=kw,cat2=community,top_spec=20) %>% \n  arrange(community,desc(spec))\nplot_specificities(spec_com,kw,community)\n\n\n\n\n\nLes journaux associés aux différentes communautés permettent également de les caractériser. Ci-dessous, les publications scientifiques spécifiques (significatif au seuil de 1% i.e. score de spécificité >2).\n\n\nCode\nspec_SO=tidy_specificities(tib_doc,cat1=SO,cat2=community,min_spec=2) %>% \n  arrange(community,desc(spec)) %>% \n  mutate(rank=n():1) %>% \n  select(community, SO, spec, n,rank)\n\nggplot(spec_SO %>% filter(spec>2),aes(x=fct_reorder(SO,rank), y=spec))+\n  geom_col(aes(fill=community))+\n  geom_text(aes(y=0,label=SO),hjust=0)+\n  coord_flip()+\n  theme(axis.text.y=element_blank())"
-  },
-  {
-    "objectID": "report.html#rattachement-des-articles-à-une-communauté",
-    "href": "report.html#rattachement-des-articles-à-une-communauté",
-    "title": "BiblioRhone",
-    "section": "Rattachement des articles à une communauté",
-    "text": "Rattachement des articles à une communauté\nQuand cela est possible et en se basant sur la communauté dont fait partie ses auteurs, chaque document du corpus est lui-même rattaché à une communauté.\nOn utilise pour cela la communauté dont les auteurs du document font majoritairement partie, en appliquant une pondération selon le rang de l’auteur.\nOn attribue au \\(k\\)-ième auteur d’un document qui en compte \\(n\\) en tout un poids \\(w\\) de\n\\[w=(n-k+1)\\frac{2}{n(n+1)}\\] soit par exemple pour un document qui compte 4 auteurs des poids de 0.4,0.3,0.2 et 0.1 pour le premier, deuxième, troisième et quatrième auteur respectivement.\nDans le cas où la majorité des auteurs ne fait pas partie d’une communauté définie, on assigne le document à la communauté majoritaire (par exemple si 30% des auteurs font partie de la communauté Cl01 et 70% ne font pas partie d’une communauté définie on assigne le document à la communauté Cl01).\n\n\nCode\nget_comm=function(dat){\n  res=dat %>% \n    na.omit()\n  if(nrow(res)>=1){\n    res=res %>% \n    filter(!is.na(community)) %>% \n    filter(weight==max(weight)) %>% \n    pull(community) %>% \n    .[1]\n  }else{res=NA}\n  return(res)\n}\nget_comm_mix=function(dat){\n  res=dat %>% \n    na.omit()\n  if(nrow(res)>=1){\n  res=res %>% \n    na.omit() %>%\n    pull(community) %>% \n    str_c(collapse=\"-\")\n  }else{res=NA}\n  return(res)\n}\ndocs_comm=tib_auteur %>% \n  select(id_doc,AU,AU_rank) %>%\n  group_by(id_doc) %>% \n  mutate(n=n()) %>% \n  mutate(weight=2*(n-AU_rank+1)/(n*(n+1))) %>%\n  ungroup() %>%  \n  left_join(auteurs_graph %>% select(AU,deg,community)) %>%\n  group_by(id_doc,community) %>% \n  summarise(weight=sum(weight,na.rm=TRUE)) %>% \n  ungroup() %>% \n  group_by(id_doc) %>% \n  nest() %>% \n  mutate(community=purrr::map_chr(data,get_comm) ,\n         community_mix=purrr::map_chr(data,get_comm_mix)) %>% \n  select(community,community_mix)\n  \ndocs_comm %>% \n  group_by(community) %>% \n  summarise(n=n())\n\n\n# A tibble: 13 × 2\n   community     n\n   <chr>     <int>\n 1 cl01        375\n 2 cl02        155\n 3 cl03        120\n 4 cl04         40\n 5 cl05         93\n 6 cl06         35\n 7 cl07         30\n 8 cl08         20\n 9 cl09         39\n10 cl10         61\n11 cl11         17\n12 cl12         35\n13 <NA>        830\n\n\n\n\nCode\ntib_doc=tib_doc %>% \n  left_join(docs_comm,by=\"id_doc\")\nshow_tib_doc = tib_doc %>%\n  arrange(desc(TC)) %>% \n  select(community,id_doc,AU,TC,PY,TI,SO) \nreactable::reactable(show_tib_doc,\n                     filterable=TRUE)\n\n\n\n\n\n\n\n\n\nCode\ntib_doc_PY=tib_doc %>%\n  group_by(PY) %>% \n  mutate(ntot=n()) %>% \n  ungroup() %>% \n  filter(!is.na(community),PY>1988) %>% \n  group_by(community,PY,ntot) %>% \n  summarise(n=n()) %>%\n  ungroup() %>% \n  mutate(prop=n/ntot)\n\nggplot(tib_doc_PY,aes(x=PY,y=n))+\n  geom_col(aes(fill=community))+\n  facet_grid(rows=vars(community))"
-  },
-  {
-    "objectID": "report.html#sec-docs_commu",
-    "href": "report.html#sec-docs_commu",
-    "title": "BiblioRhone",
-    "section": "Rattachement des articles à une communauté",
-    "text": "Rattachement des articles à une communauté\nQuand cela est possible et en se basant sur la communauté dont fait partie ses auteurs, chaque document du corpus est lui-même rattaché à une communauté.\nOn utilise pour cela la communauté dont les auteurs du document font majoritairement partie, en appliquant une pondération selon le rang de l’auteur.\nOn attribue au \\(k\\)-ième auteur d’un document qui en compte \\(n\\) en tout un poids \\(w\\) de\n\\[w=(n-k+1)\\frac{2}{n(n+1)}\\] soit par exemple pour un document qui compte 4 auteurs des poids de 0.4,0.3,0.2 et 0.1 pour le premier, deuxième, troisième et quatrième auteur respectivement.\nDans le cas où la majorité des auteurs ne fait pas partie d’une communauté définie, on assigne le document à la communauté majoritaire (par exemple si 30% des auteurs font partie de la communauté Cl01 et 70% ne font pas partie d’une communauté définie on assigne le document à la communauté Cl01).\n\n\nCode\nget_commu=function(dat){\n  res=dat %>% \n    na.omit()\n  if(nrow(res)>=1){\n    res=res %>% \n    filter(!is.na(cluster)) %>% \n    group_by(cluster) %>% \n    summarise(weight=sum(weight)) %>% \n    filter(weight==max(weight))\n  }else{res=NA}\n  return(res)\n}\n\ntib_commus=tib_auteur %>% \n  select(id_doc,AU,AU_rank) %>%\n  group_by(id_doc) %>% \n  mutate(n=n()) %>% \n  mutate(weight=2*(n-AU_rank+1)/(n*(n+1))) %>%\n  ungroup() %>%  \n  left_join(auteurs%>% select(AU,cluster)) %>%\n  group_by(id_doc,cluster) %>% \n  summarise(weight=sum(weight,na.rm=TRUE))\ntib_1doc_1commu=tib_commus%>% \n  ungroup() %>% \n  group_by(id_doc) %>% \n  nest() %>% \n  mutate(data=purrr::map(data,get_commu)) %>% \n  unnest(data)\ntib_commus_period_prod=\n  tib_commus %>% \n  left_join(tib_doc %>% select(id_doc,period))%>%\n  group_by(cluster,period) %>% \n  summarise(neqdoc=sum(weight),\n            ndoc=n())\n\n\nPour la suite des analyses on va sélectionner un nombre limité de communautés (toutes celles comptant au moins 50 documents dans le corpus et au moins 80 auteurs).\n\n\nCode\ntib_commus_prod=tib_commus_period_prod %>% \n  group_by(cluster) %>% \n  summarise(neqdoc=sum(neqdoc),\n            ndoc=sum(ndoc)) %>% \n  left_join(auteurs %>% group_by(cluster) %>% summarise(naut=n()),\n            by=\"cluster\") %>% \n  ungroup() %>% \n  mutate(ndoc_tot=sum(ndoc),\n         naut_tot=sum(naut)) %>% \n  mutate(pct_doc=round(ndoc/ndoc_tot*100,1),\n         pct_aut=round(naut/naut_tot*100,1)) %>% \n  select(-ndoc_tot,-naut_tot) %>% \n  arrange(desc(ndoc)) %>%\n  mutate(community=case_when(ndoc>=50 & naut>80~paste0(\"c\",str_pad(1:n(),pad=\"0\",width=2)),\n                             TRUE~NA_character_)) %>% \n  group_by(community)\n\ntib_clusters_commus=tib_commus_prod %>%  \n  select(cluster,community)\n\ntib_commus_prod=tib_commus_prod %>% \n  select(-cluster) %>% \n  group_by(community) %>% \n  summarise_all(\"sum\")\n  \nreactable::reactable(tib_commus_prod,pagination=FALSE)\n\n\n\n\n\n\n\n\n\nCode\ntib_doc=tib_doc %>% \n  left_join(tib_1doc_1commu %>% \n              left_join(tib_clusters_commus,by=\"cluster\") %>% \n              select(-cluster),\n            by=\"id_doc\") \ntib_doc_save=tib_doc %>%\n  arrange(desc(TC)) %>%\n  select(id_doc,community,weight, AU, PY, TI, SO, DE)\nreadr::write_csv2(tib_doc_save, \"datashare/documents.csv\")\n\n\n\nTable des auteurs\n\n\nCode\nauteurs=auteurs %>% \n  left_join(tib_clusters_commus,by=\"cluster\") %>% \n  select(-cluster) \nreadr::write_csv2(auteurs,\"datashare/auteurs.csv\")\nreactable::reactable(auteurs %>% arrange(community),\n                     groupBy=\"community\",\n                     sortable=TRUE,\n                     filterable=TRUE,\n                     pagination=FALSE,\n                     paginateSubRows=TRUE)\n\n\n\n\n\n\n\n\n\nTable des documents\n\n\nCode\nreactable::reactable(tib_doc_save %>% select(-id_doc),\n                     filterable=TRUE,\n                     resizable=TRUE)"
-  },
-  {
-    "objectID": "report.html#citation-intra-et-inter-communautés",
-    "href": "report.html#citation-intra-et-inter-communautés",
-    "title": "BiblioRhone",
-    "section": "Citation intra et inter-communautés",
-    "text": "Citation intra et inter-communautés\n\n\nCode\n# community during period has cited ref *n* times\ncites=tib_doc %>%\n  filter(!is.na(PY)) %>% \n  select(id_doc,PY,community, CR,period) %>% \n    unnest_tokens(output=\"ref\",input=\"CR\",\n                  to_lower=FALSE,\n                  token=stringr::str_split, pattern=\"; \") %>% \n  mutate(ref=str_extract(ref,\"^[^,]*,[^,]*,[^,]*,\")) %>% \n  mutate(ref=str_replace(ref,\",$\",\"\"))%>% \n  group_by(community,period, ref) %>% \n  summarise(n=n()) %>%\n  ungroup()\n\n# community at the end of period had authored \n# a cumulated number of docs *ndoc*\nndoc=tib_doc %>% group_by(community,period) %>% summarise(ndoc=n()) %>% \n  mutate(ndoc=cumsum(ndoc)) %>% \n  ungroup()\n\n# community during period has cited *nref* documents\n# community at the end of period had authored \n# a cumulated number of docs *ndoc*\nnodes=cites %>% \n  group_by(community,period) %>% \n  summarise(nref=sum(n)) %>% \n  ungroup() %>% \n  left_join(ndoc) %>% \n  na.omit() %>% \n  tidyr::unite(col=name,community,period,sep=\"-\",remove=FALSE)\n\n# community during period has cited: \n#        - a total of *ntotref* documents\n#        - documents authored by community_cited *n* times\n# The proportion of references authored by community_cited\n# among all references is *prop*\nedges=cites %>% \n  left_join(tib_doc %>% select(id_doc,community_cited=community),\n            by=c(\"ref\"=\"id_doc\")) %>% \n  group_by(period,community) %>% \n  mutate(ntotref=n()) %>% \n  ungroup() %>% \n  group_by(period,community,community_cited,ntotref)%>%\n  summarise(n=sum(n)) %>%\n  mutate(prop=n/ntotref*100) %>% \n  na.omit() %>% \n  ungroup() %>% \n  tidyr::unite(col=from,community,period,sep=\"-\",remove=FALSE) %>% \n  tidyr::unite(col=to,community_cited,period,sep=\"-\",remove=FALSE)\n\n# The graph layout is calculated according to all citation links,\n# regardless of period\nedges_tot=edges %>% \n  group_by(community_cited,community) %>% \n  summarise(ntot=sum(n))\nset.seed(1234)\ncoords=igraph::layout_with_fr(igraph::graph_from_data_frame(edges_tot)) %>% \n  as_tibble() %>% \n  setNames(c(\"x\",\"y\")) %>% \n  mutate(community=paste0(\"c\",str_pad(1:n(),pad=\"0\",width=2)))\n\n\nedges=edges %>% \n  mutate(loop=community==community_cited) %>% \n  mutate(from=case_when(loop~paste0(from,\"-copy\"),\n                        !loop~from))\n\nnodes=nodes %>% \n  left_join(coords) \nnodes=nodes %>%\n  mutate(loop=FALSE) %>% \n  bind_rows(nodes %>%\n              mutate(loop=TRUE,\n                     name=paste0(name,\"-copy\"),\n                     y=y-0.6)) \n\n# create graph\npcit=tidygraph::tbl_graph(nodes=nodes,\n                           edges=edges)\n\n\n\n\nCode\n#plot graph\nggraph(pcit,nodes)+\ngeom_edge_fan(aes(edge_width=prop,color=community_cited,alpha=prop),\n                arrow=arrow(length=unit(0.15,\"inches\"),\n                            angle=15),\n                end_cap = circle(4, 'mm'),\n                start_cap = circle(4, 'mm'))+\n  geom_node_point(data=nodes %>% filter(!loop),\n                  aes(fill=community,size=ndoc), alpha=0.5,shape=22)+\n  geom_node_text(data=nodes %>% filter(!loop),\n                 aes(label=community))+\n  facet_wrap(facets=vars(period),nrow=3)+\n  scale_size_continuous(range=c(1,20))+\n  scale_x_continuous()+\n  scale_y_continuous()+\n  guides(color=FALSE)\n\n\n\n\n\ncitations\n\n\n\n\nLes noeuds de ce graphe représentent les documents du corpus écrits par la communauté d’auteurs ClX au cours d’une période. La taille des noeuds correspond au nombre total de documents écrits entre 1947 et la fin de la période considérée. Ces documents s’appuient sur des références bibliographiques dont une partie prop correspond à des documents écrits par des membres de la communauté elle-même (flèches verticales) ou d’autres communautés (flèches pointant vers ces autres communautés). Remarque: on prend en compte le nombre d’occurrence des documents et non le nombre de documents distincts. La proportion est représentée par l’épaisseur et l’opacité des flèches."
-  },
-  {
-    "objectID": "report.html#réseaux-dauteurs",
-    "href": "report.html#réseaux-dauteurs",
-    "title": "BiblioRhone",
-    "section": "Réseaux d’auteurs",
-    "text": "Réseaux d’auteurs\nOn définit des communautés d’auteurs en se basant sur les collaborations (co-signature de documents).\n\n\nCode\nnw_coll_auth <- biblioNetwork(M,\n                           analysis = \"collaboration\",\n                           network = \"authors\",\n                           sep = \";\")\n\n\n\n\nCode\nset.seed(12345)\np=networkPlot(nw_coll_auth,\n            Title = \"Collaborations\",\n            type = \"fruchterman\",\n            cluster=\"louvain\",\n            size=5,\n            size.cex=T,\n            labelsize=0.5,\n            label.n=30,\n            label.cex=F,\n            alpha=0.5,\n            #remove.isolates=TRUE,\n            #edges.min=1,\n            verbose=FALSE,\n            community.repulsion=0)\nauteurs=read_csv2(\"data/data_trans/auteurs.csv\")\nauteurs=auteurs %>%\n  mutate(au=tolower(AU)) %>% \n  left_join(p$cluster_res,by=c(\"au\"=\"vertex\")) %>% \n  mutate(cluster=paste0(\"cluster\",str_pad(cluster,4)))\n\n\nA ce stade, de nombreuses communautés (auteurs$cluster %>% unique() %>% length()) sont définies. Pour la suite de l’analyse on ne conservera que les communautés à l’origine d’un nombre minimal de documents du corpus."
-  },
-  {
-    "objectID": "report.html#productivité-des-communautés-dauteurs-au-cours-du-temps",
-    "href": "report.html#productivité-des-communautés-dauteurs-au-cours-du-temps",
-    "title": "BiblioRhone",
-    "section": "Productivité des communautés d’auteurs au cours du temps",
-    "text": "Productivité des communautés d’auteurs au cours du temps\n\n\nCode\ntib_doc_period=tib_doc %>%\n  group_by(community,period) %>% \n  summarise(neqdoc=sum(weight)) %>%\n  ungroup() %>% \n  na.omit()\n\nggplot(tib_doc_period,aes(x=community,y=neqdoc))+\n  geom_col(aes(fill=community,position=period),col=\"black\",position=\"dodge\")"
-  },
-  {
-    "objectID": "report.html#graphe-des-communautés-dauteurs",
-    "href": "report.html#graphe-des-communautés-dauteurs",
-    "title": "BiblioRhone",
-    "section": "Graphe des communautés d’auteurs",
-    "text": "Graphe des communautés d’auteurs\n\n\nCode\nliste_auteurs_graph=auteurs %>% \n  filter(!is.na(community)) %>% \n  pull(AU)\n\nndoc_auteurs_graph=tib_auteur %>% \n  filter(AU %in% liste_auteurs_graph) %>% \n  pull(id_doc) %>% unique() %>% \n  length()\n\n\nLe graphe ci-après représente les collaborations des 1779 auteurs qui ont été rattachés à une communauté que l’on a conservé pour la suite des analyses.\nCes 1779 auteurs représentent 51.84% des auteurs du corpus, mais 61% des documents du corpus ont au moins un de ces auteurs comme n-ième auteur.\n\n\nCode\nauteurs_keep=auteurs %>%\n  select(au,community,ndoc) %>% \n  mutate(keep=ndoc>15) %>% \n  group_by(community) %>%\n  arrange(desc(ndoc)) %>% \n  mutate(rank=1:n()) %>% \n  mutate(keep=rank<=3) %>% \n  mutate(showname=case_when(keep~au,\n                            !keep~NA_character_))\nset.seed(1234)\ntidyg=tidygraph::as_tbl_graph(p$graph) %>% \n  tidygraph::activate(nodes) %>%\n  select(-community) %>% \n  filter(name %in% tolower(liste_auteurs_graph)) %>% \n  left_join(auteurs_keep,by=c(\"name\"=\"au\"))\nggraph(tidyg,layout=\"fr\")+\n  geom_edge_link(color=\"light grey\")+\n  geom_node_point(aes(color=community,size=ndoc))+\n  geom_node_text(aes(label=showname))"
+    "text": "Chapitre introductif d’un ouvrage sur la recherche sur le Rhône (20 ans de ZABR-OHM). Création de:\nCode\n# Chargement des packages et des données\nlibrary(tidyverse)\nlibrary(magrittr)\nlibrary(bibliometrix)\nlibrary(ggraph)\n#library(tidygraph)\nlibrary(tidytext)\nlibrary(mixr)\nlibrary(bibou)\nset.seed(123)\nImport et nettoyage de la base .bib (exporté depuis Web of Science).\nDans titre ou topic: “Rhone” & “river|basin|catchment”. Filtre ultérieur pour retirer les mentions de Rhone présentes seulement dans les “Keywords +” (issus d’un algorithme de Web of Science reposant en partie sur les références biblio des documents)\nCode\nif(!file.exists(\"data/M.RDS\")){\n  bibou::bib_remove_duplicates(\"data-raw/savedrecs_Rhone.bib\")\n  M=bibliometrix::convert2df(file = \"data-raw/savedrecs_Rhone.bib\",\n                  dbsource = \"isi\",\n                  format = \"bibtex\")\n  tib_doc=bibou::bib_tib_doc(\"data-raw/savedrecs_Rhone_clean.bib\",\n                           check_in_text=\"RHONE\") %&gt;% \n    mutate(condition=PY&gt;2018 & str_detect(AU, \"ARNAUD F\")) %&gt;% \n    mutate(AU=case_when(condition~str_replace_all(AU,\"ARNAUD F\",\"ARNAUD Fa\"),\n                        TRUE~AU),\n           id_doc=case_when(condition~str_replace_all(id_doc,\"ARNAUD F\",\"ARNAUD Fa\"),\n                            TRUE~id_doc))\n  saveRDS(M,\"data/M.RDS\")\n  saveRDS(tib_doc,\"data/tib_doc.RDS\")\n}\nM=readRDS(\"data/M.RDS\")\ntib_doc=readRDS(\"data/tib_doc.RDS\")\nCode\nif(!file.exists(\"data/tib_doc_AU.RDS\")){\n  tib_doc_AU=bibou::bib_tib_doc_AU(tib_doc)\n  tib_doc_CR=bibou::bib_tib_doc_CR(tib_doc)\n  tib_doc_DE=bibou::bib_tib_doc_DE(tib_doc)\n  tib_doc_ABW=bibou::bib_tib_doc_ABW(tib_doc)\n  saveRDS(tib_doc_AU,\"data/tib_doc_AU.RDS\")\n  saveRDS(tib_doc_CR,\"data/tib_doc_CR.RDS\")\n  saveRDS(tib_doc_DE,\"data/tib_doc_DE.RDS\")\n  saveRDS(tib_doc_ABW,\"data/tib_doc_ABW.RDS\")\n}\ntib_doc_AU=readRDS(\"data/tib_doc_AU.RDS\")\ntib_doc_CR=readRDS(\"data/tib_doc_CR.RDS\")\ntib_doc_DE=readRDS(\"data/tib_doc_DE.RDS\")\ntib_doc_ABW=readRDS(\"data/tib_doc_ABW.RDS\")"
   },
   {
     "objectID": "report.html#nombre-de-documents-par-année-dans-le-corpus",
     "href": "report.html#nombre-de-documents-par-année-dans-le-corpus",
     "title": "BiblioRhone",
     "section": "Nombre de documents par année (dans le corpus)",
-    "text": "Nombre de documents par année (dans le corpus)\n\n\nCode\nggplot(tib_doc,\n       aes(x=PY))+\n  geom_bar()+\n  xlab(\"année de publication\")+ylab(\"nombre de publications\")"
+    "text": "Nombre de documents par année (dans le corpus)\n\n\nCode\nggplot(tib_doc,\n       aes(x=PY))+\n  geom_bar()+\n  xlab(\"année de publication\") + ylab(\"nombre de publications\")"
+  },
+  {
+    "objectID": "report.html#comparaison-à-deux-autres-corpora",
+    "href": "report.html#comparaison-à-deux-autres-corpora",
+    "title": "BiblioRhone",
+    "section": "Comparaison à deux autres corpora",
+    "text": "Comparaison à deux autres corpora\n\n\nCode\nif(!file.exists(\"data-raw/tib_doc_Rhine.RDS\")){\n  for (river in c(\"Rhine\",\"Rhone\",\"Danube\")){\n    file &lt;- glue::glue(\"data-raw/savedrecs_{river}_clean.bib\")\n    M &lt;- convert2df(file = file,\n                    dbsource = \"isi\",\n                    format = \"bibtex\")\n    tib_doc=M %&gt;%\n      rownames_to_column(var=\"id_doc\") %&gt;% \n      as_tibble() %&gt;% \n      tidyr::unite(texts,TI,AB,DE,sep=\"; \",remove=FALSE) %&gt;%\n      mutate(rightriver=str_detect(texts,toupper(river))) %&gt;%\n      filter(rightriver) %&gt;%\n      select(-rightriver,-texts) %&gt;%\n      unique()\n    saveRDS(tib_doc,glue::glue(\"data-raw/tib_doc_{river}.RDS\"))\n  }\n}\n\ntib_nb_publ_per_year=\n  bind_rows(readRDS(\"data-raw/tib_doc_Rhone.RDS\") %&gt;% mutate(river=\"Rhone\") %&gt;% select(river,PY),\n            readRDS(\"data-raw/tib_doc_Danube.RDS\") %&gt;% mutate(river=\"Danube\") %&gt;% select(river,PY),\n            readRDS(\"data-raw/tib_doc_Rhine.RDS\") %&gt;% mutate(river=\"Rhine\") %&gt;% select(river,PY)) %&gt;% \n  mutate(period=cut(PY,breaks=c(1940,2000,2011,2023),dig.lab=4)) %&gt;% \n  mutate(period=as.factor(period)) %&gt;% \n  mutate(ntot=n()) %&gt;% \n  group_by(river) %&gt;% \n  mutate(ndocriver=n()) %&gt;% \n  ungroup() %&gt;% \n  group_by(period) %&gt;% \n  group_by(PY) %&gt;% \n  mutate(ndocPY=n()) %&gt;% \n  ungroup() %&gt;% \n  mutate(predprop=ntot*(ndocriver/ntot)*(ndocPY/ntot)) %&gt;% \n  arrange(river,PY) %&gt;% \n  group_by(river,PY,predprop) %&gt;% \n  summarise(n=n(),.groups=\"drop\")\nggplot(tib_nb_publ_per_year,\n       aes(x=PY,y=n))+\n  geom_path(aes(y=predprop))+\n  geom_col(alpha=0.5)+\n  xlab(\"année de publication\")+ylab(\"nombre de publications\")+\n  facet_grid(rows=vars(river),scales=\"free_y\")+\n  scale_x_continuous(limits=c(1980,2024))"
+  },
+  {
+    "objectID": "report.html#focus-sur-les-shs",
+    "href": "report.html#focus-sur-les-shs",
+    "title": "BiblioRhone",
+    "section": "Focus sur les SHS",
+    "text": "Focus sur les SHS\nQuels sont les documents qui font mention des termes SOCIAL/SOCIETY/SOCIO-quelque-chose dans leur abstract?\n\n\nCode\ntib_doc =tib_doc %&gt;% \n              mutate(mention_SHS=str_detect(AB,\"SOCIAL|SOCIETY|SOCIO\")) \ntib_doc_ABW=tib_doc_ABW %&gt;% \n  left_join(tib_doc %&gt;% \n              select(id_doc,mention_SHS),\n            by=\"id_doc\")\n\nprop_SHS=tib_doc %&gt;% \n  group_by(mention_SHS) %&gt;%\n  tally()\nprop_SHS\n\n\n# A tibble: 3 × 2\n  mention_SHS     n\n  &lt;lgl&gt;       &lt;int&gt;\n1 FALSE        1497\n2 TRUE           63\n3 NA             91\n\n\nPeu de documents étiquetés “SHS” a priori (4.04% des documents pour lesquels on dispose de l’abstract) mais ce premier ensemble va nous permettre de rechercher les termes spécifiques aux SHS et d’identifier un “courant SHS” plus important et transverse (cf partie Section 3.1)"
+  },
+  {
+    "objectID": "report.html#réseaux-dauteurs",
+    "href": "report.html#réseaux-dauteurs",
+    "title": "BiblioRhone",
+    "section": "Réseaux d’auteurs",
+    "text": "Réseaux d’auteurs\nOn définit des communautés d’auteurs en se basant sur les collaborations (co-signature de documents).\n\n\nCode\nnw_coll_auth &lt;- biblioNetwork(M,\n                           analysis = \"collaboration\",\n                           network = \"authors\",\n                           sep = \";\")\n\n\n\n\nCode\nset.seed(12345)\np=networkPlot(nw_coll_auth,\n            Title = \"Collaborations\",\n            type = \"fruchterman\",\n            cluster=\"louvain\",\n            size=5,\n            size.cex=T,\n            labelsize=0.5,\n            label.n=30,\n            label.cex=F,\n            alpha=0.5,\n            #remove.isolates=TRUE,\n            #edges.min=1,\n            verbose=FALSE,\n            community.repulsion=0)\n\n\n\n\nCode\nauteurs=auteurs %&gt;%\n  mutate(au=tolower(AU)) %&gt;% \n  left_join(p$cluster_res,by=c(\"au\"=\"vertex\")) %&gt;% \n  mutate(cluster=paste0(\"cluster\",str_pad(cluster,4)))\n\ntib_cluster_commus=auteurs %&gt;% \n  group_by(cluster) %&gt;% \n  summarise(sum_ndocw=sum(ndocw),\n            sum_ndoc=sum(ndoc)) %&gt;% \n  arrange(desc(sum_ndocw)) %&gt;% \n  mutate(rank=1:n()) %&gt;% \n  mutate(community=case_when(rank&lt;=12~paste0(\"c\",str_pad(1:n(),pad=\"0\",width=2)),\n                             TRUE~NA_character_))\n\nauteurs=auteurs %&gt;% \n  left_join(tib_cluster_commus %&gt;%\n              select(cluster,community),\n            by=\"cluster\")\n\n\nA ce stade, de nombreuses communautés (auteurs$cluster %&gt;% unique() %&gt;% length()) sont définies. Pour la suite de l’analyse on ne conservera que les communautés à l’origine des 12 plus grands ensembles de documents (ndoc &gt; 145 et ndocw &gt; 30)"
+  },
+  {
+    "objectID": "report.html#sec-docs_commu",
+    "href": "report.html#sec-docs_commu",
+    "title": "BiblioRhone",
+    "section": "Rattachement des articles à une communauté",
+    "text": "Rattachement des articles à une communauté\nDans le cas où la majorité des auteurs ne fait pas partie d’une communauté définie, on assigne le document à la communauté majoritaire (par exemple si 30% des auteurs font partie de la communauté Cl01 et 70% ne font pas partie d’une communauté définie on assigne le document à la communauté Cl01).\n\n\nCode\ntib_doc_commus=tib_doc_AU %&gt;% \n  select(id_doc,AU,AU_rank,AU_weight) %&gt;%\n  left_join(auteurs %&gt;% select(AU,community),by=\"AU\") %&gt;%\n  group_by(id_doc,community) %&gt;% \n  summarise(weight=sum(AU_weight,na.rm=TRUE),.groups=\"drop\")\ntib_doc_commus=tib_doc %&gt;% \n  left_join(tib_doc_commus,by=c(\"id_doc\"))\n\n\n\n\nCode\ntib_commus_prod= tib_doc_commus %&gt;% \n  group_by(community) %&gt;% \n  summarise(neqdoc=sum(weight),\n            ndoc=n())\nreactable::reactable(tib_commus_prod,pagination=FALSE)\n\n\n\n\n\n\n\n\nTable des auteurs\n\n\nCode\nauteurs=auteurs\nreactable::reactable(auteurs %&gt;% arrange(community),\n                     groupBy=\"community\",\n                     sortable=TRUE,\n                     filterable=TRUE,\n                     pagination=FALSE,\n                     paginateSubRows=TRUE)\n\n\n\n\n\n\n\n\n\nTable des documents*communauté\n\n\nCode\nreactable::reactable(tib_doc_commus %&gt;% select(-id_doc),\n                     filterable=TRUE,\n                     resizable=TRUE)"
+  },
+  {
+    "objectID": "report.html#productivité-des-communautés-dauteurs-au-cours-du-temps",
+    "href": "report.html#productivité-des-communautés-dauteurs-au-cours-du-temps",
+    "title": "BiblioRhone",
+    "section": "Productivité des communautés d’auteurs au cours du temps",
+    "text": "Productivité des communautés d’auteurs au cours du temps\n\n\nCode\ntib_community_PY=tib_doc_commus%&gt;% \n  group_by(community,PY) %&gt;% \n  summarise(sumw=sum(weight)) %&gt;% \n  na.omit()\nggplot(tib_community_PY, aes(x=PY, y=sumw))+\n  geom_col()+\n  facet_wrap(facets=vars(community))+\n  xlab(\"année de publication\")+\n  ylab(\"nombre de publications\")"
+  },
+  {
+    "objectID": "report.html#graphe-des-communautés-dauteurs",
+    "href": "report.html#graphe-des-communautés-dauteurs",
+    "title": "BiblioRhone",
+    "section": "Graphe des communautés d’auteurs",
+    "text": "Graphe des communautés d’auteurs\n\n\nCode\nliste_auteurs_graph=auteurs %&gt;% \n  filter(!is.na(community)) %&gt;% \n  pull(AU)\n\nndoc_auteurs_graph=tib_doc_AU %&gt;% \n  filter(AU %in% liste_auteurs_graph) %&gt;% \n  pull(id_doc) %&gt;% unique() %&gt;% \n  length()\n\n\nLe graphe ci-après représente les collaborations des 2060 auteurs qui ont été rattachés à une communauté que l’on a conservé pour la suite des analyses.\nCes 2060 auteurs représentent 50.91% des auteurs du corpus, mais 60% des documents du corpus ont au moins un de ces auteurs comme n-ième auteur.\n\n\nCode\nauteurs_keep=auteurs %&gt;%\n  select(au,community,ndoc) %&gt;% \n  mutate(keep=ndoc&gt;15) %&gt;% \n  group_by(community) %&gt;%\n  arrange(desc(ndoc)) %&gt;% \n  mutate(rank=1:n()) %&gt;% \n  mutate(keep=rank&lt;=3) %&gt;% \n  mutate(showname=case_when(keep~au,\n                            !keep~NA_character_))\nset.seed(1234)\ntidyg=tidygraph::as_tbl_graph(p$graph) %&gt;% \n  tidygraph::activate(nodes) %&gt;%\n  select(-community) %&gt;% \n  filter(name %in% tolower(liste_auteurs_graph)) %&gt;% \n  left_join(auteurs_keep,by=c(\"name\"=\"au\"))\nggraph(tidyg,layout=\"fr\")+\n  geom_edge_link(color=\"light grey\")+\n  geom_node_point(aes(color=community,size=ndoc))+\n  geom_node_text(aes(label=showname),size=2)"
+  },
+  {
+    "objectID": "report.html#spécificités-des-mots-clés-par-communauté-dauteurs",
+    "href": "report.html#spécificités-des-mots-clés-par-communauté-dauteurs",
+    "title": "BiblioRhone",
+    "section": "Spécificités des mots-clés par communauté d’auteurs",
+    "text": "Spécificités des mots-clés par communauté d’auteurs\n\n\nCode\nkw_communities=tib_doc_commus%&gt;% \n  unnest_tokens(output=\"kw\",input=\"DE\",token=stringr::str_split, pattern = \"; \") \nspec_com=tidy_specificities(kw_communities,cat1=kw,cat2=community,top_spec=20) %&gt;% \n  arrange(community,desc(spec))\nplot_specificities(spec_com,kw,community)\n\n\n\n\n\nLes journaux associés aux différentes communautés permettent également de les caractériser. Ci-dessous, les publications scientifiques spécifiques (significatif au seuil de 1% i.e. score de spécificité &gt;2).\n\n\nCode\nspec_SO=tidy_specificities(tib_doc_commus,cat1=SO,cat2=community,min_spec=2) %&gt;% \n  arrange(community,desc(spec)) %&gt;% \n  mutate(rank=n():1) %&gt;% \n  select(community, SO, spec, n,rank)\n\nggplot(spec_SO %&gt;% filter(spec&gt;2),aes(x=fct_reorder(SO,rank), y=spec))+\n  geom_col(aes(fill=community))+\n  geom_text(aes(y=0,label=SO),hjust=0)+\n  coord_flip()+\n  theme(axis.text.y=element_blank())"
+  },
+  {
+    "objectID": "report.html#sec-spec_SHS",
+    "href": "report.html#sec-spec_SHS",
+    "title": "BiblioRhone",
+    "section": "Spécificités du sous-corpus SHS",
+    "text": "Spécificités du sous-corpus SHS\nVoici les termes les plus spécifiques des abstracts contenant “SOCIETY/SOCIAL/SOCIO”:\n\n\nCode\nlibrary(mixr)\ntib_doc_ABW=tib_doc_ABW %&gt;%\n  mutate(mention_SHS=as.character(mention_SHS))\nspec_SHS=tidy_specificities(tib_doc_ABW,\n                   cat1=ABW,\n                   cat2=mention_SHS) %&gt;% \n  filter(mention_SHS==\"TRUE\") %&gt;% \n  select(-mention_SHS) %&gt;% \n  arrange(desc(spec))\nreactable::reactable(spec_SHS %&gt;% head(100))\n\n\n\n\n\n\n\n\n\nCode\nscores_SHS= spec_SHS %&gt;% \n  mutate(spec=case_when(spec&lt;2~0,\n                        TRUE~spec)) %&gt;% \n  select(ABW,SHS_spec=spec)\ntib_doc_ABW=tib_doc_ABW %&gt;% \n  left_join(scores_SHS, by=\"ABW\")\ntib_doc_SHS=tib_doc_ABW %&gt;% \n  group_by(id_doc) %&gt;% \n  summarise(SHS_spec=sum(SHS_spec,na.rm=TRUE),.groups=\"drop\")\ntib_doc_commus_SHS=tib_doc_commus %&gt;% \n  left_join(tib_doc_SHS,by=\"id_doc\") \n\n\nQuelles sont les communautés d’auteur dans lesquelles ces termes sont les plus pregnants?\n\n\nCode\ntib_doc_commus_SHS_summary=tib_doc_commus_SHS %&gt;% \n  group_by(community) %&gt;% \n  summarise(ndoc=n(),.groups=\"drop\")\nggplot(tib_doc_commus_SHS %&gt;% filter(!is.na(community)),\n       aes(x=community,y=SHS_spec,fill=community))+\n  geom_boxplot()+\n  scale_y_log10()+\n  geom_text(data=tib_doc_commus_SHS_summary,\n            aes(label=paste0(\"n=\",ndoc),y=1),size=3)+\n  theme(legend.position=\"none\")\n\n\n\n\n\n\n\nCode\nggplot(tib_doc_commus_SHS %&gt;% na.omit(),\n       aes(x=PY,y=SHS_spec))+\n  geom_point(aes(col=community))+\n  geom_smooth(method=\"lm\",se=TRUE)+\n  facet_wrap(facets=vars(community))+\n  scale_x_continuous(limits=c(1990,2024))+\n  scale_y_sqrt()"
+  },
+  {
+    "objectID": "report.html#identification-de-thématiques-par-la-méthode-de-reinert",
+    "href": "report.html#identification-de-thématiques-par-la-méthode-de-reinert",
+    "title": "BiblioRhone",
+    "section": "Identification de thématiques par la méthode de Reinert",
+    "text": "Identification de thématiques par la méthode de Reinert\n\n\nCode\ntib_doc_ABc=readRDS(\"data/tib_doc_ABW.RDS\") %&gt;% \n  group_by(id_doc) %&gt;% \n  summarise(ABc=paste0(ABW,collapse=\" \"),.groups=\"drop\")\ncorpus=quanteda::corpus(tib_doc_ABc,\n                        docid_field=\"id_doc\",text_field=\"ABc\")\ntok &lt;- quanteda::tokens(corpus, remove_numbers = TRUE)\ndtm &lt;- quanteda::dfm(tok)\ndtm2 &lt;- quanteda::dfm_trim(dtm, min_docfreq = 10)\n\n\n\n\nCode\nset.seed(123)\nlibrary(rainette)\nres=rainette(dtm2,k=20,min_split_members=20)\n#rainette_explor(res,dtm=dtm2)\nrainette_plot(\n  res, dtm, k = 9,\n  n_terms = 20,\n  free_scales = TRUE,\n  measure = \"chi2\",\n  show_negative = FALSE,\n  text_size = 10\n)\n\n\n\n\n\n\n\nCode\ntib_classes_colors=tibble::tibble(\n  class=paste0(\"class_\",1:9),\n  color=rainette:::groups_colors(9),\n)\n\ntib_doc_commus_SHS_classes=tibble::tibble(\n  id_doc=names(corpus),\n  class=paste0(\"class_\",cutree_rainette(res, k = 9))\n) %&gt;% \n  mutate(class_name=case_when(class==\"class_1\"~\"fine sediment\",#river_management\",\n                            class==\"class_2\"~\"organic matter\",#glaciology\",\n                            class==\"class_3\"~\"delta\",#geophysics\",\n                            class==\"class_4\"~\"population_genetics\",#ecology_communities\",\n                            class==\"class_5\"~\"ecology_habitat\",#\"ecology_fish\",\n                            class==\"class_6\"~\"ecology_abundance\",#geology\",\n                            class==\"class_7\"~\"management\",#\"organic matter\",\n                            class==\"class_8\"~\"glaciology\",#\"sediment\",\n                            class==\"class_9\"~\"geology\",#\"delta\",\n                            is.na(class)~NA_character_)) %&gt;% \n  left_join(tib_doc_commus_SHS,by=\"id_doc\")"
+  },
+  {
+    "objectID": "report.html#nombre-darticles-sinscrivant-dans-les-thématiques-au-cours-du-temps",
+    "href": "report.html#nombre-darticles-sinscrivant-dans-les-thématiques-au-cours-du-temps",
+    "title": "BiblioRhone",
+    "section": "Nombre d’articles s’inscrivant dans les thématiques au cours du temps",
+    "text": "Nombre d’articles s’inscrivant dans les thématiques au cours du temps\n\n\nCode\ntib=tib_doc_commus_SHS_classes %&gt;% \n  mutate(ntot=n()) %&gt;% \n  group_by(PY) %&gt;% \n  mutate(nPY=n()) %&gt;% \n  ungroup() %&gt;% \n  group_by(class,class_name) %&gt;% \n  mutate(nclass=n()) %&gt;% \n  ungroup() %&gt;% \n  group_by(PY,nPY) %&gt;% \n  mutate(propPY=nPY/ntot) %&gt;%\n  ungroup() %&gt;% \n  group_by(class,class_name,nclass) %&gt;% \n  mutate(propclass=nclass/ntot) %&gt;% \n  ungroup() %&gt;% \n  group_by(PY,propPY,propclass,ntot,class,class_name) %&gt;% \n  summarise(n=n(),\n            nprev=ntot*propPY*propclass,\n            .groups=\"drop\") %&gt;% \n  unique()\nggplot(tib,aes(x=PY,y=n,fill=class))+ \n  geom_path(aes(x=PY,y=nprev))+\n  geom_col(alpha=0.5)+\n  facet_wrap(facets=vars(class_name))+\n  scale_fill_manual(breaks=tib_classes_colors$class,\n                    values=tib_classes_colors$color)"
+  },
+  {
+    "objectID": "report.html#co-occurrence-des-mots-clés",
+    "href": "report.html#co-occurrence-des-mots-clés",
+    "title": "BiblioRhone",
+    "section": "Co-occurrence des mots-clés",
+    "text": "Co-occurrence des mots-clés\n\n\nCode\nnw_cooc_kw &lt;- biblioNetwork(M,\n                           analysis = \"co-occurrences\",\n                           network = \"keywords\",\n                           sep = \";\")\nnetstat &lt;- networkStat(nw_cooc_kw)\n\n\n\n\nCode\np=networkPlot(nw_cooc_kw,\n                weighted=T, n = 150,\n                Title = \"Co-occurence des mots-clés\",\n                type = \"fruchterman\",\n                cluster=\"louvain\",\n                size=T,\n                edgesize = 5,\n                labelsize=0.7)"
+  },
+  {
+    "objectID": "report.html#co-citation",
+    "href": "report.html#co-citation",
+    "title": "BiblioRhone",
+    "section": "Co-Citation",
+    "text": "Co-Citation\n\n\nCode\nM=M %&gt;% \n  mutate(CR=str_replace(CR,\"ANONYMOUS.*;\",\"\")) %&gt;% \n  mutate(CR=str_replace(CR,\"NO TITLE CAPTURED\",\"\")) \nnw_cocit_doc &lt;- biblioNetwork(M,\n                           analysis = \"co-citation\",\n                           network = \"references\",\n                           sep = \";\")\n\np=networkPlot(nw_cocit_doc,\n                n = 150,\n                Title = \"Co-Citation Network\",\n                type = \"auto\",\n                size=T,\n                cluster=\"louvain\",\n                remove.multiple=FALSE,\n                labelsize=0.7,\n                edgesize = 5,\n                label.n=30)"
+  },
+  {
+    "objectID": "report.html#structure-conceptuelle-basée-sur-les-mots-clés",
+    "href": "report.html#structure-conceptuelle-basée-sur-les-mots-clés",
+    "title": "BiblioRhone",
+    "section": "Structure conceptuelle basée sur les mots-clés",
+    "text": "Structure conceptuelle basée sur les mots-clés\n\n\nCode\nCS &lt;- conceptualStructure(M,\n                          field=\"ID\",\n                          method=\"MCA\",\n                          minDegree=10,\n                          clust=8,\n                          stemming=FALSE,\n                          labelsize=10,\n                          documents=3,\n                          graph=FALSE)\nCS$graph_terms\n\n\n\n\n\nCode\nCS$graph_dendrogram\n\n\nNULL"
   }
 ]
