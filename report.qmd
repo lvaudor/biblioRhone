@@ -269,7 +269,7 @@ auteurs=auteurs %>%
             by="cluster")
 ```
 
-A ce stade, de nombreuses communautés (`auteurs$cluster %>% unique() %>% length()`) sont définies. Pour la suite de l'analyse on ne conservera que les communautés à l'origine des 12 plus grands ensembles de documents (ndoc > `r floor(tib_cluster_commus$sum_ndoc[12])` et ndocw > `r floor(tib_cluster_commus$sum_ndocw[12])`)
+A ce stade, de nombreuses communautés (`r `auteurs$cluster %>% unique() %>% length()`) sont définies. Pour la suite de l'analyse on ne conservera que les communautés à l'origine des 12 plus grands ensembles de documents (ndoc > `r floor(tib_cluster_commus$sum_ndoc[12])` et ndocw > `r floor(tib_cluster_commus$sum_ndocw[12])`)
 
 ## Rattachement des articles à une communauté {#sec-docs_commu}
 
@@ -310,8 +310,10 @@ reactable::reactable(auteurs %>% arrange(community),
 
 ### Table des documents\*communauté
 
+Je retire les références citées (champ CR) et les abstracts (AB) pour un tableau un peu plus lisible...
+
 ```{r show_tib_doc_comm}
-reactable::reactable(tib_doc_commus %>% select(-id_doc),
+reactable::reactable(tib_doc_commus %>% select(-id_doc,-CR,-AB),
                      filterable=TRUE,
                      resizable=TRUE)
   
