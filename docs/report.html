@@ -548,7 +548,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="productivité-des-communautés-dauteurs-au-cours-du-temps" class="level2">
 <h2 class="anchored" data-anchor-id="productivité-des-communautés-dauteurs-au-cours-du-temps">Productivité des communautés d’auteurs au cours du temps</h2>
-<div class="cell" data-hash="report_cache/html/tib_doc_PY_5fbb42d2fce2d7de54dc0b6a991c8efd">
+<div class="cell" data-hash="report_cache/html/tib_doc_PY_df67214dabd105408dfa54f2c19ed7e3">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>tib_community_PY<span class="ot">=</span>tib_doc_commus<span class="sc">%&gt;%</span> </span>
@@ -563,7 +563,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/tib_doc_PY-1.png" class="img-fluid" width="576"></p>
+<p><img src="report_files/figure-html/tib_doc_PY-1.png" class="img-fluid" width="768"></p>
 </div>
 </div>
 </section>
@@ -584,7 +584,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Le graphe ci-après représente les collaborations des 2060 auteurs qui ont été rattachés à une communauté que l’on a conservé pour la suite des analyses.</p>
 <p>Ces 2060 auteurs représentent 50.91% des auteurs du corpus, mais 60% des documents du corpus ont au moins un de ces auteurs comme n-ième auteur.</p>
-<div class="cell" data-hash="report_cache/html/graph_auteurs_show_f0abb057a7b8e2b4b5cdb94a351d80ac">
+<div class="cell" data-hash="report_cache/html/graph_auteurs_show_93e0c2edab44145e2ed1bf066b431562">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>auteurs_keep<span class="ot">=</span>auteurs <span class="sc">%&gt;%</span></span>
@@ -596,16 +596,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">keep=</span>rank<span class="sc">&lt;=</span><span class="dv">3</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">showname=</span><span class="fu">case_when</span>(keep<span class="sc">~</span>au,</span>
 <span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>                            <span class="sc">!</span>keep<span class="sc">~</span><span class="cn">NA_character_</span>))</span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
 <span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>tidyg<span class="ot">=</span>tidygraph<span class="sc">::</span><span class="fu">as_tbl_graph</span>(p<span class="sc">$</span>graph) <span class="sc">%&gt;%</span> </span>
 <span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>  tidygraph<span class="sc">::</span><span class="fu">activate</span>(nodes) <span class="sc">%&gt;%</span></span>
 <span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>community) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(name <span class="sc">%in%</span> <span class="fu">tolower</span>(liste_auteurs_graph)) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(auteurs_keep,<span class="at">by=</span><span class="fu">c</span>(<span class="st">"name"</span><span class="ot">=</span><span class="st">"au"</span>))</span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="fu">ggraph</span>(tidyg,<span class="at">layout=</span><span class="st">"fr"</span>)<span class="sc">+</span></span>
-<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_edge_link</span>(<span class="at">color=</span><span class="st">"light grey"</span>)<span class="sc">+</span></span>
-<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_point</span>(<span class="fu">aes</span>(<span class="at">color=</span>community,<span class="at">size=</span>ndoc))<span class="sc">+</span></span>
-<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_text</span>(<span class="fu">aes</span>(<span class="at">label=</span>showname),<span class="at">size=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(name <span class="sc">%in%</span> <span class="fu">tolower</span>(liste_auteurs_graph),</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>         deg <span class="sc">&gt;</span><span class="dv">3</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(auteurs_keep,<span class="at">by=</span><span class="fu">c</span>(<span class="st">"name"</span><span class="ot">=</span><span class="st">"au"</span>))</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a><span class="fu">ggraph</span>(tidyg,<span class="at">layout=</span><span class="st">"fr"</span>)<span class="sc">+</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_edge_link</span>(<span class="at">color=</span><span class="st">"light grey"</span>)<span class="sc">+</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_point</span>(<span class="fu">aes</span>(<span class="at">color=</span>community,<span class="at">size=</span>ndoc))<span class="sc">+</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_text</span>(<span class="fu">aes</span>(<span class="at">label=</span>showname),<span class="at">size=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="report_files/figure-html/graph_auteurs_show-1.png" class="img-fluid" width="960"></p>
@@ -628,7 +629,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Les journaux associés aux différentes communautés permettent également de les caractériser. Ci-dessous, les publications scientifiques spécifiques (significatif au seuil de 1% i.e.&nbsp;score de spécificité &gt;2).</p>
-<div class="cell" data-hash="report_cache/html/spec_SO_com_29409574c13658b690e88fe770fb736e">
+<div class="cell" data-hash="report_cache/html/spec_SO_com_7a72d53e638bd267245f97e610e1873c">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>spec_SO<span class="ot">=</span><span class="fu">tidy_specificities</span>(tib_doc_commus,<span class="at">cat1=</span>SO,<span class="at">cat2=</span>community,<span class="at">min_spec=</span><span class="dv">2</span>) <span class="sc">%&gt;%</span> </span>
@@ -643,7 +644,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y=</span><span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/spec_SO_com-1.png" class="img-fluid" width="480"></p>
+<p><img src="report_files/figure-html/spec_SO_com-1.png" class="img-fluid" width="576"></p>
 </div>
 </div>
 </section>

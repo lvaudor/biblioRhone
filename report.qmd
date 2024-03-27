@@ -267,7 +267,7 @@ auteurs=auteurs %>%
             by="cluster")
 ```
 
-A ce stade, de nombreuses communautés (`r auteurs$cluster %>% unique() %>% length()`) sont définies. Pour la suite de l'analyse on ne conservera que les communautés à l'origine des 12 plus grands ensembles de documents (ndoc > `r floor(tib_cluster_commus$sum_ndoc[12])` et ndocw > `r floor(tib_cluster_commus$sum_ndocw[12])`)
+A ce stade, de nombreuses communautés (`r length(unique(auteurs$cluster))`) sont définies. Pour la suite de l'analyse on ne conservera que les communautés à l'origine des 12 plus grands ensembles de documents (ndoc > `r floor(tib_cluster_commus$sum_ndoc[12])` et ndocw > `r floor(tib_cluster_commus$sum_ndocw[12])`)
 
 ## Rattachement des articles à une communauté {#sec-docs_commu}
 
@@ -319,7 +319,7 @@ reactable::reactable(tib_doc_commus %>% select(-id_doc,-CR,-AB),
 
 ## Productivité des communautés d'auteurs au cours du temps
 
-```{r tib_doc_PY,fig.width=6,fig.height=6}
+```{r tib_doc_PY,fig.width=8,fig.height=6}
 tib_community_PY=tib_doc_commus%>% 
   group_by(community,PY) %>% 
   summarise(sumw=sum(weight)) %>% 
@@ -359,11 +359,12 @@ auteurs_keep=auteurs %>%
   mutate(keep=rank<=3) %>% 
   mutate(showname=case_when(keep~au,
                             !keep~NA_character_))
-set.seed(123)
+set.seed(1234)
 tidyg=tidygraph::as_tbl_graph(p$graph) %>% 
   tidygraph::activate(nodes) %>%
   select(-community) %>% 
-  filter(name %in% tolower(liste_auteurs_graph)) %>% 
+  filter(name %in% tolower(liste_auteurs_graph),
+         deg >3) %>% 
   left_join(auteurs_keep,by=c("name"="au"))
 ggraph(tidyg,layout="fr")+
   geom_edge_link(color="light grey")+
@@ -383,7 +384,7 @@ plot_specificities(spec_com,kw,community)
 
 Les journaux associés aux différentes communautés permettent également de les caractériser. Ci-dessous, les publications scientifiques spécifiques (significatif au seuil de 1% i.e. score de spécificité \>2).
 
-```{r spec_SO_com,fig.height=8,fig.width=5}
+```{r spec_SO_com,fig.height=8,fig.width=6}
 spec_SO=tidy_specificities(tib_doc_commus,cat1=SO,cat2=community,min_spec=2) %>% 
   arrange(community,desc(spec)) %>% 
   mutate(rank=n():1) %>% 
