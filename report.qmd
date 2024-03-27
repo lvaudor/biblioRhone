@@ -96,7 +96,6 @@ auteurs=tib_doc_AU %>%
             TCw=sum(TC*AU_weight),
             LC=sum(LC),
             LCw=sum(LC*AU_weight),.groups="drop")
-filter
 ```
 
 Le corpus compte `r nrow(auteurs)` auteurs distincts. Un auteur est associé à en moyenne `r mean(auteurs$ndoc)` documents du corpus. `r nrow(dplyr::filter(auteurs,ndoc>=2))` sont associés à au moins 2 documents, `r nrow(dplyr::filter(auteurs,ndoc>=5))` sont associés à au moins 5 documents.
@@ -139,7 +138,7 @@ reactable::reactable(citations,
 
 ## Nombre de documents par année (dans le corpus)
 
-```{r ndoc_per_year, fig.width=5, fig.height=4}
+```{r ndoc_per_year, fig.width=6, fig.height=2}
 ggplot(tib_doc,
        aes(x=PY))+
   geom_bar()+
@@ -148,7 +147,7 @@ ggplot(tib_doc,
 
 ## Comparaison à deux autres corpora
 
-```{r Rhine_Rhone_Danube}
+```{r Rhine_Rhone_Danube,fig.width=6, fig.height=5}
 if(!file.exists("data-raw/tib_doc_Rhine.RDS")){
   for (river in c("Rhine","Rhone","Danube")){
     file <- glue::glue("data-raw/savedrecs_{river}_clean.bib")
@@ -245,7 +244,6 @@ p=networkPlot(nw_coll_auth,
             #edges.min=1,
             verbose=FALSE,
             community.repulsion=0)
-
 ```
 
 ```{r}
@@ -269,7 +267,7 @@ auteurs=auteurs %>%
             by="cluster")
 ```
 
-A ce stade, de nombreuses communautés (`r `auteurs$cluster %>% unique() %>% length()`) sont définies. Pour la suite de l'analyse on ne conservera que les communautés à l'origine des 12 plus grands ensembles de documents (ndoc > `r floor(tib_cluster_commus$sum_ndoc[12])` et ndocw > `r floor(tib_cluster_commus$sum_ndocw[12])`)
+A ce stade, de nombreuses communautés (`r auteurs$cluster %>% unique() %>% length()`) sont définies. Pour la suite de l'analyse on ne conservera que les communautés à l'origine des 12 plus grands ensembles de documents (ndoc > `r floor(tib_cluster_commus$sum_ndoc[12])` et ndocw > `r floor(tib_cluster_commus$sum_ndocw[12])`)
 
 ## Rattachement des articles à une communauté {#sec-docs_commu}
 
@@ -321,16 +319,17 @@ reactable::reactable(tib_doc_commus %>% select(-id_doc,-CR,-AB),
 
 ## Productivité des communautés d'auteurs au cours du temps
 
-```{r tib_doc_PY}
+```{r tib_doc_PY,fig.width=6,fig.height=6}
 tib_community_PY=tib_doc_commus%>% 
   group_by(community,PY) %>% 
   summarise(sumw=sum(weight)) %>% 
   na.omit()
-ggplot(tib_community_PY, aes(x=PY, y=sumw))+
+ggplot(tib_community_PY, aes(x=PY, y=sumw, fill=community))+
   geom_col()+
   facet_wrap(facets=vars(community))+
   xlab("année de publication")+
-  ylab("nombre de publications")
+  ylab("nombre de publications")+
+  theme(legend.position="none")
 ```
 
 ## Graphe des communautés d'auteurs
@@ -350,7 +349,7 @@ Le graphe ci-après représente les collaborations des `r length(liste_auteurs_g
 
 Ces `r length(liste_auteurs_graph)` auteurs représentent `r round(length(liste_auteurs_graph)/nrow(auteurs)*100,2)`% des auteurs du corpus, mais `r round(ndoc_auteurs_graph/nrow(tib_doc),2)*100`% des documents du corpus ont au moins un de ces auteurs comme n-ième auteur.
 
-```{r graph_auteurs_show,fig.height=8,fig.width=7}
+```{r graph_auteurs_show,fig.height=10,fig.width=10}
 auteurs_keep=auteurs %>%
   select(au,community,ndoc) %>% 
   mutate(keep=ndoc>15) %>% 
@@ -360,7 +359,7 @@ auteurs_keep=auteurs %>%
   mutate(keep=rank<=3) %>% 
   mutate(showname=case_when(keep~au,
                             !keep~NA_character_))
-set.seed(1234)
+set.seed(123)
 tidyg=tidygraph::as_tbl_graph(p$graph) %>% 
   tidygraph::activate(nodes) %>%
   select(-community) %>% 
@@ -540,7 +539,8 @@ ggplot(tib,aes(x=PY,y=n,fill=class))+
   geom_col(alpha=0.5)+
   facet_wrap(facets=vars(class_name))+
   scale_fill_manual(breaks=tib_classes_colors$class,
-                    values=tib_classes_colors$color)
+                    values=tib_classes_colors$color)+
+  theme(legend.position="none")
 ```
 
 # Croisement communautés d'auteurs et thématiques
