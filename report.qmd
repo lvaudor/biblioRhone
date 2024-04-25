@@ -236,9 +236,9 @@ prop_SHS
 
 **Peu de documents étiquetés "SHS" a priori** (`r round(prop_SHS$n[2]/(prop_SHS$n[1]+prop_SHS$n[2])*100,2)`% des documents pour lesquels on dispose de l'abstract) mais ce premier ensemble va nous permettre de rechercher les **termes spécifiques aux SHS** et d'identifier un "courant SHS" plus important et transverse (cf partie @sec-spec_SHS). Les termes en question montrent que l'intégration d'enjeux sociaux ou humains dans le corpus prennent le plus souvent la forme d'un intérêt pour la question de la **gestion des territoires**.
 
-# Graphes biblio
+# Communautés d'auteurs
 
-## Réseaux d'auteurs
+## Construction du graphe et définition des communautés
 
 On définit des **communautés d'auteurs** en se basant sur les collaborations (co-signature de documents). 
 
@@ -340,7 +340,7 @@ reactable::reactable(tib_commus_prod,pagination=FALSE)
 ```
 
 
-### Table des auteurs
+## Table des auteurs et appartenance à une communauté
 
 ```{r show_auteurs_graph}
 auteurs=auteurs
@@ -352,7 +352,7 @@ reactable::reactable(auteurs %>% arrange(community),
                      paginateSubRows=TRUE)
 ```
 
-### Table des documents\*communauté
+## Table des documents\*communauté
 
 Je retire les références citées (champ CR) et les abstracts (AB) pour un tableau un peu plus lisible...
 
@@ -459,8 +459,7 @@ ggplot(spec_SO %>% filter(spec>2),aes(x=fct_reorder(SO,rank), y=spec))+
 
 # Thématiques
 
-
-## Spécificités du sous-corpus SHS {#sec-spec_SHS}
+## Score SHS : spécificités du sous-corpus SHS {#sec-spec_SHS}
 
 Voici les termes les plus spécifiques des abstracts contenant "SOCIETY/SOCIAL/SOCIO":
 
@@ -520,7 +519,7 @@ ggplot(tib_doc_commus_SHS %>% na.omit(),
 ```
 
 
-## Identification de thématiques par la méthode de Reinert
+## Thématiques: identification de par la méthode de Reinert
 
 Reinert M., “Une méthode de classification descendante hiérarchique : application à l’analyse lexicale par contexte”, Cahiers de l’analyse des données, Volume 8, Numéro 2, 1983. http://www.numdam.org/item/?id=CAD_1983__8_2_187_0
 
