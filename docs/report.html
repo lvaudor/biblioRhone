@@ -124,7 +124,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#auteurs" id="toc-auteurs" class="nav-link" data-scroll-target="#auteurs">Auteurs</a></li>
   <li><a href="#sources" id="toc-sources" class="nav-link" data-scroll-target="#sources">Sources</a></li>
   <li><a href="#références" id="toc-références" class="nav-link" data-scroll-target="#références">Références</a></li>
-  <li><a href="#nombre-de-documents-par-année-dans-le-corpus" id="toc-nombre-de-documents-par-année-dans-le-corpus" class="nav-link" data-scroll-target="#nombre-de-documents-par-année-dans-le-corpus">Nombre de documents par année (dans le corpus)</a></li>
+  <li><a href="#nombre-de-documents-par-année-dans-le-corpus-et-nombre-de-dauteurs-moyen-par-document" id="toc-nombre-de-documents-par-année-dans-le-corpus-et-nombre-de-dauteurs-moyen-par-document" class="nav-link" data-scroll-target="#nombre-de-documents-par-année-dans-le-corpus-et-nombre-de-dauteurs-moyen-par-document">Nombre de documents par année (dans le corpus) et nombre de d’auteurs moyen par document</a></li>
   <li><a href="#comparaison-à-deux-autres-corpora" id="toc-comparaison-à-deux-autres-corpora" class="nav-link" data-scroll-target="#comparaison-à-deux-autres-corpora">Comparaison à deux autres corpora</a></li>
   <li><a href="#focus-sur-les-shs" id="toc-focus-sur-les-shs" class="nav-link" data-scroll-target="#focus-sur-les-shs">Focus sur les SHS</a></li>
   </ul></li>
@@ -267,17 +267,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>TC</strong> nombre de citations (globales)</li>
 <li><strong>LC</strong> nombre de citations locales (par les autres articles du corpus)</li>
 </ul>
-<div class="cell" data-hash="report_cache/html/barplot_ndocs_aut_25f0ebcbf1006a02b88edaac5bcfe1ad">
+<div class="cell" data-hash="report_cache/html/barplot_ndocs_aut_77a88dd51bf0c975ae66b3dd788de41b">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(auteurs, <span class="fu">aes</span>(<span class="at">x=</span>ndoc)) <span class="sc">+</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()<span class="sc">+</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"distribution du nombre de documents par auteur"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="report_files/figure-html/barplot_ndocs_aut-1.png" class="img-fluid" width="384"></p>
 </div>
 </div>
-<div class="cell" data-hash="report_cache/html/top_authors_34d08041e876ff66f27c16bd1ebf23bb">
+<div class="cell" data-hash="report_cache/html/fig-plot_top20_auteurs_b87fe0807d9a293b87c03276dba9035a">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>p1<span class="ot">=</span>mixr<span class="sc">::</span><span class="fu">plot_frequencies</span>(auteurs <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(ndocw)) <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">20</span>),</span>
@@ -286,10 +287,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                       AU,<span class="at">freq=</span>TCw)</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>p3<span class="ot">=</span>mixr<span class="sc">::</span><span class="fu">plot_frequencies</span>(auteurs <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(LCw)) <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">20</span>),</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                       AU,<span class="at">freq=</span>LCw)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>ggpubr<span class="sc">::</span><span class="fu">ggarrange</span>(p1,p2,p3,<span class="at">nrow=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>ggpubr<span class="sc">::</span><span class="fu">ggarrange</span>(p1,p2,p3,<span class="at">nrow=</span><span class="dv">1</span>,<span class="at">labels=</span><span class="fu">c</span>(<span class="st">"a"</span>,<span class="st">"b"</span>,<span class="st">"c"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/top_authors-1.png" class="img-fluid" width="576"></p>
+<div id="fig-plot_top20_auteurs" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="report_files/figure-html/fig-plot_top20_auteurs-1.png" class="img-fluid figure-img" width="576"></p>
+<figcaption class="figure-caption">Figure&nbsp;1: Top 20 des auteurs les plus productifs, en termes de a) nombre de documents b) nombre de fois où ses documents sont cités, c) nombre de fois où ses documents sont cités localement (i.e.&nbsp;par les autres documents du corpus). Ces trois mesures sont à chaque fois pondérées en fonction de la position de la personne dans la liste des auteurs.</figcaption>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -320,24 +326,40 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="nombre-de-documents-par-année-dans-le-corpus" class="level2">
-<h2 class="anchored" data-anchor-id="nombre-de-documents-par-année-dans-le-corpus">Nombre de documents par année (dans le corpus)</h2>
-<div class="cell" data-hash="report_cache/html/ndoc_per_year_3519d88421d92f645c6eeb60a0657d3b">
+<section id="nombre-de-documents-par-année-dans-le-corpus-et-nombre-de-dauteurs-moyen-par-document" class="level2">
+<h2 class="anchored" data-anchor-id="nombre-de-documents-par-année-dans-le-corpus-et-nombre-de-dauteurs-moyen-par-document">Nombre de documents par année (dans le corpus) et nombre de d’auteurs moyen par document</h2>
+<div class="cell" data-hash="report_cache/html/fig-plot_nbdoc_temps_67ec9f9841e63839b3e2fd90df613dfe">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tib_doc,</span>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>p1<span class="ot">=</span><span class="fu">ggplot</span>(tib_doc,</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x=</span>PY))<span class="sc">+</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()<span class="sc">+</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"année de publication"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"nombre de publications"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"nb_publis"</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>nb_AU_doc_PY<span class="ot">=</span>tib_doc_AU <span class="sc">%&gt;%</span> </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(PY,id_doc) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n_AU=</span><span class="fu">n</span>(),<span class="at">.groups=</span><span class="st">"drop"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(PY) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n_AU=</span><span class="fu">mean</span>(n_AU),<span class="at">.groups=</span><span class="st">"drop"</span>,</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">n=</span><span class="fu">n</span>())</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>p2<span class="ot">=</span><span class="fu">ggplot</span>(nb_AU_doc_PY, <span class="fu">aes</span>(<span class="at">x=</span>PY,<span class="at">y=</span>n_AU))<span class="sc">+</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_path</span>(<span class="at">color=</span><span class="st">"red"</span>)<span class="sc">+</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>   <span class="fu">xlab</span>(<span class="st">"année de publication"</span>)<span class="sc">+</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>   <span class="fu">ylab</span>(<span class="st">"moy_nb_aut"</span>)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>ggpubr<span class="sc">::</span><span class="fu">ggarrange</span>(p1,p2,<span class="at">nrow=</span><span class="dv">2</span>,<span class="at">labels=</span><span class="fu">c</span>(<span class="st">"a"</span>,<span class="st">"b"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/ndoc_per_year-1.png" class="img-fluid" width="576"></p>
+<div id="fig-plot_nbdoc_temps" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="report_files/figure-html/fig-plot_nbdoc_temps-1.png" class="img-fluid figure-img" width="576"></p>
+<figcaption class="figure-caption">Figure&nbsp;2: Evolution au cours du temps a) du nombre de publications et b) du nombre moyen d’auteurs par publication.</figcaption>
+</figure>
+</div>
 </div>
 </div>
 </section>
 <section id="comparaison-à-deux-autres-corpora" class="level2">
 <h2 class="anchored" data-anchor-id="comparaison-à-deux-autres-corpora">Comparaison à deux autres corpora</h2>
-<div class="cell" data-hash="report_cache/html/Rhine_Rhone_Danube_f1c3c40ec8376293cfd02e9874e02d2e">
+<div class="cell" data-hash="report_cache/html/fig-plot_3corpus_temps_809e02f1078c13ed57fcf19e02ef41c7">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">file.exists</span>(<span class="st">"data-raw/tib_doc_Rhine.RDS"</span>)){</span>
@@ -385,7 +407,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits=</span><span class="fu">c</span>(<span class="dv">1980</span>,<span class="dv">2024</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/Rhine_Rhone_Danube-1.png" class="img-fluid" width="576"></p>
+<div id="fig-plot_3corpus_temps" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="report_files/figure-html/fig-plot_3corpus_temps-1.png" class="img-fluid figure-img" width="576"></p>
+<figcaption class="figure-caption">Figure&nbsp;3: Evolution des publications dans 3 corpus constitués selon la même requête, mais pour 3 fleuves différents (a) Danube, b) Rhin, c) Rhône). Les courbes correspondent aux valeurs attendues si les publications étaient réparties de manière homogène entre les 3 corpus.</figcaption>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -416,7 +443,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 3 NA             91</code></pre>
 </div>
 </div>
-<p><strong>Peu de documents étiquetés “SHS” a priori</strong> (4.04% des documents pour lesquels on dispose de l’abstract) mais ce premier ensemble va nous permettre de rechercher les <strong>termes spécifiques aux SHS</strong> et d’identifier un “courant SHS” plus important et transverse (cf partie <a href="#sec-spec_SHS">Section&nbsp;3.1</a>)</p>
+<p><strong>Peu de documents étiquetés “SHS” a priori</strong> (4.04% des documents pour lesquels on dispose de l’abstract) mais ce premier ensemble va nous permettre de rechercher les <strong>termes spécifiques aux SHS</strong> et d’identifier un “courant SHS” plus important et transverse (cf partie <a href="#sec-spec_SHS">Section&nbsp;3.1</a>). Les termes en question montrent que l’intégration d’enjeux sociaux ou humains dans le corpus prennent le plus souvent la forme d’un intérêt pour la question de la <strong>gestion des territoires</strong>.</p>
 </section>
 </section>
 <section id="graphes-biblio" class="level1">
@@ -424,6 +451,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="réseaux-dauteurs" class="level2">
 <h2 class="anchored" data-anchor-id="réseaux-dauteurs">Réseaux d’auteurs</h2>
 <p>On définit des <strong>communautés d’auteurs</strong> en se basant sur les collaborations (co-signature de documents).</p>
+<p>On utilise ici la méthode de Louvain pour assigner chacun des auteurs à une communauté. Cette méthode est basée sur la maximisation de la modularité, qui mesure la qualité de la partition des noeuds en communautés. La méthode de Louvain est une méthode de partitionnement hiérarchique qui permet de trouver des communautés de taille variable. Elle est très rapide et permet de trouver des communautés de grande taille.</p>
+<p>Lancichinetti, A., &amp; Fortunato, S. (2009). Community detection algorithms: a comparative analysis. Physical review E, 80(5), 056117.</p>
 <div class="cell" data-hash="report_cache/html/calc_collaboration_graph_d76307106d91b64d2ee60bf67023951a">
 <details>
 <summary>Code</summary>
@@ -476,12 +505,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>            <span class="at">by=</span><span class="st">"cluster"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>A ce stade, de nombreuses communautés (393) sont définies. Pour la suite de l’analyse on ne conservera que les communautés à l’origine des 12 plus grands ensembles de documents (ndoc &gt; 145 et ndocw &gt; 30)</p>
+<p>A ce stade, de nombreuses communautés (393) sont définies. Pour la suite de l’analyse on ne <strong>conservera que les communautés à l’origine des 12 plus grands ensembles de documents</strong> (ndoc &gt; 145 et ndocw &gt; 30). Ainsi certains auteurs ne seront pas rattachés à une communauté.</p>
 </section>
 <section id="sec-docs_commu" class="level2">
 <h2 class="anchored" data-anchor-id="sec-docs_commu">Rattachement des articles à une communauté</h2>
-<p>Dans le cas où la majorité des auteurs ne fait pas partie d’une communauté définie, on assigne le document à la communauté majoritaire (par exemple si 30% des auteurs font partie de la communauté Cl01 et 70% ne font pas partie d’une communauté définie on assigne le document à la communauté Cl01).</p>
-<div class="cell" data-hash="report_cache/html/docs_comm_0b61d6bc6aefab814edc7887d75e3af7">
+<p>La communauté se réfère aux auteurs (un auteur = zéro ou une communauté). Un document est ainsi potentiellement issu de zéro, une, ou plusieurs communautés. On calcule ci-dessous un <strong>indice de diversité</strong> (score de Shannon) pour chaque document, qui mesure la diversité des communautés d’auteurs qui ont contribué à un document donné. J’affiche les 50 documents pour lesquels cet indice est le plus élevé:</p>
+<div class="cell" data-hash="report_cache/html/docs_comm_diversity_06eed9b43e017b17666218b7705970b4">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>tib_doc_commus<span class="ot">=</span>tib_doc_AU <span class="sc">%&gt;%</span> </span>
@@ -489,18 +518,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(auteurs <span class="sc">%&gt;%</span> <span class="fu">select</span>(AU,community),<span class="at">by=</span><span class="st">"AU"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(id_doc,community) <span class="sc">%&gt;%</span> </span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">weight=</span><span class="fu">sum</span>(AU_weight,<span class="at">na.rm=</span><span class="cn">TRUE</span>),<span class="at">.groups=</span><span class="st">"drop"</span>)</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>tib_doc_commus<span class="ot">=</span>tib_doc <span class="sc">%&gt;%</span> </span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(tib_doc_commus,<span class="at">by=</span><span class="fu">c</span>(<span class="st">"id_doc"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>shannon<span class="ot">=</span><span class="cf">function</span>(P){<span class="sc">-</span><span class="fu">sum</span>(<span class="fu">log</span>(P) <span class="sc">*</span> P, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)}</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>tib_doc_divers<span class="ot">=</span> tib_doc_commus <span class="sc">%&gt;%</span> </span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(id_doc) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">commu_label=</span>purrr<span class="sc">::</span><span class="fu">map2</span>(community,weight,<span class="sc">~</span><span class="fu">paste0</span>(.x,<span class="st">":"</span>,.y))) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">diversity=</span><span class="fu">shannon</span>(weight),</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">commu_label=</span><span class="fu">paste</span>(commu_label, <span class="at">collapse=</span><span class="st">"; "</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(diversity)) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(tib_doc <span class="sc">%&gt;%</span> <span class="fu">select</span>(id_doc,AU),<span class="at">by=</span><span class="st">"id_doc"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">50</span>)</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>reactable<span class="sc">::</span><span class="fu">reactable</span>(tib_doc_divers,</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>                     <span class="at">filterable=</span><span class="cn">TRUE</span>,</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>                     <span class="at">resizable=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+
+<div class="reactable html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-c745bd1868708d1ac3bb" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-c745bd1868708d1ac3bb">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"id_doc":["WU J, 2018, CONT SHELF RES","GALERON MA, 2015, BIOGEOSCIENCES","RADAKOVITCH O, 1999, ESTUAR COAST SHELF SCI","DUMAS C, 2015, APPL GEOCHEM","ARNAUD Fa, 2021, EARTH SYST SCI DATA","DAUFRESNE M, 2004, GLOB CHANGE BIOL","PANAGIOTOPOULOS C, 2012, BIOGEOSCIENCES","MAILLET GM, 2006, MAR GEOL","CHARMASSON S, 1998, ESTUARIES","FRANQUET E, 1995, HYDROBIOLOGIA","MARION C, 2010, HOUILLE BLANCHE-REV INT","PAGANO M, 1993, ESTUAR COAST SHELF SCI","BOLLAERT E, 2006, RIVER FLOW 2006, VOLS 1 AND 2","CATTANÉO F, 2001, ARCH HYDROBIOL","AUGER PA, 2011, BIOGEOSCIENCES","DEPRET T, 2017, GEOMORPHOLOGY","FONTANA C, 2010, CONT SHELF RES","VAUDOR L, 2015, FRESHW BIOL","POULET N, 2004, ARCH HYDROBIOL","EYROLLE F, 2022, J SOILS SEDIMENTS","CONSTANT M, 2020, SCI TOTAL ENVIRON","DAUFRESNE M, 2015, FRESHW BIOL","CARLOTTI F, 2014, J MAR SYST","FONTANA C, 2009, CONT SHELF RES","MOREAU C, 2022, J ENVIRON MANAGE","ESPINASSE B, 2014, MAR ECOL-PROG SER","RIQUIER J, 2017, GEOMORPHOLOGY","RIQUIER J, 2019, HOUILLE BLANCHE-REV INT","MIEGE C, 2012, ANAL BIOANAL CHEM","BEAUDOUIN C, 2007, GEOBIOS","LANSARD B, 2006, J SEA RES","LOPES C, 2011, CHEMOSPHERE","DELAVAL A, 2021, ENVIRON MODELL SOFTW","LANSARD B, 2008, CONT SHELF RES","LANSARD B, 2009, ESTUAR COAST SHELF SCI","MARION C, 2010, CONT SHELF RES","SCHAAFF E, 2006, J SEA RES","ARNAUD-FASSETTA G, 2005, Z GEOMORPHOL","ARGANT J, 2011, QUATERNAIRE","DAUFRESNE M, 2007, OECOLOGIA","GIBERT J, 1995, CAN J FISH AQUAT SCI","MAILLET GM, 2006, GEOMORPHOLOGIE-a","MARMONIER P, 1994, FRESHW BIOL","OLLIVIER P, 2006, J GEOCHEM EXPLOR","OLLIVIER P, 2007, GEOCHIM COSMOCHIM ACTA","OLLIVIER P, 2008, MAR CHEM","OLLIVIER P, 2010, GEOCHIM COSMOCHIM ACTA","OLLIVIER P, 2011, CHEM GEOL","SEMPERE R, 1994, MAR CHEM","COSSA D, 2014, CHEM GEOL"],"diversity":[1.48975031885059,1.43239876932748,1.27985422583367,1.18176436223287,1.15053176228644,1.08889997534522,1.08518861296765,1.06073147360999,1.05492016798614,1.05492016798614,1.05492016798614,1.05492016798614,1.04375703633141,1.02965301406457,1.01810521252203,1.01140426470735,1.01140426470735,1.01140426470735,1.00961375817404,1.00937422136286,0.998192676780755,0.952937100125203,0.943348392329039,0.943348392329039,0.943348392329039,0.89794572485678,0.89794572485678,0.89794572485678,0.8835594777709,0.853236150555778,0.853236150555778,0.835937364489899,0.801818552543337,0.801818552543337,0.801818552543337,0.801818552543337,0.801818552543337,0.729871209983116,0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945,0.693147180559945,0.692012964831874],"commu_label":["c03:0.0666666666666667; c04:0.266666666666667; c05:0.2; c10:0.333333333333333; NA:0.133333333333333","c06:0.0555555555555556; c08:0.166666666666667; c10:0.222222222222222; c12:0.416666666666667; NA:0.138888888888889","c03:0.1; c04:0.2; c05:0.3; NA:0.4","c03:0.142857142857143; c05:0.535714285714286; c08:0.214285714285714; c12:0.107142857142857","c01:0.527777777777778; c02:0.194444444444444; c06:0.0555555555555556; NA:0.222222222222222","c01:0.3; c02:0.3; c06:0.4","c08:0.4; c10:0.266666666666667; NA:0.333333333333333","c03:0.285714285714286; c04:0.464285714285714; c05:0.25","c03:0.4; c05:0.4; NA:0.2","c01:0.4; c02:0.4; c06:0.2","c03:0.4; c04:0.2; c05:0.4","c06:0.2; c10:0.4; NA:0.4","c02:0.333333333333333; c03:0.2; NA:0.466666666666667","c01:0.2; c06:0.3; c12:0.5","c05:0.527777777777778; c08:0.222222222222222; c12:0.25","c01:0.333333333333333; c02:0.166666666666667; c03:0.5","c05:0.333333333333333; c12:0.166666666666667; NA:0.5","c01:0.333333333333333; c03:0.5; NA:0.166666666666667","c06:0.266666666666667; c09:0.2; NA:0.533333333333333","c03:0.638888888888889; c06:0.0555555555555556; c12:0.111111111111111; NA:0.194444444444444","c05:0.527777777777778; c08:0.305555555555556; c12:0.166666666666667","c01:0.5; c02:0.107142857142857; c06:0.392857142857143","c05:0.5; c12:0.1; NA:0.4","c05:0.5; c12:0.1; NA:0.4","c02:0.1; c03:0.5; c04:0.4","c05:0.1; c06:0.6; NA:0.3","c01:0.6; c02:0.3; c03:0.1","c01:0.6; c02:0.3; c03:0.1","c02:0.654545454545455; c03:0.181818181818182; NA:0.163636363636364","c04:0.333333333333333; c05:0.0666666666666667; NA:0.6","c04:0.333333333333333; c05:0.6; c12:0.0666666666666667","c02:0.666666666666667; c06:0.0952380952380952; c07:0.238095238095238","c03:0.7; c05:0.2; NA:0.1","c04:0.7; c05:0.1; c06:0.2","c04:0.7; c05:0.1; c06:0.2","c03:0.1; c04:0.2; c05:0.7","c04:0.1; c05:0.7; c12:0.2","c02:0.2; c03:0.0666666666666667; NA:0.733333333333333","c02:0.5; NA:0.5","c01:0.5; c06:0.5","c01:0.5; c02:0.5","c03:0.5; c04:0.5","c01:0.5; c02:0.5","c03:0.5; NA:0.5","c03:0.5; NA:0.5","c03:0.5; c12:0.5","c03:0.5; NA:0.5","c03:0.5; NA:0.5","c08:0.5; c10:0.5","c04:0.523809523809524; c05:0.476190476190476"],"AU":["WU J;RABOUILLE C;CHARMASSON S;REYSS JL;CAGNAT X","GALERON MA;AMIRAUX R;CHARRIERE B;RADAKOVITCH O;RAIMBAULT P;GARCIA N;LAGADEC V;VAULTIER JF","RADAKOVITCH O;CHARMASSON S;ARNAUD M;BOUISSET P","DUMAS C;LUDWIG W;AUBERT D;EYROLLE F;RAIMBAULT P;GUENEUGUES A;SOTIN C","ARNAUD Fa;CHANU LS;GRILLOT J;RIQUIER J;PIEGAY H;ROUX-MICHOLLET D;CARREL G;OLIVIER JM","DAUFRESNE M;ROGER MC;CAPRA H;LAMOUROUX N","PANAGIOTOPOULOS C;SEMPERE R;PARA J;RAIMBAULT C;CHARRIERE B","MAILLET GM;VELLA C;BERNE S;FRIEND PL;AMOS CL;FLEURY TJ;NORMAND A","CHARMASSON S;BOUISSET P;RADAKOVITCH O;PRUCHON M","FRANQUET E;CELLOT B;PONT D;BOURNAUD M","MARION C;MAILLET G;ARNAUD M;EYROLLE F","PAGANO M;GAUDY R;THIBAULT D;LOCHET F","BOLLAERT E;ANDRE S;DIOUF S;SIDLER D;FERRETTI S","CATTANÉO F;CARREL G;LAMOUROUX N;BREIL P","AUGER PA;DIAZ F;ULSES C;ESTOURNEL C;NEVEUX J;JOUX F;PUJO-PAY M;NAUDIN JJ","DEPRET T;RIQUIER J;PIEGAY H","FONTANA C;GRENZ C;PINAZO C","VAUDOR L;LAMOUROUX N;OLIVIER M","POULET N;BERREBI P;CRIVELLI AJ;LEK S;ARGILLIER C","EYROLLE F;RADAKOVITCH O;COPARD H;BODEREAU N;RAIMBAULT P;DABRIN A;LAGADEC V;LE CORRE C","CONSTANT M;LUDWIG W;KERHERVE P;SOLA J;CHARRIERE B;SANCHEZ-VIDAL A;CANALS M;HEUSSNER S","DAUFRESNE M;VESLOT J;CAPRA H;CARREL G;POIREL A;OLIVIER JM;LAMOUROUX N","CARLOTTI F;EISENHAUER L;CAMPBELL R;DIAZ F","FONTANA C;GRENZ C;PINAZO P;DIAZ F","MOREAU C;COTTET M;RIVIERE-HONEGGER A;EVETTE A","ESPINASSE B;CARLOTTI F;ZHOU M;DEVENON JL","RIQUIER J;PIEGAY H;LAMOUROUX N;VAUDOR L","RIQUIER J;PIEGAY H;LAMOUROUX N;VAUDOR L","MIEGE C;PERETTI A;LABADIE P;BUDZINSKI H;LE;BIZEC B;VORKAMP K;TRONCZYNSKI J;PERSAT M;BABUT M","BEAUDOUIN C;SUC JP;ESCARGUEL G;ARNAUD M;CHARMASSON S","LANSARD B;GRENZ C;CHARMASSON S;SCHAAFF E;PINAZO C","LOPES C;PERGA ME;PERETTI A;ROGER MC;PERSAT H;BABUT M","DELAVAL A;DUFFA C;PAIRAUD I;RADAKOVITCH O","LANSARD B;RABOUILLE C;DENIS L;GRENZ C","LANSARD B;RABOUILLE C;DENIS L;GRENZ C","MARION C;DUFOIS F;ARNAUD M;VELLA C","SCHAAFF E;GRENZ C;PINAZO C;LANSARD B","ARNAUD-FASSETTA G;BRUNETON H;BERGER JF;BEAUDOUIN X;PROVANSAL M","ARGANT J;BRAVARD JP;BOURGUIGNON JC","DAUFRESNE M;BADY P;FRUGET JF","GIBERT J;MARMONIER P;VANEK V;PLENET S","MAILLET GM;VELLA C;PROVANSAL F","MARMONIER P;BODERGAT AM;DOLEDEC S","OLLIVIER P;RADAKOVITCH O;HAMELIN B","OLLIVIER P;HAMELIN B;RADAKOVITCH O","OLLIVIER P;CLAUDE C;RADAKOVITCH B","OLLIVIER P;HAMELIN B;RADAKOVITCH O","OLLIVIER P;RADAKOVITCH O;HAMELIN B","SEMPERE R;CAUWET G;RANDON J","COSSA D;BUSCAIL R;PUIG P;CHIFFOLEAU O;JEANTY G;HEUSSNER S"]},"columns":[{"id":"id_doc","name":"id_doc","type":"character"},{"id":"diversity","name":"diversity","type":"numeric"},{"id":"commu_label","name":"commu_label","type":"character"},{"id":"AU","name":"AU","type":"character"}],"resizable":true,"filterable":true,"dataKey":"099844d4d9d7e55d71a947086c9465bf"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>Par la suite, on va <strong>réassigner chaque document à une seule communauté</strong> (la communauté qui a le poids le plus important pour cet article).</p>
+<p>Dans le cas où la majorité des auteurs ne fait pas partie d’une communauté définie, on assigne le document à la communauté majoritaire (par exemple si 30% des auteurs font partie de la communauté Cl01 et 70% ne font pas partie d’une communauté définie on assigne le document à la communauté Cl01).</p>
+<div class="cell" data-hash="report_cache/html/docs_comm_098dfa1c9e8622bbc583779aa99b106e">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>tib_doc_commus<span class="ot">=</span>tib_doc <span class="sc">%&gt;%</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(tib_doc_commus,<span class="at">by=</span><span class="fu">c</span>(<span class="st">"id_doc"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell" data-hash="report_cache/html/tib_commus_prod_dcef966caf3c4d56521ae28891f67a8b">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>tib_commus_prod<span class="ot">=</span> tib_doc_commus <span class="sc">%&gt;%</span> </span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(community) <span class="sc">%&gt;%</span> </span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">neqdoc=</span><span class="fu">sum</span>(weight),</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">ndoc=</span><span class="fu">n</span>())</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>reactable<span class="sc">::</span><span class="fu">reactable</span>(tib_commus_prod,<span class="at">pagination=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>tib_commus_prod<span class="ot">=</span> tib_doc_commus <span class="sc">%&gt;%</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(community) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">neqdoc=</span><span class="fu">sum</span>(weight),</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">ndoc=</span><span class="fu">n</span>())</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>reactable<span class="sc">::</span><span class="fu">reactable</span>(tib_commus_prod,<span class="at">pagination=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 
@@ -513,13 +568,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-hash="report_cache/html/show_auteurs_graph_d5816e4bad21e63fc06aa0b38effdc05">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>auteurs<span class="ot">=</span>auteurs</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>reactable<span class="sc">::</span><span class="fu">reactable</span>(auteurs <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(community),</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">groupBy=</span><span class="st">"community"</span>,</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">sortable=</span><span class="cn">TRUE</span>,</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">filterable=</span><span class="cn">TRUE</span>,</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">pagination=</span><span class="cn">FALSE</span>,</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">paginateSubRows=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>auteurs<span class="ot">=</span>auteurs</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>reactable<span class="sc">::</span><span class="fu">reactable</span>(auteurs <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(community),</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">groupBy=</span><span class="st">"community"</span>,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">sortable=</span><span class="cn">TRUE</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">filterable=</span><span class="cn">TRUE</span>,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">pagination=</span><span class="cn">FALSE</span>,</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">paginateSubRows=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 
@@ -534,9 +589,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-hash="report_cache/html/show_tib_doc_comm_abda5476f9d0229a45e02ca0f282288d">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>reactable<span class="sc">::</span><span class="fu">reactable</span>(tib_doc_commus <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>id_doc,<span class="sc">-</span>CR,<span class="sc">-</span>AB),</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">filterable=</span><span class="cn">TRUE</span>,</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">resizable=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>reactable<span class="sc">::</span><span class="fu">reactable</span>(tib_doc_commus <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>id_doc,<span class="sc">-</span>CR,<span class="sc">-</span>AB),</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">filterable=</span><span class="cn">TRUE</span>,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">resizable=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 
@@ -548,22 +603,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="productivité-des-communautés-dauteurs-au-cours-du-temps" class="level2">
 <h2 class="anchored" data-anchor-id="productivité-des-communautés-dauteurs-au-cours-du-temps">Productivité des communautés d’auteurs au cours du temps</h2>
-<div class="cell" data-hash="report_cache/html/tib_doc_PY_df67214dabd105408dfa54f2c19ed7e3">
+<p>Les communautés d’auteurs se définissent par leurs liens de co-autorat. Il y a donc par construction une structure temporelle sous-jacente à ces communautés (deux auteurs peuvent être très similaires en termes de discipline et de thématiques mais ne pas être rattachés à la même communauté si leurs collaborations sont distantes dans le temps).</p>
+<p><strong>Ce sont ces communautés qui sont le mieux à même (à mon sens) de refléter les dynamiques de recherche impulsées par les programmes de recherche…</strong></p>
+<div class="cell" data-hash="report_cache/html/fig-nb_doc_par_commu_67fbe89987b4b489d509d03bc5245e89">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>tib_community_PY<span class="ot">=</span>tib_doc_commus<span class="sc">%&gt;%</span> </span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(community,PY) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">sumw=</span><span class="fu">sum</span>(weight)) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tib_community_PY, <span class="fu">aes</span>(<span class="at">x=</span>PY, <span class="at">y=</span>sumw, <span class="at">fill=</span>community))<span class="sc">+</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>()<span class="sc">+</span></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="at">facets=</span><span class="fu">vars</span>(community))<span class="sc">+</span></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"année de publication"</span>)<span class="sc">+</span></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"nombre de publications"</span>)<span class="sc">+</span></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>tib_community_PY<span class="ot">=</span>tib_doc_commus<span class="sc">%&gt;%</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(community,PY) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">sumw=</span><span class="fu">sum</span>(weight)) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tib_community_PY, <span class="fu">aes</span>(<span class="at">x=</span>PY, <span class="at">y=</span>sumw, <span class="at">fill=</span>community))<span class="sc">+</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>()<span class="sc">+</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="at">facets=</span><span class="fu">vars</span>(community))<span class="sc">+</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"année de publication"</span>)<span class="sc">+</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"nombre de publications"</span>)<span class="sc">+</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/tib_doc_PY-1.png" class="img-fluid" width="768"></p>
+<div id="fig-nb_doc_par_commu" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="report_files/figure-html/fig-nb_doc_par_commu-1.png" class="img-fluid figure-img" width="768"></p>
+<figcaption class="figure-caption">Figure&nbsp;4: Nombre de documents publiés par les différentes communautés d’auteurs au cours du temps.</figcaption>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -572,57 +634,59 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-hash="report_cache/html/auteurs_graph_cbee89954fd5b1965d311e4ed39ef576">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>liste_auteurs_graph<span class="ot">=</span>auteurs <span class="sc">%&gt;%</span> </span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(community)) <span class="sc">%&gt;%</span> </span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(AU)</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>ndoc_auteurs_graph<span class="ot">=</span>tib_doc_AU <span class="sc">%&gt;%</span> </span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(AU <span class="sc">%in%</span> liste_auteurs_graph) <span class="sc">%&gt;%</span> </span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(id_doc) <span class="sc">%&gt;%</span> <span class="fu">unique</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">length</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>liste_auteurs_graph<span class="ot">=</span>auteurs <span class="sc">%&gt;%</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(community)) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(AU)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>ndoc_auteurs_graph<span class="ot">=</span>tib_doc_AU <span class="sc">%&gt;%</span> </span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(AU <span class="sc">%in%</span> liste_auteurs_graph) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(id_doc) <span class="sc">%&gt;%</span> <span class="fu">unique</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">length</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Le graphe ci-après représente les collaborations des 2060 auteurs qui ont été rattachés à une communauté que l’on a conservé pour la suite des analyses.</p>
 <p>Ces 2060 auteurs représentent 50.91% des auteurs du corpus, mais 60% des documents du corpus ont au moins un de ces auteurs comme n-ième auteur.</p>
-<div class="cell" data-hash="report_cache/html/graph_auteurs_show_93e0c2edab44145e2ed1bf066b431562">
+<div class="cell" data-hash="report_cache/html/fig-communautés d'auteurs_14ec970e70826a587b02de2000506e59">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>auteurs_keep<span class="ot">=</span>auteurs <span class="sc">%&gt;%</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(au,community,ndoc) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">keep=</span>ndoc<span class="sc">&gt;</span><span class="dv">15</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(community) <span class="sc">%&gt;%</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(ndoc)) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rank=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">keep=</span>rank<span class="sc">&lt;=</span><span class="dv">3</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">showname=</span><span class="fu">case_when</span>(keep<span class="sc">~</span>au,</span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>                            <span class="sc">!</span>keep<span class="sc">~</span><span class="cn">NA_character_</span>))</span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>tidyg<span class="ot">=</span>tidygraph<span class="sc">::</span><span class="fu">as_tbl_graph</span>(p<span class="sc">$</span>graph) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>  tidygraph<span class="sc">::</span><span class="fu">activate</span>(nodes) <span class="sc">%&gt;%</span></span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>community) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(name <span class="sc">%in%</span> <span class="fu">tolower</span>(liste_auteurs_graph),</span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>         deg <span class="sc">&gt;</span><span class="dv">3</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(auteurs_keep,<span class="at">by=</span><span class="fu">c</span>(<span class="st">"name"</span><span class="ot">=</span><span class="st">"au"</span>))</span>
-<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a><span class="fu">ggraph</span>(tidyg,<span class="at">layout=</span><span class="st">"fr"</span>)<span class="sc">+</span></span>
-<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_edge_link</span>(<span class="at">color=</span><span class="st">"light grey"</span>)<span class="sc">+</span></span>
-<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_point</span>(<span class="fu">aes</span>(<span class="at">color=</span>community,<span class="at">size=</span>ndoc))<span class="sc">+</span></span>
-<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_text</span>(<span class="fu">aes</span>(<span class="at">label=</span>showname),<span class="at">size=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>auteurs_keep<span class="ot">=</span>auteurs <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(au,community,ndoc) <span class="sc">%&gt;%</span> </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">keep=</span>ndoc<span class="sc">&gt;</span><span class="dv">15</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(community) <span class="sc">%&gt;%</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(ndoc)) <span class="sc">%&gt;%</span> </span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rank=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">keep=</span>rank<span class="sc">&lt;=</span><span class="dv">3</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">showname=</span><span class="fu">case_when</span>(keep<span class="sc">~</span>au,</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>                            <span class="sc">!</span>keep<span class="sc">~</span><span class="cn">NA_character_</span>))</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>tidyg<span class="ot">=</span>tidygraph<span class="sc">::</span><span class="fu">as_tbl_graph</span>(p<span class="sc">$</span>graph) <span class="sc">%&gt;%</span> </span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  tidygraph<span class="sc">::</span><span class="fu">activate</span>(nodes) <span class="sc">%&gt;%</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>community) <span class="sc">%&gt;%</span> </span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(name <span class="sc">%in%</span> <span class="fu">tolower</span>(liste_auteurs_graph),</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>         deg <span class="sc">&gt;</span><span class="dv">3</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(auteurs_keep,<span class="at">by=</span><span class="fu">c</span>(<span class="st">"name"</span><span class="ot">=</span><span class="st">"au"</span>))</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a><span class="fu">ggraph</span>(tidyg,<span class="at">layout=</span><span class="st">"fr"</span>)<span class="sc">+</span></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_edge_link</span>(<span class="at">color=</span><span class="st">"light grey"</span>)<span class="sc">+</span></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_point</span>(<span class="fu">aes</span>(<span class="at">color=</span>community,<span class="at">size=</span>ndoc))<span class="sc">+</span></span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_text</span>(<span class="fu">aes</span>(<span class="at">label=</span>showname),<span class="at">size=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/graph_auteurs_show-1.png" class="img-fluid" width="960"></p>
+<p><img src="report_files/figure-html/fig-communautés d'auteurs-1.png" class="img-fluid" alt="Communautés d’auteurs définies sur la base du co-autorat et partitionnées selon la méthode de Louvain. On n’a représenté ici que les 12 communautés correspondant au poids le plus important en termes de nombre de documents. Pour chacune des 12 communautés et pour ne pas surchargé le graphe on a indiqué les 3 auteurs les plus importants en terme de nombre de documents.">{#fig-communautés d’auteurs width=960}</p>
 </div>
 </div>
 </section>
 <section id="spécificités-des-mots-clés-par-communauté-dauteurs" class="level2">
 <h2 class="anchored" data-anchor-id="spécificités-des-mots-clés-par-communauté-dauteurs">Spécificités des mots-clés par communauté d’auteurs</h2>
+<p>J’ai laissé ici ce graphique (pour la postérité on va dire) mais à mon avis dans ce contexte il est compliqué à interpréter. En effet les communautés peuvent être issues de divers horizons disciplinaires et thématiques. De ce fait les mots-clés les plus spécifiques d’une communauté peuvent être un <strong>mélange de termes issues de disciplines ou thématiques variées</strong> assez compliqué à interpréter pour comprendre quels sont les enjeux de recherche de cette communauté.</p>
+<p>Du coup je propose (dans la suite du document) de caractériser les thématiques (via la classif de Reinhert) d’une manière totalement indépendante du calcul du communauté. Cela va permettre de croiser communautés et thématiques d’une manière plus aisément interprétable…</p>
 <div class="cell" data-hash="report_cache/html/spec_kw_com_039a52ac212d202500abac75ce9bf419">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>kw_communities<span class="ot">=</span>tib_doc_commus<span class="sc">%&gt;%</span> </span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(<span class="at">output=</span><span class="st">"kw"</span>,<span class="at">input=</span><span class="st">"DE"</span>,<span class="at">token=</span>stringr<span class="sc">::</span>str_split, <span class="at">pattern =</span> <span class="st">"; "</span>) </span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>spec_com<span class="ot">=</span><span class="fu">tidy_specificities</span>(kw_communities,<span class="at">cat1=</span>kw,<span class="at">cat2=</span>community,<span class="at">top_spec=</span><span class="dv">20</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(community,<span class="fu">desc</span>(spec))</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_specificities</span>(spec_com,kw,community)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>kw_communities<span class="ot">=</span>tib_doc_commus<span class="sc">%&gt;%</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(<span class="at">output=</span><span class="st">"kw"</span>,<span class="at">input=</span><span class="st">"DE"</span>,<span class="at">token=</span>stringr<span class="sc">::</span>str_split, <span class="at">pattern =</span> <span class="st">"; "</span>) </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>spec_com<span class="ot">=</span><span class="fu">tidy_specificities</span>(kw_communities,<span class="at">cat1=</span>kw,<span class="at">cat2=</span>community,<span class="at">top_spec=</span><span class="dv">20</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(community,<span class="fu">desc</span>(spec))</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_specificities</span>(spec_com,kw,community)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="report_files/figure-html/spec_kw_com-1.png" class="img-fluid" width="576"></p>
@@ -632,16 +696,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-hash="report_cache/html/spec_SO_com_7a72d53e638bd267245f97e610e1873c">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>spec_SO<span class="ot">=</span><span class="fu">tidy_specificities</span>(tib_doc_commus,<span class="at">cat1=</span>SO,<span class="at">cat2=</span>community,<span class="at">min_spec=</span><span class="dv">2</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(community,<span class="fu">desc</span>(spec)) <span class="sc">%&gt;%</span> </span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rank=</span><span class="fu">n</span>()<span class="sc">:</span><span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(community, SO, spec, n,rank)</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(spec_SO <span class="sc">%&gt;%</span> <span class="fu">filter</span>(spec<span class="sc">&gt;</span><span class="dv">2</span>),<span class="fu">aes</span>(<span class="at">x=</span><span class="fu">fct_reorder</span>(SO,rank), <span class="at">y=</span>spec))<span class="sc">+</span></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">fill=</span>community))<span class="sc">+</span></span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">y=</span><span class="dv">0</span>,<span class="at">label=</span>SO),<span class="at">hjust=</span><span class="dv">0</span>)<span class="sc">+</span></span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()<span class="sc">+</span></span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y=</span><span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>spec_SO<span class="ot">=</span><span class="fu">tidy_specificities</span>(tib_doc_commus,<span class="at">cat1=</span>SO,<span class="at">cat2=</span>community,<span class="at">min_spec=</span><span class="dv">2</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(community,<span class="fu">desc</span>(spec)) <span class="sc">%&gt;%</span> </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rank=</span><span class="fu">n</span>()<span class="sc">:</span><span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(community, SO, spec, n,rank)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(spec_SO <span class="sc">%&gt;%</span> <span class="fu">filter</span>(spec<span class="sc">&gt;</span><span class="dv">2</span>),<span class="fu">aes</span>(<span class="at">x=</span><span class="fu">fct_reorder</span>(SO,rank), <span class="at">y=</span>spec))<span class="sc">+</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">fill=</span>community))<span class="sc">+</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">y=</span><span class="dv">0</span>,<span class="at">label=</span>SO),<span class="at">hjust=</span><span class="dv">0</span>)<span class="sc">+</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()<span class="sc">+</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y=</span><span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="report_files/figure-html/spec_SO_com-1.png" class="img-fluid" width="576"></p>
@@ -657,16 +721,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-hash="report_cache/html/spec_SHS_1f00e7b44020222bc759712f6df42c7c">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mixr)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>tib_doc_ABW<span class="ot">=</span>tib_doc_ABW <span class="sc">%&gt;%</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mention_SHS=</span><span class="fu">as.character</span>(mention_SHS))</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>spec_SHS<span class="ot">=</span><span class="fu">tidy_specificities</span>(tib_doc_ABW,</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">cat1=</span>ABW,</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">cat2=</span>mention_SHS) <span class="sc">%&gt;%</span> </span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(mention_SHS<span class="sc">==</span><span class="st">"TRUE"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>mention_SHS) <span class="sc">%&gt;%</span> </span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(spec))</span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>reactable<span class="sc">::</span><span class="fu">reactable</span>(spec_SHS <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">100</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mixr)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>tib_doc_ABW<span class="ot">=</span>tib_doc_ABW <span class="sc">%&gt;%</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mention_SHS=</span><span class="fu">as.character</span>(mention_SHS))</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>spec_SHS<span class="ot">=</span><span class="fu">tidy_specificities</span>(tib_doc_ABW,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">cat1=</span>ABW,</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">cat2=</span>mention_SHS) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(mention_SHS<span class="sc">==</span><span class="st">"TRUE"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>mention_SHS) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(spec))</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>reactable<span class="sc">::</span><span class="fu">reactable</span>(spec_SHS <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">100</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 
@@ -677,33 +741,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-hash="report_cache/html/scores_SHS_bf24ae903a973445969dc9409575cbcd">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>scores_SHS<span class="ot">=</span> spec_SHS <span class="sc">%&gt;%</span> </span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">spec=</span><span class="fu">case_when</span>(spec<span class="sc">&lt;</span><span class="dv">2</span><span class="sc">~</span><span class="dv">0</span>,</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>                        <span class="cn">TRUE</span><span class="sc">~</span>spec)) <span class="sc">%&gt;%</span> </span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ABW,<span class="at">SHS_spec=</span>spec)</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>tib_doc_ABW<span class="ot">=</span>tib_doc_ABW <span class="sc">%&gt;%</span> </span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(scores_SHS, <span class="at">by=</span><span class="st">"ABW"</span>)</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>tib_doc_SHS<span class="ot">=</span>tib_doc_ABW <span class="sc">%&gt;%</span> </span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(id_doc) <span class="sc">%&gt;%</span> </span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">SHS_spec=</span><span class="fu">sum</span>(SHS_spec,<span class="at">na.rm=</span><span class="cn">TRUE</span>),<span class="at">.groups=</span><span class="st">"drop"</span>)</span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>tib_doc_commus_SHS<span class="ot">=</span>tib_doc_commus <span class="sc">%&gt;%</span> </span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(tib_doc_SHS,<span class="at">by=</span><span class="st">"id_doc"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>scores_SHS<span class="ot">=</span> spec_SHS <span class="sc">%&gt;%</span> </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">spec=</span><span class="fu">case_when</span>(spec<span class="sc">&lt;</span><span class="dv">2</span><span class="sc">~</span><span class="dv">0</span>,</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>                        <span class="cn">TRUE</span><span class="sc">~</span>spec)) <span class="sc">%&gt;%</span> </span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ABW,<span class="at">SHS_spec=</span>spec)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>tib_doc_ABW<span class="ot">=</span>tib_doc_ABW <span class="sc">%&gt;%</span> </span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(scores_SHS, <span class="at">by=</span><span class="st">"ABW"</span>)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>tib_doc_SHS<span class="ot">=</span>tib_doc_ABW <span class="sc">%&gt;%</span> </span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(id_doc) <span class="sc">%&gt;%</span> </span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">SHS_spec=</span><span class="fu">sum</span>(SHS_spec,<span class="at">na.rm=</span><span class="cn">TRUE</span>),<span class="at">.groups=</span><span class="st">"drop"</span>)</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>tib_doc_commus_SHS<span class="ot">=</span>tib_doc_commus <span class="sc">%&gt;%</span> </span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(tib_doc_SHS,<span class="at">by=</span><span class="st">"id_doc"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Quelles sont les communautés d’auteur dans lesquelles ces termes sont les plus pregnants?</p>
 <div class="cell" data-hash="report_cache/html/unnamed-chunk-2_10abefdb5801044daf17a5e7d001bb59">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>tib_doc_commus_SHS_summary<span class="ot">=</span>tib_doc_commus_SHS <span class="sc">%&gt;%</span> </span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(community) <span class="sc">%&gt;%</span> </span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">ndoc=</span><span class="fu">n</span>(),<span class="at">.groups=</span><span class="st">"drop"</span>)</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tib_doc_commus_SHS <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(community)),</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x=</span>community,<span class="at">y=</span>SHS_spec,<span class="at">fill=</span>community))<span class="sc">+</span></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>()<span class="sc">+</span></span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data=</span>tib_doc_commus_SHS_summary,</span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">label=</span><span class="fu">paste0</span>(<span class="st">"n="</span>,ndoc),<span class="at">y=</span><span class="dv">1</span>),<span class="at">size=</span><span class="dv">3</span>)<span class="sc">+</span></span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>tib_doc_commus_SHS_summary<span class="ot">=</span>tib_doc_commus_SHS <span class="sc">%&gt;%</span> </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(community) <span class="sc">%&gt;%</span> </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">ndoc=</span><span class="fu">n</span>(),<span class="at">.groups=</span><span class="st">"drop"</span>)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tib_doc_commus_SHS <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(community)),</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x=</span>community,<span class="at">y=</span>SHS_spec,<span class="at">fill=</span>community))<span class="sc">+</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>()<span class="sc">+</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data=</span>tib_doc_commus_SHS_summary,</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">label=</span><span class="fu">paste0</span>(<span class="st">"n="</span>,ndoc),<span class="at">y=</span><span class="dv">1</span>),<span class="at">size=</span><span class="dv">3</span>)<span class="sc">+</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="report_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="576"></p>
@@ -712,13 +776,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-hash="report_cache/html/SHS_progress_in_commus_6eb7942c108ab3f5eafbc698e29cd236">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tib_doc_commus_SHS <span class="sc">%&gt;%</span> <span class="fu">na.omit</span>(),</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x=</span>PY,<span class="at">y=</span>SHS_spec))<span class="sc">+</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">col=</span>community))<span class="sc">+</span></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">"lm"</span>,<span class="at">se=</span><span class="cn">TRUE</span>)<span class="sc">+</span></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="at">facets=</span><span class="fu">vars</span>(community))<span class="sc">+</span></span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits=</span><span class="fu">c</span>(<span class="dv">1990</span>,<span class="dv">2024</span>))<span class="sc">+</span></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_sqrt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tib_doc_commus_SHS <span class="sc">%&gt;%</span> <span class="fu">na.omit</span>(),</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x=</span>PY,<span class="at">y=</span>SHS_spec))<span class="sc">+</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">col=</span>community))<span class="sc">+</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">"lm"</span>,<span class="at">se=</span><span class="cn">TRUE</span>)<span class="sc">+</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="at">facets=</span><span class="fu">vars</span>(community))<span class="sc">+</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits=</span><span class="fu">c</span>(<span class="dv">1990</span>,<span class="dv">2024</span>))<span class="sc">+</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_sqrt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="report_files/figure-html/SHS_progress_in_commus-1.png" class="img-fluid" width="576"></p>
@@ -727,123 +791,140 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="identification-de-thématiques-par-la-méthode-de-reinert" class="level2">
 <h2 class="anchored" data-anchor-id="identification-de-thématiques-par-la-méthode-de-reinert">Identification de thématiques par la méthode de Reinert</h2>
+<p>Reinert M., “Une méthode de classification descendante hiérarchique : application à l’analyse lexicale par contexte”, Cahiers de l’analyse des données, Volume 8, Numéro 2, 1983. http://www.numdam.org/item/?id=CAD_1983__8_2_187_0</p>
+<p>Barnier J (2023). <em>rainette: The Reinert Method for Textual Data Clustering</em>. R package version 0.3.1.1, <a href="https://CRAN.R-project.org/package=rainette" class="uri">https://CRAN.R-project.org/package=rainette</a>.</p>
 <div class="cell" data-hash="report_cache/html/prepare_corpus_c54be50ca25459ef72647202cb8f3c94">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>tib_doc_ABc<span class="ot">=</span><span class="fu">readRDS</span>(<span class="st">"data/tib_doc_ABW.RDS"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(id_doc) <span class="sc">%&gt;%</span> </span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">ABc=</span><span class="fu">paste0</span>(ABW,<span class="at">collapse=</span><span class="st">" "</span>),<span class="at">.groups=</span><span class="st">"drop"</span>)</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>corpus<span class="ot">=</span>quanteda<span class="sc">::</span><span class="fu">corpus</span>(tib_doc_ABc,</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">docid_field=</span><span class="st">"id_doc"</span>,<span class="at">text_field=</span><span class="st">"ABc"</span>)</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>tok <span class="ot">&lt;-</span> quanteda<span class="sc">::</span><span class="fu">tokens</span>(corpus, <span class="at">remove_numbers =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>dtm <span class="ot">&lt;-</span> quanteda<span class="sc">::</span><span class="fu">dfm</span>(tok)</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>dtm2 <span class="ot">&lt;-</span> quanteda<span class="sc">::</span><span class="fu">dfm_trim</span>(dtm, <span class="at">min_docfreq =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>tib_doc_ABc<span class="ot">=</span><span class="fu">readRDS</span>(<span class="st">"data/tib_doc_ABW.RDS"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(id_doc) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">ABc=</span><span class="fu">paste0</span>(ABW,<span class="at">collapse=</span><span class="st">" "</span>),<span class="at">.groups=</span><span class="st">"drop"</span>)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>corpus<span class="ot">=</span>quanteda<span class="sc">::</span><span class="fu">corpus</span>(tib_doc_ABc,</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">docid_field=</span><span class="st">"id_doc"</span>,<span class="at">text_field=</span><span class="st">"ABc"</span>)</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>tok <span class="ot">&lt;-</span> quanteda<span class="sc">::</span><span class="fu">tokens</span>(corpus, <span class="at">remove_numbers =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>dtm <span class="ot">&lt;-</span> quanteda<span class="sc">::</span><span class="fu">dfm</span>(tok)</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>dtm2 <span class="ot">&lt;-</span> quanteda<span class="sc">::</span><span class="fu">dfm_trim</span>(dtm, <span class="at">min_docfreq =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div class="cell" data-hash="report_cache/html/run_rainette_dbe8a5c32bd7c03a41205bf237d30137">
+<div class="cell" data-hash="report_cache/html/fig-thematiques_3bc3a38819803bf35113a481dcb398e4">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rainette)</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>res<span class="ot">=</span><span class="fu">rainette</span>(dtm2,<span class="at">k=</span><span class="dv">20</span>,<span class="at">min_split_members=</span><span class="dv">20</span>)</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co">#rainette_explor(res,dtm=dtm2)</span></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="fu">rainette_plot</span>(</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  res, dtm, <span class="at">k =</span> <span class="dv">9</span>,</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_terms =</span> <span class="dv">20</span>,</span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">free_scales =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">measure =</span> <span class="st">"chi2"</span>,</span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_negative =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">text_size =</span> <span class="dv">10</span></span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rainette)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>res<span class="ot">=</span><span class="fu">rainette</span>(dtm2,<span class="at">k=</span><span class="dv">20</span>,<span class="at">min_split_members=</span><span class="dv">20</span>)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co">#rainette_explor(res,dtm=dtm2)</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="fu">rainette_plot</span>(</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  res, dtm, <span class="at">k =</span> <span class="dv">9</span>,</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_terms =</span> <span class="dv">20</span>,</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">free_scales =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">measure =</span> <span class="st">"chi2"</span>,</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_negative =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">text_size =</span> <span class="dv">10</span></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/run_rainette-1.png" class="img-fluid" width="576"></p>
+<div id="fig-thematiques" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="report_files/figure-html/fig-thematiques-1.png" class="img-fluid figure-img" width="576"></p>
+<figcaption class="figure-caption">Figure&nbsp;5: Thématiques identifiées par la méthode de Reinert. Les termes les plus spécifiques de chaque thématique sont indiqués. Dans la suite de l’analyse on a désigné ces thématiques par une étiquette plus synthétique (fine sediment,organic matter, delta, population_genetics, ecology_habitat, ecology_abundance, management, organic matter, glaciology, geology).</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <div class="cell" data-hash="report_cache/html/tib_classes_colors_1e9cf2392aed25a2c76208989c74a3bf">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>tib_classes_colors<span class="ot">=</span>tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">class=</span><span class="fu">paste0</span>(<span class="st">"class_"</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>),</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">color=</span>rainette<span class="sc">:::</span><span class="fu">groups_colors</span>(<span class="dv">9</span>),</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>tib_doc_commus_SHS_classes<span class="ot">=</span>tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">id_doc=</span><span class="fu">names</span>(corpus),</span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">class=</span><span class="fu">paste0</span>(<span class="st">"class_"</span>,<span class="fu">cutree_rainette</span>(res, <span class="at">k =</span> <span class="dv">9</span>))</span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">class_name=</span><span class="fu">case_when</span>(class<span class="sc">==</span><span class="st">"class_1"</span><span class="sc">~</span><span class="st">"fine sediment"</span>,<span class="co">#river_management",</span></span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>                            class<span class="sc">==</span><span class="st">"class_2"</span><span class="sc">~</span><span class="st">"organic matter"</span>,<span class="co">#glaciology",</span></span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>                            class<span class="sc">==</span><span class="st">"class_3"</span><span class="sc">~</span><span class="st">"delta"</span>,<span class="co">#geophysics",</span></span>
-<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>                            class<span class="sc">==</span><span class="st">"class_4"</span><span class="sc">~</span><span class="st">"population_genetics"</span>,<span class="co">#ecology_communities",</span></span>
-<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>                            class<span class="sc">==</span><span class="st">"class_5"</span><span class="sc">~</span><span class="st">"ecology_habitat"</span>,<span class="co">#"ecology_fish",</span></span>
-<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>                            class<span class="sc">==</span><span class="st">"class_6"</span><span class="sc">~</span><span class="st">"ecology_abundance"</span>,<span class="co">#geology",</span></span>
-<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>                            class<span class="sc">==</span><span class="st">"class_7"</span><span class="sc">~</span><span class="st">"management"</span>,<span class="co">#"organic matter",</span></span>
-<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>                            class<span class="sc">==</span><span class="st">"class_8"</span><span class="sc">~</span><span class="st">"glaciology"</span>,<span class="co">#"sediment",</span></span>
-<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>                            class<span class="sc">==</span><span class="st">"class_9"</span><span class="sc">~</span><span class="st">"geology"</span>,<span class="co">#"delta",</span></span>
-<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">is.na</span>(class)<span class="sc">~</span><span class="cn">NA_character_</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(tib_doc_commus_SHS,<span class="at">by=</span><span class="st">"id_doc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>tib_classes_colors<span class="ot">=</span>tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">class=</span><span class="fu">paste0</span>(<span class="st">"class_"</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>),</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">color=</span>rainette<span class="sc">:::</span><span class="fu">groups_colors</span>(<span class="dv">9</span>),</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>tib_doc_commus_SHS_classes<span class="ot">=</span>tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">id_doc=</span><span class="fu">names</span>(corpus),</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">class=</span><span class="fu">paste0</span>(<span class="st">"class_"</span>,<span class="fu">cutree_rainette</span>(res, <span class="at">k =</span> <span class="dv">9</span>))</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">class_name=</span><span class="fu">case_when</span>(class<span class="sc">==</span><span class="st">"class_1"</span><span class="sc">~</span><span class="st">"fine sediment"</span>,<span class="co">#river_management",</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>                            class<span class="sc">==</span><span class="st">"class_2"</span><span class="sc">~</span><span class="st">"organic matter"</span>,<span class="co">#glaciology",</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>                            class<span class="sc">==</span><span class="st">"class_3"</span><span class="sc">~</span><span class="st">"delta"</span>,<span class="co">#geophysics",</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>                            class<span class="sc">==</span><span class="st">"class_4"</span><span class="sc">~</span><span class="st">"population_genetics"</span>,<span class="co">#ecology_communities",</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>                            class<span class="sc">==</span><span class="st">"class_5"</span><span class="sc">~</span><span class="st">"ecology_habitat"</span>,<span class="co">#"ecology_fish",</span></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>                            class<span class="sc">==</span><span class="st">"class_6"</span><span class="sc">~</span><span class="st">"ecology_abundance"</span>,<span class="co">#geology",</span></span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>                            class<span class="sc">==</span><span class="st">"class_7"</span><span class="sc">~</span><span class="st">"management"</span>,<span class="co">#"organic matter",</span></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>                            class<span class="sc">==</span><span class="st">"class_8"</span><span class="sc">~</span><span class="st">"glaciology"</span>,<span class="co">#"sediment",</span></span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>                            class<span class="sc">==</span><span class="st">"class_9"</span><span class="sc">~</span><span class="st">"geology"</span>,<span class="co">#"delta",</span></span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">is.na</span>(class)<span class="sc">~</span><span class="cn">NA_character_</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(tib_doc_commus_SHS,<span class="at">by=</span><span class="st">"id_doc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
 <section id="nombre-darticles-sinscrivant-dans-les-thématiques-au-cours-du-temps" class="level2">
 <h2 class="anchored" data-anchor-id="nombre-darticles-sinscrivant-dans-les-thématiques-au-cours-du-temps">Nombre d’articles s’inscrivant dans les thématiques au cours du temps</h2>
-<div class="cell" data-hash="report_cache/html/thematiques_PY_753c8ac32ee071727dc4cb3ed75373f1">
+<div class="cell" data-hash="report_cache/html/fig-thematiques_temps_636d676815f8c855e86e2210139ca7bc">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>tib<span class="ot">=</span>tib_doc_commus_SHS_classes <span class="sc">%&gt;%</span> </span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ntot=</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span> </span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(PY) <span class="sc">%&gt;%</span> </span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">nPY=</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span> </span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(class,class_name) <span class="sc">%&gt;%</span> </span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">nclass=</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span> </span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(PY,nPY) <span class="sc">%&gt;%</span> </span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">propPY=</span>nPY<span class="sc">/</span>ntot) <span class="sc">%&gt;%</span></span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(class,class_name,nclass) <span class="sc">%&gt;%</span> </span>
-<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">propclass=</span>nclass<span class="sc">/</span>ntot) <span class="sc">%&gt;%</span> </span>
-<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(PY,propPY,propclass,ntot,class,class_name) <span class="sc">%&gt;%</span> </span>
-<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n=</span><span class="fu">n</span>(),</span>
-<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>            <span class="at">nprev=</span>ntot<span class="sc">*</span>propPY<span class="sc">*</span>propclass,</span>
-<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>            <span class="at">.groups=</span><span class="st">"drop"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>()</span>
-<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tib,<span class="fu">aes</span>(<span class="at">x=</span>PY,<span class="at">y=</span>n,<span class="at">fill=</span>class))<span class="sc">+</span> </span>
-<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="fu">aes</span>(<span class="at">x=</span>PY,<span class="at">y=</span>nprev))<span class="sc">+</span></span>
-<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
-<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="at">facets=</span><span class="fu">vars</span>(class_name))<span class="sc">+</span></span>
-<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">breaks=</span>tib_classes_colors<span class="sc">$</span>class,</span>
-<span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a>                    <span class="at">values=</span>tib_classes_colors<span class="sc">$</span>color)<span class="sc">+</span></span>
-<span id="cb32-26"><a href="#cb32-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>tib<span class="ot">=</span>tib_doc_commus_SHS_classes <span class="sc">%&gt;%</span> </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ntot=</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(PY) <span class="sc">%&gt;%</span> </span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">nPY=</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(class,class_name) <span class="sc">%&gt;%</span> </span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">nclass=</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(PY,nPY) <span class="sc">%&gt;%</span> </span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">propPY=</span>nPY<span class="sc">/</span>ntot) <span class="sc">%&gt;%</span></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(class,class_name,nclass) <span class="sc">%&gt;%</span> </span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">propclass=</span>nclass<span class="sc">/</span>ntot) <span class="sc">%&gt;%</span> </span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(PY,propPY,propclass,ntot,class,class_name) <span class="sc">%&gt;%</span> </span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n=</span><span class="fu">n</span>(),</span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>            <span class="at">nprev=</span>ntot<span class="sc">*</span>propPY<span class="sc">*</span>propclass,</span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>            <span class="at">.groups=</span><span class="st">"drop"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>()</span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tib,<span class="fu">aes</span>(<span class="at">x=</span>PY,<span class="at">y=</span>n,<span class="at">fill=</span>class))<span class="sc">+</span> </span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="fu">aes</span>(<span class="at">x=</span>PY,<span class="at">y=</span>nprev))<span class="sc">+</span></span>
+<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="at">facets=</span><span class="fu">vars</span>(class_name))<span class="sc">+</span></span>
+<span id="cb33-24"><a href="#cb33-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">breaks=</span>tib_classes_colors<span class="sc">$</span>class,</span>
+<span id="cb33-25"><a href="#cb33-25" aria-hidden="true" tabindex="-1"></a>                    <span class="at">values=</span>tib_classes_colors<span class="sc">$</span>color)<span class="sc">+</span></span>
+<span id="cb33-26"><a href="#cb33-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/thematiques_PY-1.png" class="img-fluid" width="576"></p>
+<div id="fig-thematiques_temps" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="report_files/figure-html/fig-thematiques_temps-1.png" class="img-fluid figure-img" width="576"></p>
+<figcaption class="figure-caption">Figure&nbsp;6: Nombre de publications s’inscrivant dans les différentes thématiques, au cours du temps. La courbe représente le nombre de publications attendu si les publications étaient réparties de manière homogène entre les différentes thématiques.</figcaption>
+</figure>
+</div>
 </div>
 </div>
 </section>
 </section>
 <section id="croisement-communautés-dauteurs-et-thématiques" class="level1">
 <h1>Croisement communautés d’auteurs et thématiques</h1>
-<div class="cell" data-hash="report_cache/html/plot_commus_classes_0f184099db06c683469fc4e0df39dc1a">
+<div class="cell" data-hash="report_cache/html/fig-thematiques_commus_2f04630dbb26e0dde420dc26af1bea29">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>tib<span class="ot">=</span>tib_doc_commus_SHS_classes <span class="sc">%&gt;%</span> </span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(community,class,class_name) <span class="sc">%&gt;%</span> </span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tally</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tib,<span class="fu">aes</span>(<span class="at">x=</span>class_name,<span class="at">y=</span>n,<span class="at">fill=</span>class))<span class="sc">+</span></span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="at">facets=</span><span class="fu">vars</span>(community))<span class="sc">+</span></span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>()<span class="sc">+</span></span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()<span class="sc">+</span></span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>)<span class="sc">+</span></span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">breaks=</span>tib_classes_colors<span class="sc">$</span>class,</span>
-<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>                    <span class="at">values=</span>tib_classes_colors<span class="sc">$</span>color)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>tib<span class="ot">=</span>tib_doc_commus_SHS_classes <span class="sc">%&gt;%</span> </span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(community,class,class_name) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tally</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tib,<span class="fu">aes</span>(<span class="at">x=</span>class_name,<span class="at">y=</span>n,<span class="at">fill=</span>class))<span class="sc">+</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="at">facets=</span><span class="fu">vars</span>(community))<span class="sc">+</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>()<span class="sc">+</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()<span class="sc">+</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>)<span class="sc">+</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">breaks=</span>tib_classes_colors<span class="sc">$</span>class,</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>                    <span class="at">values=</span>tib_classes_colors<span class="sc">$</span>color)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="report_files/figure-html/plot_commus_classes-1.png" class="img-fluid" width="576"></p>
+<div id="fig-thematiques_commus" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="report_files/figure-html/fig-thematiques_commus-1.png" class="img-fluid figure-img" width="576"></p>
+<figcaption class="figure-caption">Figure&nbsp;7: Proportion des thématiques dans les différentes communautés d’auteurs.</figcaption>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -854,24 +935,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-hash="report_cache/html/calc_graph_keywords_b1fb4be65bd95de62cba5a2349e49fbb">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>nw_cooc_kw <span class="ot">&lt;-</span> <span class="fu">biblioNetwork</span>(M,</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">analysis =</span> <span class="st">"co-occurrences"</span>,</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">network =</span> <span class="st">"keywords"</span>,</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">sep =</span> <span class="st">";"</span>)</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>netstat <span class="ot">&lt;-</span> <span class="fu">networkStat</span>(nw_cooc_kw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>nw_cooc_kw <span class="ot">&lt;-</span> <span class="fu">biblioNetwork</span>(M,</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">analysis =</span> <span class="st">"co-occurrences"</span>,</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">network =</span> <span class="st">"keywords"</span>,</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">sep =</span> <span class="st">";"</span>)</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>netstat <span class="ot">&lt;-</span> <span class="fu">networkStat</span>(nw_cooc_kw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell" data-hash="report_cache/html/plot_graph_keywords_5c458df57dcc20879471bcddf7b6bfe9">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>p<span class="ot">=</span><span class="fu">networkPlot</span>(nw_cooc_kw,</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">weighted=</span>T, <span class="at">n =</span> <span class="dv">150</span>,</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">Title =</span> <span class="st">"Co-occurence des mots-clés"</span>,</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">type =</span> <span class="st">"fruchterman"</span>,</span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">cluster=</span><span class="st">"louvain"</span>,</span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">size=</span>T,</span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">edgesize =</span> <span class="dv">5</span>,</span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">labelsize=</span><span class="fl">0.7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>p<span class="ot">=</span><span class="fu">networkPlot</span>(nw_cooc_kw,</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">weighted=</span>T, <span class="at">n =</span> <span class="dv">150</span>,</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">Title =</span> <span class="st">"Co-occurence des mots-clés"</span>,</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">type =</span> <span class="st">"fruchterman"</span>,</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">cluster=</span><span class="st">"louvain"</span>,</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">size=</span>T,</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">edgesize =</span> <span class="dv">5</span>,</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">labelsize=</span><span class="fl">0.7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="report_files/figure-html/plot_graph_keywords-1.png" class="img-fluid" width="768"></p>
@@ -883,24 +964,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-hash="report_cache/html/co_citation_network_fc9787a58787a7724e170edc91a8b8e5">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>M<span class="ot">=</span>M <span class="sc">%&gt;%</span> </span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">CR=</span><span class="fu">str_replace</span>(CR,<span class="st">"ANONYMOUS.*;"</span>,<span class="st">""</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">CR=</span><span class="fu">str_replace</span>(CR,<span class="st">"NO TITLE CAPTURED"</span>,<span class="st">""</span>)) </span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>nw_cocit_doc <span class="ot">&lt;-</span> <span class="fu">biblioNetwork</span>(M,</span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>                           <span class="at">analysis =</span> <span class="st">"co-citation"</span>,</span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>                           <span class="at">network =</span> <span class="st">"references"</span>,</span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>                           <span class="at">sep =</span> <span class="st">";"</span>)</span>
-<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>p<span class="ot">=</span><span class="fu">networkPlot</span>(nw_cocit_doc,</span>
-<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>                <span class="at">n =</span> <span class="dv">150</span>,</span>
-<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>                <span class="at">Title =</span> <span class="st">"Co-Citation Network"</span>,</span>
-<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>                <span class="at">type =</span> <span class="st">"auto"</span>,</span>
-<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>                <span class="at">size=</span>T,</span>
-<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>                <span class="at">cluster=</span><span class="st">"louvain"</span>,</span>
-<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>                <span class="at">remove.multiple=</span><span class="cn">FALSE</span>,</span>
-<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>                <span class="at">labelsize=</span><span class="fl">0.7</span>,</span>
-<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>                <span class="at">edgesize =</span> <span class="dv">5</span>,</span>
-<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>                <span class="at">label.n=</span><span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>M<span class="ot">=</span>M <span class="sc">%&gt;%</span> </span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">CR=</span><span class="fu">str_replace</span>(CR,<span class="st">"ANONYMOUS.*;"</span>,<span class="st">""</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">CR=</span><span class="fu">str_replace</span>(CR,<span class="st">"NO TITLE CAPTURED"</span>,<span class="st">""</span>)) </span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>nw_cocit_doc <span class="ot">&lt;-</span> <span class="fu">biblioNetwork</span>(M,</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>                           <span class="at">analysis =</span> <span class="st">"co-citation"</span>,</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>                           <span class="at">network =</span> <span class="st">"references"</span>,</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>                           <span class="at">sep =</span> <span class="st">";"</span>)</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>p<span class="ot">=</span><span class="fu">networkPlot</span>(nw_cocit_doc,</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>                <span class="at">n =</span> <span class="dv">150</span>,</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>                <span class="at">Title =</span> <span class="st">"Co-Citation Network"</span>,</span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>                <span class="at">type =</span> <span class="st">"auto"</span>,</span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>                <span class="at">size=</span>T,</span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>                <span class="at">cluster=</span><span class="st">"louvain"</span>,</span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>                <span class="at">remove.multiple=</span><span class="cn">FALSE</span>,</span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>                <span class="at">labelsize=</span><span class="fl">0.7</span>,</span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>                <span class="at">edgesize =</span> <span class="dv">5</span>,</span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>                <span class="at">label.n=</span><span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="report_files/figure-html/co_citation_network-1.png" class="img-fluid" width="768"></p>
@@ -912,23 +993,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-hash="report_cache/html/conceptual_structure_9f12685a2e9066760b6718dd2163c6ff">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>CS <span class="ot">&lt;-</span> <span class="fu">conceptualStructure</span>(M,</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">field=</span><span class="st">"ID"</span>,</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">method=</span><span class="st">"MCA"</span>,</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">minDegree=</span><span class="dv">10</span>,</span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">clust=</span><span class="dv">8</span>,</span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">stemming=</span><span class="cn">FALSE</span>,</span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>                          <span class="at">labelsize=</span><span class="dv">10</span>,</span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>                          <span class="at">documents=</span><span class="dv">3</span>,</span>
-<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>                          <span class="at">graph=</span><span class="cn">FALSE</span>)</span>
-<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>CS<span class="sc">$</span>graph_terms</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>CS <span class="ot">&lt;-</span> <span class="fu">conceptualStructure</span>(M,</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">field=</span><span class="st">"ID"</span>,</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">method=</span><span class="st">"MCA"</span>,</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">minDegree=</span><span class="dv">10</span>,</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">clust=</span><span class="dv">8</span>,</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">stemming=</span><span class="cn">FALSE</span>,</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>                          <span class="at">labelsize=</span><span class="dv">10</span>,</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>                          <span class="at">documents=</span><span class="dv">3</span>,</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>                          <span class="at">graph=</span><span class="cn">FALSE</span>)</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>CS<span class="sc">$</span>graph_terms</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="report_files/figure-html/conceptual_structure-1.png" class="img-fluid" width="768"></p>
 </div>
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>CS<span class="sc">$</span>graph_dendrogram</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>CS<span class="sc">$</span>graph_dendrogram</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>NULL</code></pre>
