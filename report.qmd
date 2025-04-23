@@ -265,7 +265,7 @@ p=networkPlot(nw_coll_auth,
             cluster="louvain",
             size=5,
             size.cex=T,
-            labelsize=0.5,
+            labelsize=0.8,
             label.n=30,
             label.cex=F,
             alpha=0.5,
@@ -409,7 +409,7 @@ Le graphe ci-après représente les collaborations des `r length(liste_auteurs_g
 
 Ces `r length(liste_auteurs_graph)` auteurs représentent `r round(length(liste_auteurs_graph)/nrow(auteurs)*100,2)`% des auteurs du corpus, mais `r round(ndoc_auteurs_graph/nrow(tib_doc),2)*100`% des documents du corpus ont au moins un de ces auteurs comme n-ième auteur.
 
-```{r graph_communities,fig.height=10,fig.width=10}
+```{r graph_communities,fig.height=6,fig.width=6}
 #| label: fig-communautés d'auteurs
 #| fig-cap: Communautés d'auteurs définies sur la base du co-autorat et partitionnées selon la méthode de Louvain. On n'a représenté ici que les 6 communautés correspondant au poids le plus important en termes de nombre de documents. Pour chacune des 6 communautés et pour ne pas surcharger le graphe on a indiqué les 5 auteurs les plus importants en terme de nombre de documents.
 auteurs_keep=auteurs %>%
@@ -435,7 +435,7 @@ p=ggraph(tidyg,layout="fr")+
   geom_node_point(aes(color=community,size=ndoc))+
   geom_node_text(aes(label=showname),size=2)
 svglite::svglite("chapitre/svg_plots/graph_communities.svg",
-                 width=10,height=10)
+                 width=6,height=6)
 p
 dev.off()
 p
