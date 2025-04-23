@@ -12,7 +12,7 @@ editor: visual
 execute:
   message: false
   warning: false
-  cache: true
+  cache: false
 ---
 
 Chapitre introductif d'un ouvrage sur la recherche sur le Rhône (20 ans de ZABR-OHM). Création de:
@@ -31,6 +31,8 @@ library(tidytext)
 library(mixr)
 library(bibou)
 set.seed(123)
+#nb_commus=12
+nb_commus=6
 ```
 
 Import et nettoyage de la base .bib (exporté depuis Web of Science).
@@ -57,7 +59,6 @@ M=readRDS("data/M.RDS")
 tib_doc=readRDS("data/tib_doc.RDS")
 ```
 
-
 ```{r tib_doc_derived}
 if(!file.exists("data/tib_doc_AU.RDS")){
   tib_doc_AU=bibou::bib_tib_doc_AU(tib_doc)
@@ -81,11 +82,9 @@ tib_doc_ABW=readRDS("data/tib_doc_ABW.RDS")
 
 ### Auteurs
 
-
 On attribue au $k$-ième auteur d'un document qui en compte $n$ en tout un poids $w$ de
 
 $$w=(n-k+1)\frac{2}{n(n+1)}$$ soit par exemple pour un document qui compte 4 auteurs des poids de 0.4,0.3,0.2 et 0.1 pour le premier, deuxième, troisième et quatrième auteur respectivement.
-
 
 ```{r auteurs}
 auteurs=tib_doc_AU %>% 
@@ -122,9 +121,6 @@ p3=mixr::plot_frequencies(auteurs %>% arrange(desc(LCw)) %>% head(20),
 ggpubr::ggarrange(p1,p2,p3,nrow=1,labels=c("a","b","c"))
 ```
 
-
-
-
 ### Sources
 
 ```{r sources}
@@ -144,24 +140,33 @@ reactable::reactable(citations,
 
 ## Nombre de documents par année (dans le corpus) et nombre de d'auteurs moyen par document
 
-```{r ndoc_per_year, fig.width=6, fig.height=4}
+```{r plot_nbdoc_temps, fig.width=8, fig.height=3}
 #| label: fig-plot_nbdoc_temps
 #| fig-cap: Evolution au cours du temps a) du nombre de publications et b) du nombre moyen d'auteurs par publication.
-p1=ggplot(tib_doc,
-       aes(x=PY))+
-  geom_bar()+
-  xlab("") + ylab("nb_publis")
-nb_AU_doc_PY=tib_doc_AU %>% 
+tib=tib_doc_AU %>% 
   group_by(PY,id_doc) %>% 
-  summarise(n_AU=n(),.groups="drop") %>% 
+  summarise(n_AU=n(),.groups="drop") %>%
   group_by(PY) %>% 
-  summarise(n_AU=mean(n_AU),.groups="drop",
-            n=n())
-p2=ggplot(nb_AU_doc_PY, aes(x=PY,y=n_AU))+
-   geom_path(color="red")+
+  summarise(n_AU=mean(n_AU),
+            n_publi=n_distinct(id_doc))
+tib=tibble::tibble(PY=min(tib$PY):max(tib$PY)) %>% 
+  left_join(tib) %>% 
+  mutate(n_AU=case_when(is.na(n_AU)~0,TRUE~n_AU),
+         n_publi=case_when(is.na(n_publi)~0,TRUE~n_publi))
+p=ggplot(tib,aes(x=PY, y=n_publi))+
+  geom_col()+
+  geom_path(aes(x=PY,y=n_AU*10),color="red")+
    xlab("année de publication")+
-   ylab("moy_nb_aut")
-ggpubr::ggarrange(p1,p2,nrow=2,labels=c("a","b"))
+   scale_y_continuous(
+    name = "a (en noir) ", 
+    sec.axis = sec_axis(~ . / 10, name = "b (en rouge)")
+  ) +
+  theme_minimal()
+svglite::svglite("chapitre/svg_plots/plot_nbdoc_temps.svg",
+                 width=8,height=3)
+p
+dev.off()
+p
 ```
 
 ## Comparaison à deux autres corpora
@@ -214,7 +219,6 @@ ggplot(tib_nb_publ_per_year,
   scale_x_continuous(limits=c(1980,2024))
 ```
 
-
 ## Focus sur les SHS
 
 Quels sont les documents qui font mention des termes SOCIAL/SOCIETY/SOCIO-quelque-chose dans leur abstract?
@@ -240,7 +244,7 @@ prop_SHS
 
 ## Construction du graphe et définition des communautés
 
-On définit des **communautés d'auteurs** en se basant sur les collaborations (co-signature de documents). 
+On définit des **communautés d'auteurs** en se basant sur les collaborations (co-signature de documents).
 
 On utilise ici la méthode de Louvain pour assigner chacun des auteurs à une communauté. Cette méthode est basée sur la maximisation de la modularité, qui mesure la qualité de la partition des noeuds en communautés. La méthode de Louvain est une méthode de partitionnement hiérarchique qui permet de trouver des communautés de taille variable. Elle est très rapide et permet de trouver des communautés de grande taille.
 
@@ -254,7 +258,7 @@ nw_coll_auth <- biblioNetwork(M,
 ```
 
 ```{r plot_collaboration_graph, fig.width=7,fig.height=6}
-set.seed(12345)
+set.seed(0)
 p=networkPlot(nw_coll_auth,
             Title = "Collaborations",
             type = "fruchterman",
@@ -277,13 +281,14 @@ auteurs=auteurs %>%
   left_join(p$cluster_res,by=c("au"="vertex")) %>% 
   mutate(cluster=paste0("cluster",str_pad(cluster,4)))
 
+
 tib_cluster_commus=auteurs %>% 
   group_by(cluster) %>% 
   summarise(sum_ndocw=sum(ndocw),
             sum_ndoc=sum(ndoc)) %>% 
   arrange(desc(sum_ndocw)) %>% 
   mutate(rank=1:n()) %>% 
-  mutate(community=case_when(rank<=12~paste0("c",str_pad(1:n(),pad="0",width=2)),
+  mutate(community=case_when(rank<=nb_commus~paste0("c",str_pad(1:n(),pad="0",width=2)),
                              TRUE~NA_character_))
 
 auteurs=auteurs %>% 
@@ -292,7 +297,7 @@ auteurs=auteurs %>%
             by="cluster")
 ```
 
-A ce stade, de nombreuses communautés (`r length(unique(auteurs$cluster))`) sont définies. Pour la suite de l'analyse on ne **conservera que les communautés à l'origine des 12 plus grands ensembles de documents** (ndoc > `r floor(tib_cluster_commus$sum_ndoc[12])` et ndocw > `r floor(tib_cluster_commus$sum_ndocw[12])`). Ainsi certains auteurs ne seront pas rattachés à une communauté.
+A ce stade, de nombreuses communautés (`r length(unique(auteurs$cluster))`) sont définies. Pour la suite de l'analyse on ne **conservera que les communautés à l'origine des 12 plus grands ensembles de documents** (ndoc \> `r floor(tib_cluster_commus$sum_ndoc[12])` et ndocw \> `r floor(tib_cluster_commus$sum_ndocw[12])`). Ainsi certains auteurs ne seront pas rattachés à une communauté.
 
 ## Rattachement des articles à une communauté {#sec-docs_commu}
 
@@ -301,14 +306,17 @@ La communauté se réfère aux auteurs (un auteur = zéro ou une communauté). U
 ```{r docs_comm_diversity}
 tib_doc_commus=tib_doc_AU %>% 
   select(id_doc,AU,AU_rank,AU_weight) %>%
-  left_join(auteurs %>% select(AU,community),by="AU") %>%
+  left_join(auteurs %>%
+              select(AU,community),by="AU") %>%
   group_by(id_doc,community) %>% 
-  summarise(weight=sum(AU_weight,na.rm=TRUE),.groups="drop")
+  summarise(weight=sum(AU_weight,na.rm=TRUE),
+            .groups="drop")
 
 shannon=function(P){-sum(log(P) * P, na.rm = TRUE)}
 tib_doc_divers= tib_doc_commus %>% 
   group_by(id_doc) %>% 
-  mutate(commu_label=purrr::map2(community,weight,~paste0(.x,":",.y))) %>% 
+  mutate(commu_label=purrr::map2(community,weight,
+                                 ~paste0(.x,":",.y))) %>% 
   summarise(diversity=shannon(weight),
             commu_label=paste(commu_label, collapse="; ")) %>% 
   arrange(desc(diversity)) %>% 
@@ -320,8 +328,7 @@ reactable::reactable(tib_doc_divers,
                      resizable=TRUE)
 ```
 
-
-Par la suite, on va **réassigner chaque document à une seule communauté** (la communauté qui a le poids le plus important pour cet article). 
+Par la suite, on va **réassigner chaque document à une seule communauté** (la communauté qui a le poids le plus important pour cet article).
 
 Dans le cas où la majorité des auteurs ne fait pas partie d'une communauté définie, on assigne le document à la communauté majoritaire (par exemple si 30% des auteurs font partie de la communauté Cl01 et 70% ne font pas partie d'une communauté définie on assigne le document à la communauté Cl01).
 
@@ -329,7 +336,6 @@ Dans le cas où la majorité des auteurs ne fait pas partie d'une communauté d�
 tib_doc_commus=tib_doc %>% 
   left_join(tib_doc_commus,by=c("id_doc"))
 ```
-
 
 ```{r tib_commus_prod}
 tib_commus_prod= tib_doc_commus %>% 
@@ -339,12 +345,11 @@ tib_commus_prod= tib_doc_commus %>%
 reactable::reactable(tib_commus_prod,pagination=FALSE)
 ```
 
-
 ## Table des auteurs et appartenance à une communauté
 
 ```{r show_auteurs_graph}
 auteurs=auteurs
-reactable::reactable(auteurs %>% arrange(community),
+reactable::reactable(auteurs %>% arrange(community,desc(ndoc)),
                      groupBy="community",
                      sortable=TRUE,
                      filterable=TRUE,
@@ -357,7 +362,8 @@ reactable::reactable(auteurs %>% arrange(community),
 Je retire les références citées (champ CR) et les abstracts (AB) pour un tableau un peu plus lisible...
 
 ```{r show_tib_doc_comm}
-reactable::reactable(tib_doc_commus %>% select(-id_doc,-CR,-AB),
+reactable::reactable(tib_doc_commus %>%
+                       select(-id_doc,-CR,-AB),
                      filterable=TRUE,
                      resizable=TRUE)
   
@@ -367,20 +373,19 @@ reactable::reactable(tib_doc_commus %>% select(-id_doc,-CR,-AB),
 
 Les communautés d'auteurs se définissent par leurs liens de co-autorat. Il y a donc par construction une structure temporelle sous-jacente à ces communautés (deux auteurs peuvent être très similaires en termes de discipline et de thématiques mais ne pas être rattachés à la même communauté si leurs collaborations sont distantes dans le temps).
 
-**Ce sont ces communautés qui sont le mieux à même (à mon sens) de refléter les dynamiques de recherche impulsées par les programmes de recherche...** 
+**Ce sont ces communautés qui sont le mieux à même (à mon sens) de refléter les dynamiques de recherche impulsées par les programmes de recherche...**
 
-
-
-```{r tib_doc_PY,fig.width=8,fig.height=6}
+```{r tib_doc_PY,fig.width=8,fig.height=6,}
 #| label: fig-nb_doc_par_commu
 #| fig-cap: Nombre de documents publiés par les différentes communautés d'auteurs au cours du temps.
+# Ici on filtre les communautés les plus lourdes
 tib_community_PY=tib_doc_commus%>% 
   group_by(community,PY) %>% 
   summarise(sumw=sum(weight)) %>% 
   na.omit()
 ggplot(tib_community_PY, aes(x=PY, y=sumw, fill=community))+
   geom_col()+
-  facet_wrap(facets=vars(community))+
+  facet_wrap(facets=vars(community),nrow=2)+
   xlab("année de publication")+
   ylab("nombre de publications")+
   theme(legend.position="none")
@@ -389,6 +394,7 @@ ggplot(tib_community_PY, aes(x=PY, y=sumw, fill=community))+
 ## Graphe des communautés d'auteurs
 
 ```{r auteurs_graph}
+# Liste les auteurs qui apparaîtront dans le graphe (comme noeuds)
 liste_auteurs_graph=auteurs %>% 
   filter(!is.na(community)) %>% 
   pull(AU)
@@ -403,16 +409,18 @@ Le graphe ci-après représente les collaborations des `r length(liste_auteurs_g
 
 Ces `r length(liste_auteurs_graph)` auteurs représentent `r round(length(liste_auteurs_graph)/nrow(auteurs)*100,2)`% des auteurs du corpus, mais `r round(ndoc_auteurs_graph/nrow(tib_doc),2)*100`% des documents du corpus ont au moins un de ces auteurs comme n-ième auteur.
 
-```{r graph_auteurs_show,fig.height=10,fig.width=10}
+```{r graph_communities,fig.height=10,fig.width=10}
 #| label: fig-communautés d'auteurs
-#| fig-cap: Communautés d'auteurs définies sur la base du co-autorat et partitionnées selon la méthode de Louvain. On n'a représenté ici que les 12 communautés correspondant au poids le plus important en termes de nombre de documents. Pour chacune des 12 communautés et pour ne pas surchargé le graphe on a indiqué les 3 auteurs les plus importants en terme de nombre de documents.
+#| fig-cap: Communautés d'auteurs définies sur la base du co-autorat et partitionnées selon la méthode de Louvain. On n'a représenté ici que les 6 communautés correspondant au poids le plus important en termes de nombre de documents. Pour chacune des 6 communautés et pour ne pas surcharger le graphe on a indiqué les 5 auteurs les plus importants en terme de nombre de documents.
 auteurs_keep=auteurs %>%
   select(au,community,ndoc) %>% 
+  # les auteurs dont le nom apparaît sont ceux qui publient le plus
   mutate(keep=ndoc>15) %>% 
   group_by(community) %>%
   arrange(desc(ndoc)) %>% 
-  mutate(rank=1:n()) %>% 
-  mutate(keep=rank<=3) %>% 
+  mutate(rank=1:n()) %>%
+  #  au maximum 5
+  mutate(keep=rank<=5) %>% 
   mutate(showname=case_when(keep~au,
                             !keep~NA_character_))
 set.seed(1234)
@@ -422,10 +430,15 @@ tidyg=tidygraph::as_tbl_graph(p$graph) %>%
   filter(name %in% tolower(liste_auteurs_graph),
          deg >3) %>% 
   left_join(auteurs_keep,by=c("name"="au"))
-ggraph(tidyg,layout="fr")+
+p=ggraph(tidyg,layout="fr")+
   geom_edge_link(color="light grey")+
   geom_node_point(aes(color=community,size=ndoc))+
   geom_node_text(aes(label=showname),size=2)
+svglite::svglite("chapitre/svg_plots/graph_communities.svg",
+                 width=10,height=10)
+p
+dev.off()
+p
 ```
 
 ## Spécificités des mots-clés par communauté d'auteurs
@@ -476,7 +489,6 @@ spec_SHS=tidy_specificities(tib_doc_ABW,
 reactable::reactable(spec_SHS %>% head(100))
 ```
 
-
 ```{r scores_SHS}
 scores_SHS= spec_SHS %>% 
   mutate(spec=case_when(spec<2~0,
@@ -490,8 +502,6 @@ tib_doc_SHS=tib_doc_ABW %>%
 tib_doc_commus_SHS=tib_doc_commus %>% 
   left_join(tib_doc_SHS,by="id_doc") 
 ```
-
-
 
 Quelles sont les communautés d'auteur dans lesquelles ces termes sont les plus pregnants?
 
@@ -509,22 +519,39 @@ ggplot(tib_doc_commus_SHS %>% filter(!is.na(community)),
 ```
 
 ```{r SHS_progress_in_commus}
+get_coeffs=function(data){
+ mylm=lm(SHS_spec~PY, data=data) 
+ myslm=summary(mylm)
+ pval=myslm$coeff[2,4]
+ pval=case_when(pval<0.001~"(***)",
+                pval<0.01~"(**)",
+                pval<0.05~"(*)",
+                pval<0.1~"(.)",
+                pval>=0.1~"")
+ slope=round(myslm$coeff[2,1],2)
+ result=paste0("a=",slope,pval)
+ return(result)
+}
+tib_lm=tib_doc_commus_SHS %>% 
+  filter(!is.na(community)) %>% 
+  group_by(community) %>% 
+  tidyr::nest() %>% 
+  mutate(coeffs=purrr::map_chr(.x=data,get_coeffs))
 ggplot(tib_doc_commus_SHS %>% na.omit(),
        aes(x=PY,y=SHS_spec))+
   geom_point(aes(col=community))+
   geom_smooth(method="lm",se=TRUE)+
+  geom_text(data=tib_lm,aes(x=2000,y=350,label=coeffs),hjust="left")+
   facet_wrap(facets=vars(community))+
   scale_x_continuous(limits=c(1990,2024))+
   scale_y_sqrt()
 ```
 
-
 ## Thématiques: identification de par la méthode de Reinert
 
-Reinert M., “Une méthode de classification descendante hiérarchique : application à l’analyse lexicale par contexte”, Cahiers de l’analyse des données, Volume 8, Numéro 2, 1983. http://www.numdam.org/item/?id=CAD_1983__8_2_187_0
+Reinert M., “Une méthode de classification descendante hiérarchique : application à l’analyse lexicale par contexte”, Cahiers de l’analyse des données, Volume 8, Numéro 2, 1983. http://www.numdam.org/item/?id=CAD_1983\_\_8_2_187_0
 
-Barnier J (2023). _rainette: The Reinert Method for Textual Data Clustering_. R package version 0.3.1.1,
-<https://CRAN.R-project.org/package=rainette>.
+Barnier J (2023). *rainette: The Reinert Method for Textual Data Clustering*. R package version 0.3.1.1, <https://CRAN.R-project.org/package=rainette>.
 
 ```{r prepare_corpus}
 tib_doc_ABc=readRDS("data/tib_doc_ABW.RDS") %>% 
@@ -537,23 +564,27 @@ dtm <- quanteda::dfm(tok)
 dtm2 <- quanteda::dfm_trim(dtm, min_docfreq = 10)
 ```
 
-```{r run_rainette}
+```{r thematiques, fig.width=12, fig.height=8}
 #| label: fig-thematiques
-#| fig-cap: Thématiques identifiées par la méthode de Reinert. Les termes les plus spécifiques de chaque thématique sont indiqués. Dans la suite de  l'analyse on a désigné ces thématiques par une étiquette plus synthétique (fine sediment,organic matter, delta, population_genetics, ecology_habitat, ecology_abundance, management, organic matter, glaciology, geology).
-
+#| fig-cap: Thématiques identifiées par la méthode de Reinert. Les termes les plus spécifiques de chaque thématique sont indiqués. Dans la suite de  l'analyse on a désigné ces thématiques par une étiquette plus synthétique (T1 sédiments fins, T2 physico-chimie de l'eau, T3 delta, T4 communautés piscicoles, T5 écologie des plaines alluviales, T6 restauration écologique, connectivité, T7 transfert opérationnel, T8 hydroclimatologie, T9 paléohydrologie).
 set.seed(123)
 library(rainette)
 res=rainette(dtm2,k=20,min_split_members=20)
 #rainette_explor(res,dtm=dtm2)
-rainette_plot(
+p=rainette_plot(
   res, dtm, k = 9,
   n_terms = 20,
   free_scales = TRUE,
   measure = "chi2",
   show_negative = FALSE,
-  text_size = 10
+  text_size = 10,
+  cluster_label=paste0("T",1:9)
 )
-
+svglite::svglite("chapitre/svg_plots/thematiques.svg",
+                 width=12,height=8)
+plot(p)
+dev.off()
+plot(p)
 ```
 
 ```{r tib_classes_colors}
@@ -566,23 +597,22 @@ tib_doc_commus_SHS_classes=tibble::tibble(
   id_doc=names(corpus),
   class=paste0("class_",cutree_rainette(res, k = 9))
 ) %>% 
-  mutate(class_name=case_when(class=="class_1"~"fine sediment",#river_management",
-                            class=="class_2"~"organic matter",#glaciology",
-                            class=="class_3"~"delta",#geophysics",
-                            class=="class_4"~"population_genetics",#ecology_communities",
-                            class=="class_5"~"ecology_habitat",#"ecology_fish",
-                            class=="class_6"~"ecology_abundance",#geology",
-                            class=="class_7"~"management",#"organic matter",
-                            class=="class_8"~"glaciology",#"sediment",
-                            class=="class_9"~"geology",#"delta",
+  mutate(class_name=case_when(class=="class_1"~"T1: sédiments fins",
+                            class=="class_2"~"T2: physico-chimie de l'eau",
+                            class=="class_3"~"T3: delta",
+                            class=="class_4"~"T4: communautés piscicoles",
+                            class=="class_5"~"T5: écologie des plaines alluviales",
+                            class=="class_6"~"T6: restauration écol., connectivité",
+                            class=="class_7"~"T7: transfert opérationnel",
+                            class=="class_8"~"T8: hydroclimatologie",
+                            class=="class_9"~"T9: paléohydrologie",
                             is.na(class)~NA_character_)) %>% 
   left_join(tib_doc_commus_SHS,by="id_doc")
 ```
 
 ## Nombre d'articles s'inscrivant dans les thématiques au cours du temps
 
-
-```{r thematiques_PY}
+```{r thematiques_temps}
 #| label: fig-thematiques_temps
 #| fig-cap: Nombre de publications s'inscrivant dans les différentes thématiques, au cours du temps. La courbe représente le nombre de publications attendu si les publications étaient réparties de manière homogène entre les différentes thématiques.
 
@@ -605,18 +635,23 @@ tib=tib_doc_commus_SHS_classes %>%
             nprev=ntot*propPY*propclass,
             .groups="drop") %>% 
   unique()
-ggplot(tib,aes(x=PY,y=n,fill=class))+ 
+p=ggplot(tib,aes(x=PY,y=n,fill=class))+ 
   geom_path(aes(x=PY,y=nprev))+
   geom_col(alpha=0.5)+
   facet_wrap(facets=vars(class_name))+
   scale_fill_manual(breaks=tib_classes_colors$class,
                     values=tib_classes_colors$color)+
   theme(legend.position="none")
+svglite::svglite("chapitre/svg_plots/thematiques_temps.svg",
+                 width=10,height=10)
+p
+dev.off()
+p
 ```
 
 # Croisement communautés d'auteurs et thématiques
 
-```{r plot_commus_classes}
+```{r thematiques_commus, fig.height=8, fig.width=8}
 #| label: fig-thematiques_commus
 #| fig-cap: Proportion des thématiques dans les différentes communautés d'auteurs.
 tib=tib_doc_commus_SHS_classes %>% 
@@ -624,15 +659,20 @@ tib=tib_doc_commus_SHS_classes %>%
   tally() %>% 
   na.omit()
 
-ggplot(tib,aes(x=class_name,y=n,fill=class))+
+p=ggplot(tib,aes(x=forcats::fct_rev(class_name),y=n,fill=class))+
   facet_wrap(facets=vars(community))+
   geom_col()+
   coord_flip()+
   theme(legend.position="none")+
   scale_fill_manual(breaks=tib_classes_colors$class,
-                    values=tib_classes_colors$color)
+                    values=tib_classes_colors$color) +
+  ylab("Thématiques")
+svglite::svglite("chapitre/svg_plots/thematiques_commus.svg",
+                 width=8,height=8)
+p
+dev.off()
+p
 ```
-
 
 # Analyse des réseaux de mots-clés et de co-citation
 
